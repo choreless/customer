@@ -1,4 +1,5 @@
 import daisyui from 'daisyui';
+import pseudoClasses from './lib/pseudo_classes';
 import type { Config } from 'tailwindcss';
 
 const config: Config = {
@@ -24,7 +25,7 @@ const config: Config = {
 			}
 		}
 	},
-	plugins: [daisyui],
+	plugins: [daisyui, pseudoClasses],
 	daisyui: {
 		themes: ['light']
 	}

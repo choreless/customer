@@ -11,6 +11,9 @@ const config: Config = {
 		"./error.vue",
 	],
 	theme: {
+		fontFamily: {
+			'GTWalsheim': 'GTWalsheim'
+		},
 		extend: {
 			colors: {
 				brand: {

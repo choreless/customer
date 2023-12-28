@@ -8,7 +8,7 @@ const ApiMain = process.env.ApiMain ?? 'https://api.getchoreless.com';
 const debug = Boolean(process.env.debug) ?? false;
 
 export default defineNuxtConfig({
-	modules: ['@nuxtjs/tailwindcss'],
+	modules: ['@nuxtjs/tailwindcss', '@pinia/nuxt'],
 
 	tailwindcss: {
 		viewer: false,

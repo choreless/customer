@@ -1,8 +1,5 @@
 export default defineNuxtRouteMiddleware(async () => {
-	const {usertype} = useUser();
+	const {usertype} = useUser()
 
-	if(usertype){
-		const {push} = useRouter();
-		await push('/dashboard');
-	}
+	if(usertype) return navigateTo('/dashboard');
 })

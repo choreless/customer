@@ -12,7 +12,7 @@ const user = useUser();
 const api = useApi();
 
 const step = ref<'phone'|'otp'>('phone');
-const phone = reactive({masked: '', unmasked: ''});		// masked, unmasked
+const phone = reactive({masked: '', unmasked: ''});
 const uid = ref('');
 const otp = ref('');
 const loading = ref(false);

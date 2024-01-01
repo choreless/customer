@@ -7,7 +7,7 @@ import type { JobWasher } from '~/types/job';
 definePageMeta({ middleware: 'washer' })
 const {params} = useRoute();
 const api = useApi();
-const timer = new Timer();
+const timer = ref<Timer>();
 
 const bags_ref = ref<InstanceType<typeof Bags>>();
 const job = ref<JobWasher>();
@@ -43,15 +43,16 @@ async function getJob(){
 await getJob();
 
 function startStopwatch(){
-	timer.start({
+	if(!timer.value) return;
+	timer.value.start({
 		startValues: {...stopwatch}
 	});
 }
 
 async function toggleResumePause(){
-	if(!job.value) return;
+	if(!(job.value && timer.value)) return;
 	job.value.status = job.value.status==='pause' ? 'resume' : 'pause';
-	if(job.value.status==='pause') timer.pause();
+	if(job.value.status==='pause') timer.value.pause();
 	const {data}: {data: {stopwatch: string, stopwatch_at: string}|false} = await api.post(`/jobs/${job.value.id}`, {
 		bags: bags.value.filter(v=>v),
 		status: job.value.status
@@ -77,14 +78,14 @@ async function complete(){
 	await navigateTo('/jobs/completed');
 }
 
-timer.addEventListener('secondsUpdated', ()=>{
-	const t = timer.getTimeValues();
-	stopwatch.seconds = t.seconds;
-	stopwatch.minutes = t.minutes;
-	stopwatch.hours = t.hours;
-});
-
 onMounted(()=>{
+	timer.value = new Timer();
+	timer.value.addEventListener('secondsUpdated', ()=>{
+		const t = timer.value!.getTimeValues();
+		stopwatch.seconds = t.seconds;
+		stopwatch.minutes = t.minutes;
+		stopwatch.hours = t.hours;
+	});
 	if(job.value && job.value.status==='resume') startStopwatch();
 })
 </script>

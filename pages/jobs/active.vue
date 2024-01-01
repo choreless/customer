@@ -29,9 +29,9 @@ async function getJobs(){
 		};
 	}
 }
-await getJobs();
 
-onMounted(()=>{
+onMounted(async ()=>{
+	await getJobs();
 	for(const job of jobs.value){
 		if(job.status==='resume'){
 			timers[job.id].addEventListener('secondsUpdated', ()=>{

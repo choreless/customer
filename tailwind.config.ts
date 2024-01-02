@@ -12,9 +12,6 @@ const config: Config = {
 		"./error.vue",
 	],
 	theme: {
-		fontFamily: {
-			'GTWalsheim': 'GTWalsheim'
-		},
 		extend: {
 			colors: {
 				brand: {
@@ -22,7 +19,10 @@ const config: Config = {
 					blue: '#3063ff',
 					orange: '#f85a47',
 				}
-			}
+			},
+			fontFamily: {
+				'GTWalsheim': 'GTWalsheim'
+			},
 		}
 	},
 	plugins: [daisyui, pseudoClasses],

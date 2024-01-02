@@ -130,7 +130,7 @@ watch(phone, n=>{if(dialog_ref.value?.open) error.phone = n.unmasked.length!==10
 			<div class="grid grid-cols-[1fr_auto] gap-x-2 justify-around items-center border border-base-content/20 rounded-[0.3125rem] mt-4">
 				<label class="input-float">
 					<input type="text" v-model="first_name" placeholder="" class="!border-0" />
-					<p>First Name {{ error.first_name }} </p>
+					<p>First Name</p>
 				</label>
 				<div class="w-6 h-6 me-4">
 					<img v-if="error.first_name===undefined" src="https://ik.imagekit.io/choreless/v2/icons/FigmaInfo.svg" alt="icon" loading='lazy' v-tooltip="{content: 'First name is required', theme: 'tooltip-primary', triggers: ['hover', 'click']}" />

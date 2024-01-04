@@ -26,6 +26,7 @@
     "easytimer.js": "^4.6.0",
     "floating-vue": "2.0.0-beta.24",
     "pinia": "^2.1.7",
-    "vue-imask": "^7.3.0"
+    "vue-imask": "^7.3.0",
+    "zod": "^3.22.4"
   }
 }

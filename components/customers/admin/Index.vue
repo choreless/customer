@@ -1,0 +1,36 @@
+<script setup lang="ts">
+const customer_store = useAdminCustomer();
+</script>
+
+<template>
+<div>
+	<div class="w-full sm:border-r">
+		<div class="flex items-center justify-between text-sm h-10 mx-2.5">
+			<p class="text-sm">Showing customers</p>
+			<button @click="customer_store.end_panel='create'" class="btn btn-sm btn-ghost btn-square hover:font-bold hover:bg-brand-orange hover:text-white">
+				<Icon name="material-symbols:add-rounded" class="text-2xl" />
+			</button>
+		</div>
+		<hr />
+		<label class="flex items-center join border m-2.5">
+			<input type="search" v-model="customer_store.search" placeholder="Search by name, email, phone" class="join-item input w-full focus:border-none focus:outline-none focus-within:border-none focus-within:outline-none" />
+			<Icon name="ic:outline-search" class="join-item text-3xl me-2" />
+		</label>
+		<div class="flex gap-x-2 px-4" :class="!customer_store.loading.index && 'invisible'">
+			<span class="loading loading-bars bg-primary"></span>
+			<p>loading</p>
+		</div>
+		<p class="px-2">{{ customer_store.customers.length }} customer{{ customer_store.customers.length>1 ? 's':'' }}</p>
+		<div v-if="customer_store.customers.length">
+			<button v-for="customer of customer_store.customers" :key="customer.id" @click="customer_store.id=customer.id" class="flex items-center justify-between gap-x-3 w-full py-2.5 px-4 text-start border-b [&.active]:bg-brand-black/10 hover:!bg-brand-black/10" :class="customer_store.id===customer.id && 'active'">
+				<div class="whitespace-nowrap overflow-auto">
+					<p>{{ customer.first_name }} {{ customer.last_name }}</p>
+					<p class="whitespace-nowrap overflow-auto text-black/50">{{ customer.email }}</p>
+				</div>
+				<p class="text-sm">{{ customer.phone }}</p>
+			</button>
+		</div>
+		<p v-else class="alert alert-info mx-2">No customer found</p>
+	</div>
+</div>
+</template>

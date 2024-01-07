@@ -246,13 +246,12 @@ definePageMeta({
           <span class="leading-5 text-[14px]"><b>Detergent:</b> Regular</span>
           <span class="leading-5 text-[14px]"><b>Water Temp:</b> Hot</span>
           <span class="leading-5 text-[14px]"><b>Dryer Temp:</b> Regular</span>
-          <div class="leading-5 text-[14px] flex gap-1">
+          <p class="leading-5 text-[14px]">
             <b>Add-ons:</b>
-            <span class="w-[334px]">
-              Fabric Softener, OxiClean, Hang Dry, Delicates Hangers, Don’t mix
-              bags
-            </span>
-          </div>
+
+            Fabric Softener, OxiClean, Hang Dry, Delicates Hangers, Don’t mix
+            bags
+          </p>
         </section>
         <section>
           <div class="flex justify-between items-start self-stretch">

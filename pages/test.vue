@@ -7,7 +7,7 @@ definePageMeta({
 </script>
 
 <template>
-  <div class="flex flex-col gap-[32px]">
+  <div class="flex flex-col justify-center pb-[1.65px]">
     <nav
       class="flex py-5 px-[60px] justify-between items-center border-b border-black border-opacity-20"
     >
@@ -112,7 +112,7 @@ definePageMeta({
           <div
             class="flex py-[5px] px-[10px] justify-center items-center gap-10 rounded-[25px] bg-red-600 bg-opacity-20"
           >
-            <div class="flex py-[5px] px-[15px] items-center gap-5">
+            <div class="flex px-1 items-center gap-5" role="button">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -171,6 +171,7 @@ definePageMeta({
       <div class="w-[1px] h-[88px] bg-black bg-opacity-20"></div>
       <div class="flex items-center gap-[50px]">
         <svg
+          role="button"
           xmlns="http://www.w3.org/2000/svg"
           width="42"
           height="8"
@@ -212,6 +213,7 @@ definePageMeta({
           />
         </svg>
         <svg
+          role="button"
           xmlns="http://www.w3.org/2000/svg"
           width="24"
           height="24"
@@ -229,16 +231,19 @@ definePageMeta({
       </div>
     </nav>
     <section
-      class="flex h-[624.35px] flex-col justify-between items-center flex-shrink-0"
+      class="flex h-screen flex-col justify-between items-center flex-shrink-0"
     >
-      <summary class="flex w-[512px] flex-col items-center gap-5">
+      <summary
+        class="flex-grow flex w-[512px] flex-col items-center justify-center gap-5"
+      >
         <h1 class="text-black text-2xl font-semibold leading-6">
           Weight order
         </h1>
-        <section class="flex flex-col items-start gap-[5px]">
+        <section class="flex w-full flex-col gap-[5px]">
           <div class="flex justify-between items-start self-stretch">
             <h3 class="font-semibold leading-5">Care Preferences:</h3>
             <span
+              role="button"
               class="font-semibold leading-5 underline text-[#F85A47] text-[14px]"
               >Edit</span
             >
@@ -246,17 +251,19 @@ definePageMeta({
           <span class="leading-5 text-[14px]"><b>Detergent:</b> Regular</span>
           <span class="leading-5 text-[14px]"><b>Water Temp:</b> Hot</span>
           <span class="leading-5 text-[14px]"><b>Dryer Temp:</b> Regular</span>
-          <p class="leading-5 text-[14px]">
-            <b>Add-ons:</b>
-
-            Fabric Softener, OxiClean, Hang Dry, Delicates Hangers, Don’t mix
-            bags
-          </p>
+          <div class="flex leading-5 text-[14px] gap-1">
+            <span><b>Add-ons:</b></span>
+            <p class="w-[300px]">
+              Fabric Softener, OxiClean, Hang Dry, Delicates Hangers, Don’t mix
+              bags
+            </p>
+          </div>
         </section>
-        <section>
+        <section class="flex flex-col gap-[10px]">
           <div class="flex justify-between items-start self-stretch">
             <h3 class="font-semibold leading-5">Preferences Notes</h3>
             <span
+              role="button"
               class="font-semibold leading-5 underline text-[#F85A47] text-[14px]"
               >Edit</span
             >
@@ -296,19 +303,25 @@ definePageMeta({
               />
             </svg>
             <h2 class="text-[32px] font-semibold leading-6">Weight # 1</h2>
-            <input
-              type="text"
-              name=""
-              id=""
-              class="flex w-[200px] h-[50px] p-[10px] justify-between items-center rounded-[5px] border border-black"
-              placeholder="Bag 1                            lbs"
-            />
+            <div
+              class="flex items-center justify-center border border-black w-[200px] rounded-[5px]"
+            >
+              <label class="input-float" style="height: 50px">
+                <input
+                  type="tel"
+                  class="!border-none placeholder:text-right"
+                  placeholder="lbs"
+                />
+                <p>Bag 1</p>
+              </label>
+            </div>
           </div>
           <div class="flex w-[407px] flex-col items-end gap-5">
             <span class="font-semibold leading-5">+ Add another weight</span>
             <div class="flex items-center gap-5">
               <span class="text-[14px] leading-5">Is the order wet ?</span>
               <svg
+                role="button"
                 xmlns="http://www.w3.org/2000/svg"
                 width="53"
                 height="34"
@@ -387,7 +400,12 @@ definePageMeta({
         </div>
         <span class="text-[32px] leading-[30px]">Total weight: 0.00 lbs</span>
         <div class="flex w-[274px] justify-end items-center gap-5">
-          <p class="underline">cancel</p>
+          <div
+            role="button"
+            class="underline btn btn-sm gap-0 mt-2.5 px-2.5 border-0 shadow-none rounded-3xl border-brand-black bg-transparent hover:text-white hover:bg-[#F85A47] hover:rounded-3xl hover:px-2.5 hover:no-underline"
+          >
+            cancel
+          </div>
           <div
             role="button"
             class="flex h-[60px] py-[5px] px-[40px] justify-center items-center gap-5 rounded-[40px] bg-[#F85A47]"

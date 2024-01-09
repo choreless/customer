@@ -12,7 +12,7 @@ active_jobs_count.value = Number(data.count);
 		<div class='flex flex-col md:flex-row gap-x-[4.5rem] gap-y-10 min-h-[8.25rem] mt-2.5 mx-4 sm:mx-0'>
 			<NuxtLink to='/jobs/create' class="relative w-full max-w-[22.8125rem] h-[15.625rem]">
 				<div class='btn w-full h-full flex flex-col items-center gap-x-3 border-2 rounded-3xl shadow-[0px_0px_15px_0px_#00000015] bg-white hover:border-brand-orange hover:bg-white'>
-					<img src="https://ik.imagekit.io/choreless/v2/icons/ChorelessBusket.svg" alt="icon" loading="lazy" class="w-20">
+					<img src="https://ik.imagekit.io/choreless/v2/icons/busket.svg" alt="icon" loading="lazy" class="w-20">
 					<p class="text-2xl font-normal">New service order</p>
 				</div>
 				<p class="absolute -bottom-[1.45rem] -right-[1.45rem] flex items-center justify-center rounded-full w-12 h-12 lg:w-[4.375rem] lg:h-[4.375rem] bg-brand-orange"><Icon name="material-symbols:add" class="text-3xl text-white" /></p>

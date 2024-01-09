@@ -1,6 +1,6 @@
 <template>
   <nav
-    class="flex py-5 px-[60px] justify-between items-center border-b border-black border-opacity-20"
+    class="flex sticky top-0 bg-white py-5 px-[60px] justify-between items-center border-b border-black border-opacity-20"
   >
     <div class="flex w-[222.667px] items-center gap-10">
       <svg
@@ -159,7 +159,7 @@
     </section>
     <div class="w-[1px] h-[88px] bg-black bg-opacity-20"></div>
     <div class="flex items-center gap-[50px]">
-      <div class="dropdown">
+      <div class="dropdown dropdown-end">
         <svg
           role="button"
           tabindex="0"
@@ -205,9 +205,10 @@
         </svg>
         <ul
           tabindex="0"
-          class="dropdown-content z-[1] menu mt-5 p-2 shadow bg-slate-100 w-52"
+          class="dropdown-content z-[1] menu mt-5 p-2 shadow w-52 inline-flex flex-col items-start rounded-b-[5px] bg-white"
+          style="box-shadow: 0px 2px 15px 0px rgba(0, 0, 0, 0.15)"
         >
-          <li>
+          <li class="w-full">
             <a>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -227,7 +228,8 @@
               Print order details
             </a>
           </li>
-          <li>
+          <hr class="border w-full my-1.5" />
+          <li class="w-full">
             <a>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -248,7 +250,7 @@
         </ul>
       </div>
     </div>
-    <svg
+    <!-- <svg
       role="button"
       xmlns="http://www.w3.org/2000/svg"
       width="24"
@@ -263,6 +265,11 @@
         stroke-linecap="round"
         stroke-linejoin="round"
       />
-    </svg>
+    </svg> -->
+    <NuxtLink
+      to="/dashboard"
+      class="btn btn-ghost"
+      aria-label="Go to home page"
+    ></NuxtLink>
   </nav>
 </template>

@@ -2,8 +2,7 @@
 import navbarCustomer from "~/components/navBars/navbarCustomer.vue";
 useHead({ title: "Processing Order" });
 definePageMeta({
-  layout: "clean",
-  middleware: "guest",
+  layout: "clean"
 });
 </script>
 

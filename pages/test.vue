@@ -3,8 +3,7 @@ import navbarCustomer from "~/components/navBars/navbarCustomer.vue";
 
 useHead({ title: "Test" });
 definePageMeta({
-  layout: "clean",
-  middleware: "guest",
+  layout: "clean"
 });
 </script>
 

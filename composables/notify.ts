@@ -1,4 +1,4 @@
-import { notify } from "@kyvg/vue3-notification";
+import { notify } from '@kyvg/vue3-notification';
 
 export default {
 	info(title: string){

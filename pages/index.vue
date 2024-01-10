@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useIMask } from 'vue-imask';
-import type { Role } from "@/types/user";
+import type { Role } from '@/types/user';
 
 useHead({ title: 'Login' })
 definePageMeta({
@@ -72,13 +72,15 @@ async function verifyOtp(){
 watch(otp, n=>{ n.length===6 ? verifyOtp() : error.otp = false; })
 const phone_imask = useIMask({
 	mask: [{mask: '000'}, {mask: '(000) 000-0000'}]
-},{ onAccept(){
-	step.value = 'phone';
-	error.phone = undefined;
-	error.does_account_exist = true;
-	phone.masked=phone_imask.masked.value;
-	phone.unmasked=phone_imask.unmasked.value;
-}})
+}, {
+	onAccept(){
+		step.value = 'phone';
+		error.phone = undefined;
+		error.does_account_exist = true;
+		phone.masked=phone_imask.masked.value;
+		phone.unmasked=phone_imask.unmasked.value;
+	}
+})
 </script>
 
 <template>
@@ -88,33 +90,33 @@ const phone_imask = useIMask({
 	<div class="mt-6">
 		<div class="grid grid-cols-[1fr_auto] justify-around items-center gap-x-2 border border-base-content/20 rounded-[0.3125rem]">
 			<label class="input-float">
-				<input type="tel" class="!border-none" :value="phone.masked" :ref="phone_imask.el" placeholder="" @keydown.enter="sendOtp()" >
+				<input :ref="phone_imask.el" type="tel" class="!border-none" :value="phone.masked" placeholder="" @keydown.enter="sendOtp()">
 				<p>Phone number</p>
 			</label>
 			<div class="w-6 h-6 me-4">
-				<img v-if="error.phone===undefined" src="https://ik.imagekit.io/choreless/v2/icons/FigmaInfo.svg" alt="icon" loading='lazy' v-tooltip="{content: 'Phone number is required', theme: 'tooltip-primary', triggers: ['hover', 'click']}" />
-				<img v-else-if="error.phone" src="https://ik.imagekit.io/choreless/v2/icons/MaterialSymbolsCancelRounded.svg" alt="icon" loading='lazy' />
-				<img v-else-if="error.phone===false" src="https://ik.imagekit.io/choreless/v2/icons/FigmaSuccess.svg" alt="icon" loading='lazy' />
+				<img v-if="error.phone===undefined" v-tooltip="{content: 'Phone number is required', theme: 'tooltip-primary', triggers: ['hover', 'click']}" src="https://ik.imagekit.io/choreless/v2/icons/FigmaInfo.svg" alt="icon" loading="lazy">
+				<img v-else-if="error.phone" src="https://ik.imagekit.io/choreless/v2/icons/MaterialSymbolsCancelRounded.svg" alt="icon" loading="lazy">
+				<img v-else-if="error.phone===false" src="https://ik.imagekit.io/choreless/v2/icons/FigmaSuccess.svg" alt="icon" loading="lazy">
 			</div>
 		</div>
 		<p v-if="error.phone" class="text-error">* Invalid phone number</p>
 		<p v-if="!error.does_account_exist" class="text-error">* Account does not exists</p>
 	</div>
 	<div class="mt-6">
-		<button v-if="step==='phone' && !loading" @click="sendOtp()" class="btn w-full h-[3.75rem] rounded-[0.3125rem] text-2xl px-5 py-[0.9375rem] text-white bg-brand-orange border-brand-orange hover:text-brand-orange hover:bg-transparent hover:border-brand-orange">Verify</button>
+		<button v-if="step==='phone' && !loading" class="btn w-full h-[3.75rem] rounded-[0.3125rem] text-2xl px-5 py-[0.9375rem] text-white bg-brand-orange border-brand-orange hover:text-brand-orange hover:bg-transparent hover:border-brand-orange" @click="sendOtp()">Verify</button>
 		<div v-if="step==='otp'">
 			<div class="grid grid-cols-[1fr_auto] justify-around items-center px-0">
 				<label class="input-float w-full h-full">
-					<input type="text" v-model="otp" maxlength="6" placeholder="" class="!border-r-0 !rounded-r-none" />
+					<input v-model="otp" type="text" maxlength="6" placeholder="" class="!border-r-0 !rounded-r-none">
 					<p>Code</p>
 				</label>
 				<div class="input border-base-content/20 rounded-[0.3125rem] !outline-none h-[3.75rem] rounded-s-none border-s-0 flex items-center">
-					<button @click="resendOtp()" :disabled="loading" class="btn btn-sm bg-transparent border-none shadow-none hover:bg-brand-orange hover:text-white uppercase">RESEND!</button>
+					<button :disabled="loading" class="btn btn-sm bg-transparent border-none shadow-none hover:bg-brand-orange hover:text-white uppercase" @click="resendOtp()">RESEND!</button>
 				</div>
 			</div>
 			<p v-if="error.otp" class="text-error">* Invalid OTP</p>
 		</div>
 	</div>
-	<p v-if="loading" class="flex items-center justify-center gap-x-2 text-xl font-bold mt-6 text-brand-orange">Verifying <span class="loading loading-bars"></span></p>
+	<p v-if="loading" class="flex items-center justify-center gap-x-2 text-xl font-bold mt-6 text-brand-orange">Verifying <span class="loading loading-bars" /></p>
 </div>
 </template>

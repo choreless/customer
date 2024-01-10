@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { format } from 'date-fns';
 import { getCompletedJobInterval } from '~/lib/job';
-import type { JobWasher } from "@/types/job";
+import type { JobWasher } from '@/types/job';
 
 useHead({ title: 'Jobs - Completed' })
 definePageMeta({ middleware: 'washer' })
@@ -26,7 +26,7 @@ async function deleteJob(id: string){
 <div class="mt-6 max-w-4xl mx-auto">
 	<div class="flex items-center justify-between">
 		<h1 class="text-2xl font-bold font-mono">Completed jobs</h1>
-		<NuxtLink to='/dashboard' class="btn btn-sm btn-ghost btn-square hover:bg-brand-orange hover:text-white">
+		<NuxtLink to="/dashboard" class="btn btn-sm btn-ghost btn-square hover:bg-brand-orange hover:text-white">
 			<Icon name="material-symbols:close-rounded" class="text-3xl" />
 		</NuxtLink>
 	</div>
@@ -43,28 +43,28 @@ async function deleteJob(id: string){
 				</tr>
 			</thead>
 			<tbody>
-					<tr v-for="(job, key) of jobs" :key="job.id">
-						<td>{{key+1}}</td>
-						<td>{{job.customer_name}}</td>
-						<td>
-							<div class="flex flex-wrap gap-1">
-								<p v-for="(v, k) of job.bags" :key="k" class="badge badge-primary whitespace-nowrap">Bag {{k+1}}: {{v}} lb</p>
-							</div>
-							<p class="whitespace-nowrap">Total weight: {{Number(job.bags.reduce((a: number, v)=>v ? Number(v)+a : a, 0).toFixed(2))}} lb</p>
-						</td>
-						<td class="whitespace-nowrap">{{getCompletedJobInterval(Number(job.stopwatch))}}</td>
-						<td>
-							<p class="whitespace-nowrap">{{format(new Date(job.created_at), 'yyyy-M-d')}}</p>
-							<p class="whitespace-nowrap">{{format(new Date(job.created_at), 'h:m:s aaa')}}</p>
-						</td>
-						<td>
-							<div class="flex gap-x-2">
-								<button @click="deleteJob(job.id)" class="btn btn-sm btn-square btn-outline border-none btn-error hover:!text-white">
-									<Icon name="ic:baseline-delete-forever" class="text-2xl" />
-								</button>
-							</div>
-						</td>
-					</tr>
+				<tr v-for="(job, key) of jobs" :key="job.id">
+					<td>{{ key+1 }}</td>
+					<td>{{ job.customer_name }}</td>
+					<td>
+						<div class="flex flex-wrap gap-1">
+							<p v-for="(v, k) of job.bags" :key="k" class="badge badge-primary whitespace-nowrap">Bag {{ k+1 }}: {{ v }} lb</p>
+						</div>
+						<p class="whitespace-nowrap">Total weight: {{ Number(job.bags.reduce((a: number, v)=>v ? Number(v)+a : a, 0).toFixed(2)) }} lb</p>
+					</td>
+					<td class="whitespace-nowrap">{{ getCompletedJobInterval(Number(job.stopwatch)) }}</td>
+					<td>
+						<p class="whitespace-nowrap">{{ format(new Date(job.created_at), 'yyyy-M-d') }}</p>
+						<p class="whitespace-nowrap">{{ format(new Date(job.created_at), 'h:m:s aaa') }}</p>
+					</td>
+					<td>
+						<div class="flex gap-x-2">
+							<button class="btn btn-sm btn-square btn-outline border-none btn-error hover:!text-white" @click="deleteJob(job.id)">
+								<Icon name="ic:baseline-delete-forever" class="text-2xl" />
+							</button>
+						</div>
+					</td>
+				</tr>
 			</tbody>
 		</table>
 	</div>

@@ -1,15 +1,15 @@
 import daisyui from 'daisyui';
-import pseudoClasses from './lib/pseudo_classes';
 import type { Config } from 'tailwindcss';
+import pseudoClasses from './lib/pseudo_classes';
 
 const config: Config = {
 	content: [
-		"./components/**/*.{js,vue,ts}",
-		"./layouts/**/*.vue",
-		"./pages/**/*.vue",
-		"./plugins/**/*.{js,ts}",
-		"./app.vue",
-		"./error.vue",
+		'./components/**/*.{js,vue,ts}',
+		'./layouts/**/*.vue',
+		'./pages/**/*.vue',
+		'./plugins/**/*.{js,ts}',
+		'./app.vue',
+		'./error.vue'
 	],
 	theme: {
 		extend: {
@@ -17,12 +17,12 @@ const config: Config = {
 				brand: {
 					black: '#011631',
 					blue: '#3063ff',
-					orange: '#f85a47',
+					orange: '#f85a47'
 				}
 			},
 			fontFamily: {
-				'GTWalsheim': 'GTWalsheim'
-			},
+				GTWalsheim: 'GTWalsheim'
+			}
 		}
 	},
 	plugins: [daisyui, pseudoClasses],

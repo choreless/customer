@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import Bags from '@/components/forms/jobs/Bags.vue';
-import Timer from "easytimer.js";
+import Timer from 'easytimer.js';
 import { differenceInSeconds, intervalToDuration } from 'date-fns';
+import Bags from '@/components/forms/jobs/Bags.vue';
 import type { JobWasher } from '~/types/job';
 
 definePageMeta({ middleware: 'washer' })
@@ -22,9 +22,9 @@ const error_weight = ref(false);
 function initializeStopwatch(){
 	if(!job.value) return;
 	const end_seconds =
-		job.value.status==='resume' ?
-		differenceInSeconds(Date.now(), new Date(job.value.stopwatch_at).valueOf())+Number(job.value.stopwatch):
-		Number(job.value.stopwatch);
+		job.value.status==='resume'
+			? differenceInSeconds(Date.now(), new Date(job.value.stopwatch_at).valueOf())+Number(job.value.stopwatch)
+			:Number(job.value.stopwatch);
 	const interval = intervalToDuration({start: 0, end: end_seconds*1000});
 	stopwatch.seconds = interval.seconds ?? 0;
 	stopwatch.minutes = interval.minutes ?? 0;
@@ -96,39 +96,39 @@ onMounted(()=>{
 	<div class="max-w-4xl mx-auto mt-6">
 		<div class="flex items-center justify-between">
 			<h1 class="text-2xl font-bold font-mono">Job</h1>
-			<NuxtLink to='/jobs/active' class="btn btn-sm btn-ghost btn-square hover:bg-brand-orange hover:text-white">
+			<NuxtLink to="/jobs/active" class="btn btn-sm btn-ghost btn-square hover:bg-brand-orange hover:text-white">
 				<Icon name="mynaui:minimize-one" class="text-2xl" />
 			</NuxtLink>
 		</div>
 		<div v-if="job" class="mt-4">
 			<div>
-				<p>Id: {{job.id}}</p>
-				<p>Customer name: {{job.customer_name}}</p>
-				<Bags v-model:error_weight="error_weight" v-model="bags" ref="bags_ref" />
+				<p>Id: {{ job.id }}</p>
+				<p>Customer name: {{ job.customer_name }}</p>
+				<Bags ref="bags_ref" v-model:error_weight="error_weight" v-model="bags" />
 			</div>
 			<div class="grid grid-flow-col auto-cols-max justify-center gap-5 text-center mt-4">
 				<div class="flex flex-col p-2 bg-neutral rounded-box text-neutral-content">
 					<span class="countdown font-mono text-5xl">
-						<span :style="{'--value': stopwatch.hours}"></span>
+						<span :style="{'--value': stopwatch.hours}" />
 					</span>
 					hour<template v-if="stopwatch.hours>1">s</template>
-				</div> 
+				</div>
 				<div class="flex flex-col p-2 bg-neutral rounded-box text-neutral-content">
 					<span class="countdown font-mono text-5xl">
-						<span :style="{'--value': stopwatch.minutes}"></span>
+						<span :style="{'--value': stopwatch.minutes}" />
 					</span>
 					min
-				</div> 
+				</div>
 				<div class="flex flex-col p-2 bg-neutral rounded-box text-neutral-content">
 					<span class="countdown font-mono text-5xl">
-						<span :style="{'--value': stopwatch.seconds}"></span>
+						<span :style="{'--value': stopwatch.seconds}" />
 					</span>
 					sec
 				</div>
 			</div>
 			<div class="flex justify-center gap-x-20 mt-3">
-				<button @click="toggleResumePause()" class="btn btn-outline" :class="job.status==='pause' ? 'btn-primary' : 'btn-error text-white'">{{job.status==='pause' ? 'Resume' : 'Pause'}}</button>
-				<button @click="complete()" class="btn btn-success btn-outline text-white">Complete</button>
+				<button class="btn btn-outline" :class="job.status==='pause' ? 'btn-primary' : 'btn-error text-white'" @click="toggleResumePause()">{{ job.status==='pause' ? 'Resume' : 'Pause' }}</button>
+				<button class="btn btn-success btn-outline text-white" @click="complete()">Complete</button>
 			</div>
 		</div>
 	</div>

@@ -13,6 +13,5 @@ await navigateTo('/');
 </script>
 
 <template>
-<div>
-</div>
+<div />
 </template>

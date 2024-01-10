@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { intervalToDuration, differenceInSeconds } from 'date-fns';
-import Timer from "easytimer.js";
-import type { JobWasher } from "@/types/job";
+import Timer from 'easytimer.js';
+import type { JobWasher } from '@/types/job';
 
 useHead({ title: 'Jobs - Active' })
 definePageMeta({ middleware: 'washer' })
@@ -18,9 +18,9 @@ async function getJobs(){
 	for(const job of data){
 		timers[job.id] = new Timer();
 		const end_seconds =
-		job.status==='resume' ?
-		differenceInSeconds(Date.now(), new Date(job.stopwatch_at).valueOf())+Number(job.stopwatch):
-		Number(job.stopwatch);
+		job.status==='resume'
+			? differenceInSeconds(Date.now(), new Date(job.stopwatch_at).valueOf())+Number(job.stopwatch)
+			:Number(job.stopwatch);
 		const interval = intervalToDuration({start: 0, end: end_seconds*1000});
 		stopwatches[job.id] = {
 			seconds: interval.seconds ?? 0,
@@ -53,7 +53,7 @@ onMounted(async ()=>{
 <div class="mt-6 max-w-4xl mx-auto">
 	<div class="flex items-center justify-between">
 		<h1 class="text-2xl font-bold font-mono">Active jobs</h1>
-		<NuxtLink to='/dashboard' class="btn btn-sm btn-ghost btn-square hover:bg-brand-orange hover:text-white">
+		<NuxtLink to="/dashboard" class="btn btn-sm btn-ghost btn-square hover:bg-brand-orange hover:text-white">
 			<Icon name="material-symbols:close-rounded" class="text-3xl" />
 		</NuxtLink>
 	</div>
@@ -71,32 +71,32 @@ onMounted(async ()=>{
 			</thead>
 			<tbody>
 				<tr v-for="(job, key) of jobs" :key="job.id">
-					<td>{{key+1}}</td>
-					<td>{{job.customer_name}}</td>
+					<td>{{ key+1 }}</td>
+					<td>{{ job.customer_name }}</td>
 					<td>
 						<div class="flex flex-wrap gap-1">
-							<p v-for="(v, k) of job.bags" :key="k" class="badge badge-primary whitespace-nowrap">Bag {{k+1}}: {{v}} lb</p>
+							<p v-for="(v, k) of job.bags" :key="k" class="badge badge-primary whitespace-nowrap">Bag {{ k+1 }}: {{ v }} lb</p>
 						</div>
-						<p class="whitespace-nowrap">Total weight: {{Number(job.bags.reduce((a: number, v)=>v ? Number(v)+a : a, 0).toFixed(2))}} lb</p>
+						<p class="whitespace-nowrap">Total weight: {{ Number(job.bags.reduce((a: number, v)=>v ? Number(v)+a : a, 0).toFixed(2)) }} lb</p>
 					</td>
-					<td class="capitalize">{{job.status}}</td>
+					<td class="capitalize">{{ job.status }}</td>
 					<td>
 						<div class="flex items-center gap-x-2 text-center">
 							<div class="flex items-center">
 								<span class="countdown font-mono">
-									<span :style="{'--value': stopwatches[job.id].hours}"></span>
+									<span :style="{'--value': stopwatches[job.id].hours}" />
 								</span>
 								<p>h</p>
 							</div>
 							<div class="flex items-center">
 								<span class="countdown font-mono">
-									<span :style="{'--value': stopwatches[job.id].minutes}"></span>
+									<span :style="{'--value': stopwatches[job.id].minutes}" />
 								</span>
 								<p>m</p>
 							</div>
 							<div class="flex items-center">
 								<span class="countdown font-mono">
-									<span :style="{'--value': stopwatches[job.id].seconds}"></span>
+									<span :style="{'--value': stopwatches[job.id].seconds}" />
 								</span>
 								<p>s</p>
 							</div>
@@ -110,6 +110,6 @@ onMounted(async ()=>{
 				</tr>
 			</tbody>
 		</table>
-	</div>	
+	</div>
 </div>
 </template>

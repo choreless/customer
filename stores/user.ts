@@ -1,4 +1,4 @@
-import type { Role } from "~/types/user";
+import type { Role } from '~/types/user';
 
 export const useUser = defineStore('user', ()=>{
 	// note: 34560000 (400 days)

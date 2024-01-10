@@ -1,4 +1,4 @@
-import type { Role } from "~/types/user"
+import type { Role } from '~/types/user'
 
 interface AuthenticationResponse {
 	uid: string

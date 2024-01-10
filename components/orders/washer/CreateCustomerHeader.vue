@@ -247,21 +247,21 @@
 		</div>
 	</div>
 	<!-- <svg
-      role="button"
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-    >
-      <path
-        d="M22 1.9996L2 21.9996M2.00006 1.9996L22.0001 21.9996"
-        stroke="black"
-        stroke-width="3"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      />
-    </svg> -->
+				role="button"
+				xmlns="http://www.w3.org/2000/svg"
+				width="24"
+				height="24"
+				viewBox="0 0 24 24"
+				fill="none"
+			>
+				<path
+					d="M22 1.9996L2 21.9996M2.00006 1.9996L22.0001 21.9996"
+					stroke="black"
+					stroke-width="3"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				/>
+			</svg> -->
 	<NuxtLink
 		to="/dashboard"
 		class="btn btn-ghost"

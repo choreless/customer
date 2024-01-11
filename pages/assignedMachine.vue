@@ -6,8 +6,15 @@ definePageMeta({
 </script>
 
 <template>
-<section class="flex flex-col h-screen justify-center items-center">
-	<!-- <h1 class="text-[32px]"><strong>Assign machines to order</strong></h1> -->
+<section class="flex flex-col gap-12 py-10 justify-center items-center">
+	<div class="flex items-center w-full justify-center">
+		<h1 class="text-[32px]"><strong>Assign machines to order</strong></h1>
+		<div class="relative left-[340px] ">
+			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+				<path d="M22 2L2 22M2.00006 2L22.0001 22" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+			</svg>
+		</div>
+	</div>
 	<section class="inline-flex flex-col items-start gap-[34px]">
 		<section class="flex w-[1086px] h-[50px] justify-between items-center">
 			<div class="flex w-[439px] items-center gap-5 flex-shrink-0">
@@ -110,8 +117,8 @@ definePageMeta({
 				</svg>
 			</div>
 		</section>
-		<section class="flex flex-col items-start gap-[10px]">
-			<h2 class="text-2xl leading-[30px] uppercase font-medium">
+		<section class="flex flex-col items-start gap-[10px] text-2xl">
+			<h2 class=" leading-[30px] uppercase font-medium">
 				Machine on order Ch-892 - Jenifar Mn.
 			</h2>
 			<div class="flex items-center gap-5">
@@ -200,24 +207,175 @@ definePageMeta({
 				<span>1</span>
 			</div>
 		</section>
-		<ul>
-			<li>
-				<div>
-					<h4 class="flex items-center justify-center">
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							width="20"
-							height="20"
-							viewBox="0 0 20 20"
-							fill="none"
-						>
-							<circle cx="10" cy="10" r="10" fill="#F85A47" />
+		<table class="w-full">
+			<tbody>
+				<tr class="flex justify-between items-center border-b-2 py-5">
+					<td class="inline-flex flex-col items-start gap-[26px] text-2xl leading-[20px]">
+						<h4 class="flex items-center justify-center gap-[10px]">
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								width="20"
+								height="20"
+								viewBox="0 0 20 20"
+								fill="none"
+							>
+								<circle cx="10" cy="10" r="10" fill="#F85A47" />
+							</svg>
+							<span>Washer # 827</span>
+						</h4>
+						<span>30m:43s</span>
+					</td>
+					<td class="inline-flex flex-col items-start gap-[26px] text-2xl">
+						<h4>Started by Wallace</h4>
+						<span>12/31/2023 09:20PM</span>
+					</td>
+					<td class="inline-flex items-center gap-5 text-2xl">
+						<span class="text-[#FE9F11] pr-2 w-[120px] text-center"><b>Washing</b></span>
+						<svg xmlns="http://www.w3.org/2000/svg" width="29" height="33" viewBox="0 0 29 33" fill="none">
+							<path d="M27.9733 4.89868V28.8987C27.9733 29.6943 27.6617 30.4574 27.1072 31.02C26.5526 31.5826 25.8005 31.8987 25.0163 31.8987H4.31734C3.5331 31.8987 2.78098 31.5826 2.22643 31.02C1.67189 30.4574 1.36035 29.6943 1.36035 28.8987V4.89868C1.36035 4.10303 1.67189 3.33997 2.22643 2.77736C2.78098 2.21475 3.5331 1.89868 4.31734 1.89868H25.0163C25.8005 1.89868 26.5526 2.21475 27.1072 2.77736C27.6617 3.33997 27.9733 4.10303 27.9733 4.89868Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+							<path d="M14.6669 28.8503C17.0196 28.8503 19.276 27.9021 20.9396 26.2143C22.6032 24.5264 23.5378 22.2372 23.5378 19.8503C23.5378 17.4633 22.6032 15.1742 20.9396 13.4863C19.276 11.7985 17.0196 10.8503 14.6669 10.8503C12.3141 10.8503 10.0578 11.7985 8.39415 13.4863C6.73052 15.1742 5.7959 17.4633 5.7959 19.8503C5.7959 22.2372 6.73052 24.5264 8.39415 26.2143C10.0578 27.9021 12.3141 28.8503 14.6669 28.8503Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+							<path d="M14.6669 24.3503C13.4906 24.3503 12.3624 23.8762 11.5306 23.0323C10.6988 22.1884 10.2314 21.0438 10.2314 19.8503" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+							<line x1="1.57812" y1="7.17737" x2="27.9732" y2="7.17737" stroke="black" stroke-width="2" />
+							<circle cx="4.71543" cy="4.87497" r="0.66172" fill="black" />
+							<circle cx="7.09238" cy="4.87497" r="0.66172" fill="black" />
 						</svg>
-						<span class="text-2xl leading-[20px]">Washer # 827</span>
-					</h4>
-				</div>
-			</li>
-		</ul>
+						<span>1/3</span>
+						<svg xmlns="http://www.w3.org/2000/svg" width="33" height="6" viewBox="0 0 33 6" fill="none">
+							<path d="M16.4688 4.875C17.5043 4.875 18.3438 4.03553 18.3438 3C18.3438 1.96447 17.5043 1.125 16.4688 1.125C15.4332 1.125 14.5938 1.96447 14.5938 3C14.5938 4.03553 15.4332 4.875 16.4688 4.875Z" fill="black" />
+							<path d="M29.5938 4.875C30.6293 4.875 31.4688 4.03553 31.4688 3C31.4688 1.96447 30.6293 1.125 29.5938 1.125C28.5582 1.125 27.7188 1.96447 27.7188 3C27.7188 4.03553 28.5582 4.875 29.5938 4.875Z" fill="black" />
+							<path d="M3.34375 4.875C4.37928 4.875 5.21875 4.03553 5.21875 3C5.21875 1.96447 4.37928 1.125 3.34375 1.125C2.30822 1.125 1.46875 1.96447 1.46875 3C1.46875 4.03553 2.30822 4.875 3.34375 4.875Z" fill="black" />
+							<path d="M16.4688 4.875C17.5043 4.875 18.3438 4.03553 18.3438 3C18.3438 1.96447 17.5043 1.125 16.4688 1.125C15.4332 1.125 14.5938 1.96447 14.5938 3C14.5938 4.03553 15.4332 4.875 16.4688 4.875Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+							<path d="M29.5938 4.875C30.6293 4.875 31.4688 4.03553 31.4688 3C31.4688 1.96447 30.6293 1.125 29.5938 1.125C28.5582 1.125 27.7188 1.96447 27.7188 3C27.7188 4.03553 28.5582 4.875 29.5938 4.875Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+							<path d="M3.34375 4.875C4.37928 4.875 5.21875 4.03553 5.21875 3C5.21875 1.96447 4.37928 1.125 3.34375 1.125C2.30822 1.125 1.46875 1.96447 1.46875 3C1.46875 4.03553 2.30822 4.875 3.34375 4.875Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+						</svg>
+					</td>
+				</tr>
+				<tr class="flex justify-between  items-center border-b-2 py-5">
+					<td class="inline-flex flex-col items-start gap-[26px] text-2xl leading-[20px]">
+						<h4 class="flex items-center justify-center gap-[10px]">
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								width="20"
+								height="20"
+								viewBox="0 0 20 20"
+								fill="none"
+							>
+								<circle cx="10" cy="10" r="10" fill="#F85A47" />
+							</svg>
+							<span>Washer # 827</span>
+						</h4>
+						<span>30m:43s</span>
+					</td>
+					<td class="inline-flex flex-col items-start gap-[26px] text-2xl">
+						<h4>Started by Wallace</h4>
+						<span>12/31/2023 09:20PM</span>
+					</td>
+					<td class="inline-flex items-center gap-5 text-2xl">
+						<span class="text-[#FE9F11] pr-2 w-[120px] text-center"><b>Washing</b></span>
+						<svg xmlns="http://www.w3.org/2000/svg" width="29" height="33" viewBox="0 0 29 33" fill="none">
+							<path d="M27.9733 4.89868V28.8987C27.9733 29.6943 27.6617 30.4574 27.1072 31.02C26.5526 31.5826 25.8005 31.8987 25.0163 31.8987H4.31734C3.5331 31.8987 2.78098 31.5826 2.22643 31.02C1.67189 30.4574 1.36035 29.6943 1.36035 28.8987V4.89868C1.36035 4.10303 1.67189 3.33997 2.22643 2.77736C2.78098 2.21475 3.5331 1.89868 4.31734 1.89868H25.0163C25.8005 1.89868 26.5526 2.21475 27.1072 2.77736C27.6617 3.33997 27.9733 4.10303 27.9733 4.89868Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+							<path d="M14.6669 28.8503C17.0196 28.8503 19.276 27.9021 20.9396 26.2143C22.6032 24.5264 23.5378 22.2372 23.5378 19.8503C23.5378 17.4633 22.6032 15.1742 20.9396 13.4863C19.276 11.7985 17.0196 10.8503 14.6669 10.8503C12.3141 10.8503 10.0578 11.7985 8.39415 13.4863C6.73052 15.1742 5.7959 17.4633 5.7959 19.8503C5.7959 22.2372 6.73052 24.5264 8.39415 26.2143C10.0578 27.9021 12.3141 28.8503 14.6669 28.8503Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+							<path d="M14.6669 24.3503C13.4906 24.3503 12.3624 23.8762 11.5306 23.0323C10.6988 22.1884 10.2314 21.0438 10.2314 19.8503" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+							<line x1="1.57812" y1="7.17737" x2="27.9732" y2="7.17737" stroke="black" stroke-width="2" />
+							<circle cx="4.71543" cy="4.87497" r="0.66172" fill="black" />
+							<circle cx="7.09238" cy="4.87497" r="0.66172" fill="black" />
+						</svg>
+						<span>2/3</span>
+						<svg xmlns="http://www.w3.org/2000/svg" width="33" height="6" viewBox="0 0 33 6" fill="none">
+							<path d="M16.4688 4.875C17.5043 4.875 18.3438 4.03553 18.3438 3C18.3438 1.96447 17.5043 1.125 16.4688 1.125C15.4332 1.125 14.5938 1.96447 14.5938 3C14.5938 4.03553 15.4332 4.875 16.4688 4.875Z" fill="black" />
+							<path d="M29.5938 4.875C30.6293 4.875 31.4688 4.03553 31.4688 3C31.4688 1.96447 30.6293 1.125 29.5938 1.125C28.5582 1.125 27.7188 1.96447 27.7188 3C27.7188 4.03553 28.5582 4.875 29.5938 4.875Z" fill="black" />
+							<path d="M3.34375 4.875C4.37928 4.875 5.21875 4.03553 5.21875 3C5.21875 1.96447 4.37928 1.125 3.34375 1.125C2.30822 1.125 1.46875 1.96447 1.46875 3C1.46875 4.03553 2.30822 4.875 3.34375 4.875Z" fill="black" />
+							<path d="M16.4688 4.875C17.5043 4.875 18.3438 4.03553 18.3438 3C18.3438 1.96447 17.5043 1.125 16.4688 1.125C15.4332 1.125 14.5938 1.96447 14.5938 3C14.5938 4.03553 15.4332 4.875 16.4688 4.875Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+							<path d="M29.5938 4.875C30.6293 4.875 31.4688 4.03553 31.4688 3C31.4688 1.96447 30.6293 1.125 29.5938 1.125C28.5582 1.125 27.7188 1.96447 27.7188 3C27.7188 4.03553 28.5582 4.875 29.5938 4.875Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+							<path d="M3.34375 4.875C4.37928 4.875 5.21875 4.03553 5.21875 3C5.21875 1.96447 4.37928 1.125 3.34375 1.125C2.30822 1.125 1.46875 1.96447 1.46875 3C1.46875 4.03553 2.30822 4.875 3.34375 4.875Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+						</svg>
+					</td>
+				</tr>
+        <tr class="flex justify-between items-center border-b-2 py-5">
+					<td class="inline-flex flex-col items-start gap-[26px] text-2xl leading-[20px]">
+						<h4 class="flex items-center justify-center gap-[10px]">
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								width="20"
+								height="20"
+								viewBox="0 0 20 20"
+								fill="none"
+							>
+								<circle cx="10" cy="10" r="10" fill="#F85A47" />
+							</svg>
+							<span>Washer # 827</span>
+						</h4>
+						<span>30m:43s</span>
+					</td>
+					<td class="inline-flex flex-col items-start gap-[26px] text-2xl">
+						<h4>Started by Wallace</h4>
+						<span>12/31/2023 09:20PM</span>
+					</td>
+					<td class="inline-flex items-center gap-5 text-2xl">
+						<span class="text-[#FE9F11] pr-2 w-[120px] text-center "><b>Washing</b></span>
+						<svg xmlns="http://www.w3.org/2000/svg" width="29" height="33" viewBox="0 0 29 33" fill="none">
+							<path d="M27.9733 4.89868V28.8987C27.9733 29.6943 27.6617 30.4574 27.1072 31.02C26.5526 31.5826 25.8005 31.8987 25.0163 31.8987H4.31734C3.5331 31.8987 2.78098 31.5826 2.22643 31.02C1.67189 30.4574 1.36035 29.6943 1.36035 28.8987V4.89868C1.36035 4.10303 1.67189 3.33997 2.22643 2.77736C2.78098 2.21475 3.5331 1.89868 4.31734 1.89868H25.0163C25.8005 1.89868 26.5526 2.21475 27.1072 2.77736C27.6617 3.33997 27.9733 4.10303 27.9733 4.89868Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+							<path d="M14.6669 28.8503C17.0196 28.8503 19.276 27.9021 20.9396 26.2143C22.6032 24.5264 23.5378 22.2372 23.5378 19.8503C23.5378 17.4633 22.6032 15.1742 20.9396 13.4863C19.276 11.7985 17.0196 10.8503 14.6669 10.8503C12.3141 10.8503 10.0578 11.7985 8.39415 13.4863C6.73052 15.1742 5.7959 17.4633 5.7959 19.8503C5.7959 22.2372 6.73052 24.5264 8.39415 26.2143C10.0578 27.9021 12.3141 28.8503 14.6669 28.8503Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+							<path d="M14.6669 24.3503C13.4906 24.3503 12.3624 23.8762 11.5306 23.0323C10.6988 22.1884 10.2314 21.0438 10.2314 19.8503" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+							<line x1="1.57812" y1="7.17737" x2="27.9732" y2="7.17737" stroke="black" stroke-width="2" />
+							<circle cx="4.71543" cy="4.87497" r="0.66172" fill="black" />
+							<circle cx="7.09238" cy="4.87497" r="0.66172" fill="black" />
+						</svg>
+						<span>3/3</span>
+						<svg xmlns="http://www.w3.org/2000/svg" width="33" height="6" viewBox="0 0 33 6" fill="none">
+							<path d="M16.4688 4.875C17.5043 4.875 18.3438 4.03553 18.3438 3C18.3438 1.96447 17.5043 1.125 16.4688 1.125C15.4332 1.125 14.5938 1.96447 14.5938 3C14.5938 4.03553 15.4332 4.875 16.4688 4.875Z" fill="black" />
+							<path d="M29.5938 4.875C30.6293 4.875 31.4688 4.03553 31.4688 3C31.4688 1.96447 30.6293 1.125 29.5938 1.125C28.5582 1.125 27.7188 1.96447 27.7188 3C27.7188 4.03553 28.5582 4.875 29.5938 4.875Z" fill="black" />
+							<path d="M3.34375 4.875C4.37928 4.875 5.21875 4.03553 5.21875 3C5.21875 1.96447 4.37928 1.125 3.34375 1.125C2.30822 1.125 1.46875 1.96447 1.46875 3C1.46875 4.03553 2.30822 4.875 3.34375 4.875Z" fill="black" />
+							<path d="M16.4688 4.875C17.5043 4.875 18.3438 4.03553 18.3438 3C18.3438 1.96447 17.5043 1.125 16.4688 1.125C15.4332 1.125 14.5938 1.96447 14.5938 3C14.5938 4.03553 15.4332 4.875 16.4688 4.875Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+							<path d="M29.5938 4.875C30.6293 4.875 31.4688 4.03553 31.4688 3C31.4688 1.96447 30.6293 1.125 29.5938 1.125C28.5582 1.125 27.7188 1.96447 27.7188 3C27.7188 4.03553 28.5582 4.875 29.5938 4.875Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+							<path d="M3.34375 4.875C4.37928 4.875 5.21875 4.03553 5.21875 3C5.21875 1.96447 4.37928 1.125 3.34375 1.125C2.30822 1.125 1.46875 1.96447 1.46875 3C1.46875 4.03553 2.30822 4.875 3.34375 4.875Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+						</svg>
+					</td>
+				</tr>
+				<tr class="flex justify-between  items-center border-b-2 py-5">
+					<td class="inline-flex flex-col items-start gap-[26px] text-2xl leading-[20px]">
+						<h4 class="flex items-center justify-center gap-[10px]">
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								width="20"
+								height="20"
+								viewBox="0 0 20 20"
+								fill="none"
+							>
+								<circle cx="10" cy="10" r="10" fill="#F85A47" />
+							</svg>
+							<span>Washer # 827</span>
+						</h4>
+						<span>30m:43s</span>
+					</td>
+					<td class="inline-flex flex-col items-start gap-[26px] text-2xl">
+						<h4>Started by Wallace</h4>
+						<span>12/31/2023 09:20PM</span>
+					</td>
+					<td class="inline-flex items-center gap-5 text-2xl">
+						<span class="text-[#FE9F11] pr-2  w-[120px] text-center"><b>Drying</b></span>
+						<svg xmlns="http://www.w3.org/2000/svg" width="29" height="33" viewBox="0 0 29 33" fill="none">
+							<path d="M27.9733 4.89868V28.8987C27.9733 29.6943 27.6617 30.4574 27.1072 31.02C26.5526 31.5826 25.8005 31.8987 25.0163 31.8987H4.31734C3.5331 31.8987 2.78098 31.5826 2.22643 31.02C1.67189 30.4574 1.36035 29.6943 1.36035 28.8987V4.89868C1.36035 4.10303 1.67189 3.33997 2.22643 2.77736C2.78098 2.21475 3.5331 1.89868 4.31734 1.89868H25.0163C25.8005 1.89868 26.5526 2.21475 27.1072 2.77736C27.6617 3.33997 27.9733 4.10303 27.9733 4.89868Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+							<path d="M14.6669 28.8503C17.0196 28.8503 19.276 27.9021 20.9396 26.2143C22.6032 24.5264 23.5378 22.2372 23.5378 19.8503C23.5378 17.4633 22.6032 15.1742 20.9396 13.4863C19.276 11.7985 17.0196 10.8503 14.6669 10.8503C12.3141 10.8503 10.0578 11.7985 8.39415 13.4863C6.73052 15.1742 5.7959 17.4633 5.7959 19.8503C5.7959 22.2372 6.73052 24.5264 8.39415 26.2143C10.0578 27.9021 12.3141 28.8503 14.6669 28.8503Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+							<path d="M14.6669 24.3503C13.4906 24.3503 12.3624 23.8762 11.5306 23.0323C10.6988 22.1884 10.2314 21.0438 10.2314 19.8503" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+							<line x1="1.57812" y1="7.17737" x2="27.9732" y2="7.17737" stroke="black" stroke-width="2" />
+							<circle cx="4.71543" cy="4.87497" r="0.66172" fill="black" />
+							<circle cx="7.09238" cy="4.87497" r="0.66172" fill="black" />
+						</svg>
+						<span>1/1</span>
+						<svg xmlns="http://www.w3.org/2000/svg" width="33" height="6" viewBox="0 0 33 6" fill="none">
+							<path d="M16.4688 4.875C17.5043 4.875 18.3438 4.03553 18.3438 3C18.3438 1.96447 17.5043 1.125 16.4688 1.125C15.4332 1.125 14.5938 1.96447 14.5938 3C14.5938 4.03553 15.4332 4.875 16.4688 4.875Z" fill="black" />
+							<path d="M29.5938 4.875C30.6293 4.875 31.4688 4.03553 31.4688 3C31.4688 1.96447 30.6293 1.125 29.5938 1.125C28.5582 1.125 27.7188 1.96447 27.7188 3C27.7188 4.03553 28.5582 4.875 29.5938 4.875Z" fill="black" />
+							<path d="M3.34375 4.875C4.37928 4.875 5.21875 4.03553 5.21875 3C5.21875 1.96447 4.37928 1.125 3.34375 1.125C2.30822 1.125 1.46875 1.96447 1.46875 3C1.46875 4.03553 2.30822 4.875 3.34375 4.875Z" fill="black" />
+							<path d="M16.4688 4.875C17.5043 4.875 18.3438 4.03553 18.3438 3C18.3438 1.96447 17.5043 1.125 16.4688 1.125C15.4332 1.125 14.5938 1.96447 14.5938 3C14.5938 4.03553 15.4332 4.875 16.4688 4.875Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+							<path d="M29.5938 4.875C30.6293 4.875 31.4688 4.03553 31.4688 3C31.4688 1.96447 30.6293 1.125 29.5938 1.125C28.5582 1.125 27.7188 1.96447 27.7188 3C27.7188 4.03553 28.5582 4.875 29.5938 4.875Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+							<path d="M3.34375 4.875C4.37928 4.875 5.21875 4.03553 5.21875 3C5.21875 1.96447 4.37928 1.125 3.34375 1.125C2.30822 1.125 1.46875 1.96447 1.46875 3C1.46875 4.03553 2.30822 4.875 3.34375 4.875Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+						</svg>
+					</td>
+				</tr>
+			</tbody>
+		</table>
 	</section>
+	<button class="flex text-white rounded-[40px] h-[60px] py-[5px] px-10 justify-center items-center gap-5 bg-brand-orange"><b>+ Add another machine</b></button>
 </section>
 </template>

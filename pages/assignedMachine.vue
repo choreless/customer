@@ -291,7 +291,7 @@ definePageMeta({
 						</svg>
 					</td>
 				</tr>
-        <tr class="flex justify-between items-center border-b-2 py-5">
+				<tr class="flex justify-between items-center border-b-2 py-5">
 					<td class="inline-flex flex-col items-start gap-[26px] text-2xl leading-[20px]">
 						<h4 class="flex items-center justify-center gap-[10px]">
 							<svg

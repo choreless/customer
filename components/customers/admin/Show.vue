@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import zips from '~/assets/data/zip_services.json';
 import { IMask, useIMask } from 'vue-imask';
 import { z } from 'zod';
+import zips from '~/assets/data/zip_services.json';
 import { addons as addon_list, detergents, dryer_temperatures, water_temperatures } from '~/lib/customer';
 import type { CustomerType } from '~/types/user';
 
@@ -74,11 +74,13 @@ async function verifyEmail(){
 
 const phone_imask = useIMask({
 	mask: [{mask: '000'}, {mask: '(000) 000-0000'}],
-	unmask: true,
-}, { onAccept(){
-	phone.masked=phone_imask.masked.value;
-	phone.unmasked=phone_imask.unmasked.value.trim();
-}})
+	unmask: true
+}, {
+	onAccept(){
+		phone.masked=phone_imask.masked.value;
+		phone.unmasked=phone_imask.unmasked.value.trim();
+	}
+})
 
 async function getCustomer(){
 	const {data}: {data: Customer|false} = await api.get(`/users/${customer.id}`);
@@ -144,7 +146,7 @@ async function update(){
 			detergent: detergent.value,
 			dryer_temperature: dryer_temperature.value,
 			water_temperature: water_temperature.value,
-			comment: comment.value,
+			comment: comment.value
 		})
 		if(data.success) notify.success('Information has been updated.');
 		else notify.error('Failed to update the information.')
@@ -177,13 +179,11 @@ async function update(){
 			await customer.getCustomers();
 			await getCustomer();
 		}
+		else if(data.error==='input') notify.error('Invalid data. Contact with Administration.')
 		else {
-			if(data.error==='input') notify.error('Invalid data. Contact with Administration.')
-			else {
-				notify.error('Customer already exists.');
-				if(data.error.includes('phone_exists')) error.phone = 'exists';
-				if(data.error.includes('email_exists')) error.email = 'exists';
-			}
+			notify.error('Customer already exists.');
+			if(data.error.includes('phone_exists')) error.phone = 'exists';
+			if(data.error.includes('email_exists')) error.email = 'exists';
 		}
 		loading.update = false;
 	}
@@ -211,7 +211,7 @@ watch(business_name, n=>{ error.business_name = !n })
 
 <template>
 <div>
-	<button @click="customer.id=''" class="btn btn-sm btn-outline flex ms-auto gap-x-1 btn-primary mx-2 sm:hidden">
+	<button class="btn btn-sm btn-outline flex ms-auto gap-x-1 btn-primary mx-2 sm:hidden" @click="customer.id=''">
 		<Icon name="material-symbols:arrow-back" class="text-lg" />
 		<p>Go Back</p>
 	</button>
@@ -225,18 +225,18 @@ watch(business_name, n=>{ error.business_name = !n })
 			<div class="dropdown dropdown-end dropdown-hover">
 				<button class="btn btn-sm btn-ghost btn-square hover:font-bold hover:bg-info"><Icon name="mdi:dots-horizontal" class="text-2xl" /></button>
 				<ul tabindex="0" class="dropdown-content z-[1] menu shadow rounded-lg w-52 border p-0 bg-base-100">
-					<li class="rounded-none hover:font-bold hover:bg-info active:bg-info"><button @click="deleteCustomer()" class="active:!bg-inherit active:!text-inherit">Delete</button></li>
-					<li class="rounded-none hover:font-bold hover:bg-info active:bg-info"><button @click="tab='info';" class="active:!bg-inherit active:!text-inherit">Edit Info</button></li>
-					<li class="rounded-none hover:font-bold hover:bg-info active:bg-info"><button @click="tab='preference';" class="active:!bg-inherit active:!text-inherit">Edit Preference</button></li>
-					<li class="rounded-none hover:font-bold hover:bg-info active:bg-info"><button @click="tab='type';" class="active:!bg-inherit active:!text-inherit">Edit Type</button></li>
+					<li class="rounded-none hover:font-bold hover:bg-info active:bg-info"><button class="active:!bg-inherit active:!text-inherit" @click="deleteCustomer()">Delete</button></li>
+					<li class="rounded-none hover:font-bold hover:bg-info active:bg-info"><button class="active:!bg-inherit active:!text-inherit" @click="tab='info';">Edit Info</button></li>
+					<li class="rounded-none hover:font-bold hover:bg-info active:bg-info"><button class="active:!bg-inherit active:!text-inherit" @click="tab='preference';">Edit Preference</button></li>
+					<li class="rounded-none hover:font-bold hover:bg-info active:bg-info"><button class="active:!bg-inherit active:!text-inherit" @click="tab='type';">Edit Type</button></li>
 				</ul>
 			</div>
 		</div>
 	</div>
 	<hr>
 	<div role="tablist" class="tabs tabs-bordered w-fit px-2">
-		<button role="tab" class="tab" :class="tab==='details' ? 'tab-active !border-b-brand-orange' : '!border-b-0'" @click="tab='details'" >Details</button>
-		<button role="tab" class="tab" :class="tab==='orders' ? 'tab-active !border-b-brand-orange' : '!border-b-0'" @click="tab='orders'" >Orders</button>
+		<button role="tab" class="tab" :class="tab==='details' ? 'tab-active !border-b-brand-orange' : '!border-b-0'" @click="tab='details'">Details</button>
+		<button role="tab" class="tab" :class="tab==='orders' ? 'tab-active !border-b-brand-orange' : '!border-b-0'" @click="tab='orders'">Orders</button>
 	</div>
 	<div v-if="tab==='details'" class="mt-5">
 		<div class="flex flex-col gap-y-3 px-2.5 sm:flex-row sm:items-center sm:justify-between">
@@ -255,7 +255,7 @@ watch(business_name, n=>{ error.business_name = !n })
 				</div>
 			</div>
 			<div class="flex items-center gap-x-2.5">
-				<img src="https://ik.imagekit.io/choreless/v2/icons/FigmaCalendar.svg" alt="icon" loading="lazy" class="w-8">
+				<img src="https://ik.imagekit.io/choreless/v2/icons/calendar.svg" alt="icon" loading="lazy" class="w-8">
 				<div>
 					<p class="font-bold text-brand-orange">23/03/24</p>
 					<p class="text-sm">Last order date</p>
@@ -320,13 +320,13 @@ watch(business_name, n=>{ error.business_name = !n })
 				<div class="w-full">
 					<div class="grid grid-cols-[1fr_auto] items-center justify-around gap-x-2 rounded-[0.3125rem] border border-base-content/20 w-full">
 						<label class="input-float">
-							<input type="text" v-model="first_name" placeholder="" class="!border-0" />
+							<input v-model="first_name" type="text" placeholder="" class="!border-0">
 							<p>First Name</p>
 						</label>
 						<div class="w-6 h-6 me-4">
-							<img v-if="error.first_name===undefined" src="https://ik.imagekit.io/choreless/v2/icons/FigmaInfo.svg" alt="icon" loading='lazy' v-tooltip="{content: 'First name is required', theme: 'tooltip-primary', triggers: ['hover', 'click']}" />
-							<img v-else-if="error.first_name" src="https://ik.imagekit.io/choreless/v2/icons/MaterialSymbolsCancelRounded.svg" alt="icon" loading='lazy' />
-							<img v-else-if="error.first_name===false" src="https://ik.imagekit.io/choreless/v2/icons/FigmaSuccess.svg" alt="icon" loading='lazy' />
+							<img v-if="error.first_name===undefined" v-tooltip="{content: 'First name is required', theme: 'tooltip-primary', triggers: ['hover', 'click']}" src="https://ik.imagekit.io/choreless/v2/icons/FigmaInfo.svg" alt="icon" loading="lazy">
+							<img v-else-if="error.first_name" src="https://ik.imagekit.io/choreless/v2/icons/MaterialSymbolsCancelRounded.svg" alt="icon" loading="lazy">
+							<img v-else-if="error.first_name===false" src="https://ik.imagekit.io/choreless/v2/icons/FigmaSuccess.svg" alt="icon" loading="lazy">
 						</div>
 					</div>
 					<p v-if="error.first_name" class="text-error">* First name is required</p>
@@ -334,13 +334,13 @@ watch(business_name, n=>{ error.business_name = !n })
 				<div class="w-full">
 					<div class="grid grid-cols-[1fr_auto] items-center justify-around gap-x-2 rounded-[0.3125rem] border border-base-content/20 w-full">
 						<label class="input-float">
-							<input type="text" v-model="last_name" placeholder="" class="!border-0" />
+							<input v-model="last_name" type="text" placeholder="" class="!border-0">
 							<p>Last Name</p>
 						</label>
 						<div class="w-6 h-6 me-4">
-							<img v-if="error.last_name===undefined" src="https://ik.imagekit.io/choreless/v2/icons/FigmaInfo.svg" alt="icon" loading='lazy' v-tooltip="{content: 'Last name is required', theme: 'tooltip-primary', triggers: ['hover', 'click']}" />
-							<img v-else-if="error.last_name" src="https://ik.imagekit.io/choreless/v2/icons/MaterialSymbolsCancelRounded.svg" alt="icon" loading='lazy' />
-							<img v-else-if="error.last_name===false" src="https://ik.imagekit.io/choreless/v2/icons/FigmaSuccess.svg" alt="icon" loading='lazy' />
+							<img v-if="error.last_name===undefined" v-tooltip="{content: 'Last name is required', theme: 'tooltip-primary', triggers: ['hover', 'click']}" src="https://ik.imagekit.io/choreless/v2/icons/FigmaInfo.svg" alt="icon" loading="lazy">
+							<img v-else-if="error.last_name" src="https://ik.imagekit.io/choreless/v2/icons/MaterialSymbolsCancelRounded.svg" alt="icon" loading="lazy">
+							<img v-else-if="error.last_name===false" src="https://ik.imagekit.io/choreless/v2/icons/FigmaSuccess.svg" alt="icon" loading="lazy">
 						</div>
 					</div>
 					<p v-if="error.last_name" class="text-error">* Last name is required</p>
@@ -350,14 +350,14 @@ watch(business_name, n=>{ error.business_name = !n })
 				<div class="w-full">
 					<div class="grid grid-cols-[1fr_auto] items-center justify-around gap-x-2 rounded-[0.3125rem] border border-base-content/20 w-full">
 						<label class="input-float">
-							<input type="text" v-model="email" placeholder="" class="!border-0" />
+							<input v-model="email" type="text" placeholder="" class="!border-0">
 							<p>Email</p>
 						</label>
 						<div class="w-6 h-6 me-4">
-							<span v-if="loading.email_verifier" className="loading bg-primary"></span>
-							<img v-else-if="error.email===undefined" src="https://ik.imagekit.io/choreless/v2/icons/FigmaInfo.svg" alt="icon" loading='lazy' v-tooltip="{content: 'Email is required', theme: 'tooltip-primary', triggers: ['hover', 'click']}" />
-							<img v-else-if="error.email" src="https://ik.imagekit.io/choreless/v2/icons/MaterialSymbolsCancelRounded.svg" alt="icon" loading='lazy' />
-							<img v-else-if="error.email===false" src="https://ik.imagekit.io/choreless/v2/icons/FigmaSuccess.svg" alt="icon" loading='lazy' />
+							<span v-if="loading.email_verifier" className="loading bg-primary" />
+							<img v-else-if="error.email===undefined" v-tooltip="{content: 'Email is required', theme: 'tooltip-primary', triggers: ['hover', 'click']}" src="https://ik.imagekit.io/choreless/v2/icons/FigmaInfo.svg" alt="icon" loading="lazy">
+							<img v-else-if="error.email" src="https://ik.imagekit.io/choreless/v2/icons/MaterialSymbolsCancelRounded.svg" alt="icon" loading="lazy">
+							<img v-else-if="error.email===false" src="https://ik.imagekit.io/choreless/v2/icons/FigmaSuccess.svg" alt="icon" loading="lazy">
 						</div>
 					</div>
 					<p v-if="error.email==='exists'" class="text-error">* Email already exists</p>
@@ -366,13 +366,13 @@ watch(business_name, n=>{ error.business_name = !n })
 				<div class="w-full">
 					<div class="grid grid-cols-[1fr_auto] items-center justify-around gap-x-2 rounded-[0.3125rem] border border-base-content/20 w-full">
 						<label class="input-float">
-							<input type="tel" class="!border-none" :value="phone.masked" :ref="phone_imask.el" placeholder="" >
+							<input :ref="phone_imask.el" type="tel" class="!border-none" :value="phone.masked" placeholder="">
 							<p>Phone</p>
 						</label>
 						<div class="w-6 h-6 me-4">
-							<img v-if="error.phone===undefined" src="https://ik.imagekit.io/choreless/v2/icons/FigmaInfo.svg" alt="icon" loading='lazy' v-tooltip="{content: 'Phone is required', theme: 'tooltip-primary', triggers: ['hover', 'click']}" />
-							<img v-else-if="error.phone" src="https://ik.imagekit.io/choreless/v2/icons/MaterialSymbolsCancelRounded.svg" alt="icon" loading='lazy' />
-							<img v-else-if="error.phone===false" src="https://ik.imagekit.io/choreless/v2/icons/FigmaSuccess.svg" alt="icon" loading='lazy' />
+							<img v-if="error.phone===undefined" v-tooltip="{content: 'Phone is required', theme: 'tooltip-primary', triggers: ['hover', 'click']}" src="https://ik.imagekit.io/choreless/v2/icons/FigmaInfo.svg" alt="icon" loading="lazy">
+							<img v-else-if="error.phone" src="https://ik.imagekit.io/choreless/v2/icons/MaterialSymbolsCancelRounded.svg" alt="icon" loading="lazy">
+							<img v-else-if="error.phone===false" src="https://ik.imagekit.io/choreless/v2/icons/FigmaSuccess.svg" alt="icon" loading="lazy">
 						</div>
 					</div>
 					<p v-if="error.phone==='exists'" class="text-error">* Phone already exists</p>
@@ -382,20 +382,20 @@ watch(business_name, n=>{ error.business_name = !n })
 			<div>
 				<div class="grid grid-cols-[1fr_auto] items-center justify-around gap-x-2 rounded-[0.3125rem] border border-base-content/20 w-full mt-4">
 					<label class="input-float">
-						<input type="text" v-model="address" placeholder="" class="!border-0" />
+						<input v-model="address" type="text" placeholder="" class="!border-0">
 						<p>Address</p>
 					</label>
 					<div class="w-6 h-6 me-4">
-						<img v-if="error.address===undefined" src="https://ik.imagekit.io/choreless/v2/icons/FigmaInfo.svg" alt="icon" loading='lazy' v-tooltip="{content: 'Address is required', theme: 'tooltip-primary', triggers: ['hover', 'click']}" />
-						<img v-else-if="error.address" src="https://ik.imagekit.io/choreless/v2/icons/MaterialSymbolsCancelRounded.svg" alt="icon" loading='lazy' />
-						<img v-else-if="error.address===false" src="https://ik.imagekit.io/choreless/v2/icons/FigmaSuccess.svg" alt="icon" loading='lazy' />
+						<img v-if="error.address===undefined" v-tooltip="{content: 'Address is required', theme: 'tooltip-primary', triggers: ['hover', 'click']}" src="https://ik.imagekit.io/choreless/v2/icons/FigmaInfo.svg" alt="icon" loading="lazy">
+						<img v-else-if="error.address" src="https://ik.imagekit.io/choreless/v2/icons/MaterialSymbolsCancelRounded.svg" alt="icon" loading="lazy">
+						<img v-else-if="error.address===false" src="https://ik.imagekit.io/choreless/v2/icons/FigmaSuccess.svg" alt="icon" loading="lazy">
 					</div>
 				</div>
 				<p v-if="error.address" class="text-error">* Address is required</p>
 			</div>
 			<div class="grid grid-cols-[1fr_auto] items-center justify-around gap-x-2 rounded-[0.3125rem] border border-base-content/20 w-full mt-4">
 				<label class="input-float">
-					<input type="text" v-model="unit_or_suite" placeholder="" class="!border-0" />
+					<input v-model="unit_or_suite" type="text" placeholder="" class="!border-0">
 					<p>Unit # / Suite</p>
 				</label>
 			</div>
@@ -403,13 +403,13 @@ watch(business_name, n=>{ error.business_name = !n })
 				<div class="w-full">
 					<div class="grid grid-cols-[1fr_auto] items-center justify-around gap-x-2 rounded-[0.3125rem] border border-base-content/20 w-full">
 						<label class="input-float">
-							<input type="text" v-model="city" placeholder="" class="!border-0" />
+							<input v-model="city" type="text" placeholder="" class="!border-0">
 							<p>City</p>
 						</label>
 						<div class="w-6 h-6 me-4">
-							<img v-if="error.city===undefined" src="https://ik.imagekit.io/choreless/v2/icons/FigmaInfo.svg" alt="icon" loading='lazy' v-tooltip="{content: 'City is required', theme: 'tooltip-primary', triggers: ['hover', 'click']}" />
-							<img v-else-if="error.city" src="https://ik.imagekit.io/choreless/v2/icons/MaterialSymbolsCancelRounded.svg" alt="icon" loading='lazy' />
-							<img v-else-if="error.city===false" src="https://ik.imagekit.io/choreless/v2/icons/FigmaSuccess.svg" alt="icon" loading='lazy' />
+							<img v-if="error.city===undefined" v-tooltip="{content: 'City is required', theme: 'tooltip-primary', triggers: ['hover', 'click']}" src="https://ik.imagekit.io/choreless/v2/icons/FigmaInfo.svg" alt="icon" loading="lazy">
+							<img v-else-if="error.city" src="https://ik.imagekit.io/choreless/v2/icons/MaterialSymbolsCancelRounded.svg" alt="icon" loading="lazy">
+							<img v-else-if="error.city===false" src="https://ik.imagekit.io/choreless/v2/icons/FigmaSuccess.svg" alt="icon" loading="lazy">
 						</div>
 					</div>
 					<p v-if="error.city" class="text-error">* City is required</p>
@@ -417,13 +417,13 @@ watch(business_name, n=>{ error.business_name = !n })
 				<div class="w-full">
 					<div class="grid grid-cols-[1fr_auto] items-center justify-around gap-x-2 rounded-[0.3125rem] border border-base-content/20 w-full">
 						<label class="input-float">
-							<input type="text" v-model="zip" placeholder="" class="!border-0" maxlength="5" />
+							<input v-model="zip" type="text" placeholder="" class="!border-0" maxlength="5">
 							<p>Zip</p>
 						</label>
 						<div class="w-6 h-6 me-4">
-							<img v-if="error.zip===undefined" src="https://ik.imagekit.io/choreless/v2/icons/FigmaInfo.svg" alt="icon" loading='lazy' v-tooltip="{content: 'Zip is required', theme: 'tooltip-primary', triggers: ['hover', 'click']}" />
-							<img v-else-if="error.zip" src="https://ik.imagekit.io/choreless/v2/icons/MaterialSymbolsCancelRounded.svg" alt="icon" loading='lazy' />
-							<img v-else-if="error.zip===false" src="https://ik.imagekit.io/choreless/v2/icons/FigmaSuccess.svg" alt="icon" loading='lazy' />
+							<img v-if="error.zip===undefined" v-tooltip="{content: 'Zip is required', theme: 'tooltip-primary', triggers: ['hover', 'click']}" src="https://ik.imagekit.io/choreless/v2/icons/FigmaInfo.svg" alt="icon" loading="lazy">
+							<img v-else-if="error.zip" src="https://ik.imagekit.io/choreless/v2/icons/MaterialSymbolsCancelRounded.svg" alt="icon" loading="lazy">
+							<img v-else-if="error.zip===false" src="https://ik.imagekit.io/choreless/v2/icons/FigmaSuccess.svg" alt="icon" loading="lazy">
 						</div>
 					</div>
 					<p v-if="error.zip" class="text-error">* Please enter a valid zip code.</p>
@@ -434,7 +434,7 @@ watch(business_name, n=>{ error.business_name = !n })
 			<p class="my-2.5 text-brand-black/50">Add-ons</p>
 			<div class="flex flex-wrap gap-2.5">
 				<label v-for="addon of addon_list" :key="addon" class="badge !p-4 bg-black/5 hover:scale-105 hover:bg-primary hover:text-white relative [&.active]:bg-primary [&.active]:text-white cursor-pointer" :class="addons.includes(addon) && 'active'">
-					<input type="checkbox" v-model="addons" :value="addon" hidden>
+					<input v-model="addons" type="checkbox" :value="addon" hidden>
 					<p>{{ addon }}</p>
 				</label>
 			</div>
@@ -442,7 +442,7 @@ watch(business_name, n=>{ error.business_name = !n })
 			<div>
 				<div class="flex flex-wrap gap-2.5">
 					<label v-for="v of detergents" :key="v" class="badge !p-4 cursor-pointer bg-black/5 hover:bg-primary hover:scale-105 hover:text-white [&.active]:bg-primary [&.active]:text-white" :class="detergent===v && 'active'">
-						<input type="radio" v-model="detergent" :value="v" class="radio" hidden>
+						<input v-model="detergent" type="radio" :value="v" class="radio" hidden>
 						<p>{{ v }}</p>
 					</label>
 				</div>
@@ -452,7 +452,7 @@ watch(business_name, n=>{ error.business_name = !n })
 			<div>
 				<div class="flex flex-wrap gap-2.5">
 					<label v-for="v of dryer_temperatures" :key="v" class="badge !p-4 cursor-pointer bg-black/5 hover:bg-primary hover:scale-105 hover:text-white [&.active]:bg-primary [&.active]:text-white" :class="dryer_temperature===v && 'active'">
-						<input type="radio" v-model="dryer_temperature" :value="v" class="radio" hidden>
+						<input v-model="dryer_temperature" type="radio" :value="v" class="radio" hidden>
 						<p>{{ v }}</p>
 					</label>
 				</div>
@@ -462,23 +462,23 @@ watch(business_name, n=>{ error.business_name = !n })
 			<div>
 				<div class="flex flex-wrap gap-2.5">
 					<label v-for="v of water_temperatures" :key="v" class="badge !p-4 cursor-pointer bg-black/5 hover:bg-primary hover:scale-105 hover:text-white [&.active]:bg-primary [&.active]:text-white" :class="water_temperature===v && 'active'">
-						<input type="radio" v-model="water_temperature" :value="v" class="radio" hidden>
+						<input v-model="water_temperature" type="radio" :value="v" class="radio" hidden>
 						<p>{{ v }}</p>
 					</label>
 				</div>
 				<p v-if="error.water_temperature" class="text-error">* Water Temperature is required</p>
 			</div>
-			<textarea v-model="comment" placeholder="Care Preferences" class="textarea textarea-bordered w-full mt-5" rows="3"></textarea>
+			<textarea v-model="comment" placeholder="Care Preferences" class="textarea textarea-bordered w-full mt-5" rows="3" />
 		</div>
 		<div v-else-if="tab==='type'" class="mx-2">
 			<div class="flex flex-col items-center gap-4 lg:flex-row lg:justify-center pt-16">
-				<button @click="type='retail'" class="flex items-center justify-center w-48 h-48 px-12 border rounded-[1.156rem] group border-brand-black hover:border-brand-orange" :class="type==='retail' && 'border-brand-orange'">
+				<button class="flex items-center justify-center w-48 h-48 px-12 border rounded-[1.156rem] group border-brand-black hover:border-brand-orange" :class="type==='retail' && 'border-brand-orange'" @click="type='retail'">
 					<div class="mx-auto">
 						<IconPerson class="w-12 mx-auto stroke-brand-black group-hover:stroke-brand-orange" :class="type==='retail' && 'stroke-brand-orange'" />
 						<p class="text-2xl mt-3 group-hover:text-brand-orange" :class="type==='retail' && 'text-brand-orange'">Retail</p>
 					</div>
 				</button>
-				<button @click="type='commercial'" class="flex items-center justify-center w-48 h-48 px-12 border rounded-[1.156rem] group border-brand-black hover:border-brand-orange" :class="type==='commercial' && 'border-brand-orange'">
+				<button class="flex items-center justify-center w-48 h-48 px-12 border rounded-[1.156rem] group border-brand-black hover:border-brand-orange" :class="type==='commercial' && 'border-brand-orange'" @click="type='commercial'">
 					<div class="mx-auto">
 						<IconPersons class="w-12 mx-auto stroke-brand-black group-hover:stroke-brand-orange" :class="type==='commercial' && 'stroke-brand-orange'" />
 						<p class="text-2xl mt-3 group-hover:text-brand-orange" :class="type==='commercial' && 'text-brand-orange'">Commercial</p>
@@ -488,13 +488,13 @@ watch(business_name, n=>{ error.business_name = !n })
 			<div v-if="type==='commercial'" class="w-[25rem] mx-auto">
 				<div class="grid grid-cols-[1fr_auto] items-center justify-around gap-x-2 rounded-[0.3125rem] w-full border mt-4 border-base-content/20">
 					<label class="input-float">
-						<input type="text" v-model="business_name" placeholder="" class="!border-0" />
+						<input v-model="business_name" type="text" placeholder="" class="!border-0">
 						<p>Business Name</p>
 					</label>
 					<div class="w-6 h-6 me-4">
-						<img v-if="error.business_name===undefined" src="https://ik.imagekit.io/choreless/v2/icons/FigmaInfo.svg" alt="icon" loading='lazy' v-tooltip="{content: 'Business name is required', theme: 'tooltip-primary', triggers: ['hover', 'click']}" />
-						<img v-else-if="error.business_name" src="https://ik.imagekit.io/choreless/v2/icons/MaterialSymbolsCancelRounded.svg" alt="icon" loading='lazy' />
-						<img v-else-if="error.business_name===false" src="https://ik.imagekit.io/choreless/v2/icons/FigmaSuccess.svg" alt="icon" loading='lazy' />
+						<img v-if="error.business_name===undefined" v-tooltip="{content: 'Business name is required', theme: 'tooltip-primary', triggers: ['hover', 'click']}" src="https://ik.imagekit.io/choreless/v2/icons/FigmaInfo.svg" alt="icon" loading="lazy">
+						<img v-else-if="error.business_name" src="https://ik.imagekit.io/choreless/v2/icons/MaterialSymbolsCancelRounded.svg" alt="icon" loading="lazy">
+						<img v-else-if="error.business_name===false" src="https://ik.imagekit.io/choreless/v2/icons/FigmaSuccess.svg" alt="icon" loading="lazy">
 					</div>
 				</div>
 				<p v-if="error.business_name" class="text-error">* Business name is required</p>
@@ -502,9 +502,9 @@ watch(business_name, n=>{ error.business_name = !n })
 		</div>
 		<div class="mt-5 mx-auto">
 			<hr>
-			<button @click="update()" class="btn btn-sm gap-0 rounded-3xl mt-2.5 flex ms-auto bg-brand-orange text-white hover:bg-primary">
+			<button class="btn btn-sm gap-0 rounded-3xl mt-2.5 flex ms-auto bg-brand-orange text-white hover:bg-primary" @click="update()">
 				<p>Update</p>
-				<span v-if="loading.update" class="loading loading-sm loading-ball"></span>
+				<span v-if="loading.update" class="loading loading-sm loading-ball" />
 			</button>
 		</div>
 	</div>

@@ -17,6 +17,7 @@ module.exports = {
 		'vue/html-indent': ['warn', 'tab', { baseIndent: 0 }],
 		'vue/max-attributes-per-line': ['off'],
 		'vue/multi-word-component-names': ['off'],
+		'vue/prop-name-casing': ['off'],
 		'vue/singleline-html-element-content-newline': ['off'],
 		camelcase: ['off'],
 		curly: ['off'],

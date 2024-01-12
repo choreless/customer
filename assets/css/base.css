@@ -36,7 +36,7 @@
 		@apply input input-bordered rounded-[0.3125rem] !outline-none w-full h-full;
 	}
 	input+p {
-		@apply absolute px-0.5 origin-[0] start-1 translate-x-4 duration-100 text-gray-400 bg-white;
+		@apply absolute select-none px-0.5 origin-[0] start-1 translate-x-4 duration-100 text-gray-400 bg-white;
 	}
 	input:placeholder-shown+p {
 		@apply top-1/2 -translate-y-1/2;

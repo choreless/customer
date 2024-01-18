@@ -1,0 +1,39 @@
+<script setup lang="ts">
+import HeaderAction from './HeaderAction.vue';
+import type { Customer } from '~/pages/orders/create.vue';
+
+defineProps<{
+	total_bag: number
+	total_weight: number
+	customer?: Customer
+}>();
+</script>
+
+<template>
+<nav class="lg:sticky lg:top-0 flex flex-col lg:flex-row lg:items-center justify-between gap-y-3 lg:gap-y-8 px-4 lg:px-[3.75rem] py-5 border-b border-black/20">
+	<div class="flex justify-between">
+		<img src="https://ik.imagekit.io/choreless/v2/icons/busket.svg" alt="icon" loading="lazy" class="w-8 lg:w-16">
+		<HeaderAction class="block lg:hidden" />
+	</div>
+	<div class="grid grid-cols-2 sm:flex lg:grid flex-wrap gap-x-[1.875rem] gap-y-3">
+		<div class="flex items-center gap-x-5">
+			<img src="https://ik.imagekit.io/choreless/v2/icons/profile_or_person.svg?updatedAt=1704934744699" alt="icon" loading="lazy" class="w-4">
+			<p class="overflow-auto whitespace-nowrap">{{ customer?.customer_name }}</p>
+		</div>
+		<div class="flex items-center gap-x-5">
+			<img src="https://ik.imagekit.io/choreless/v2/icons/calendar.svg" alt="icon" loading="lazy" class="w-5">
+			<p class="overflow-auto whitespace-nowrap">Due: --</p>
+		</div>
+		<div class="flex gap-x-5 w-fit px-2 py-1 rounded-full bg-brand-orange/20 text-brand-orange">
+			<img src="https://ik.imagekit.io/choreless/v2/icons/bag.svg" alt="icon" loading="lazy" class="w-5">
+			<p>Bag: {{ total_bag || '--' }}</p>
+		</div>
+		<div class="flex items-center gap-x-5">
+			<img src="https://ik.imagekit.io/choreless/v2/icons/weight.svg" alt="icon" loading="lazy" class="w-5">
+			<p>Weight: {{ total_weight }} lb<template v-if="total_weight>1">s</template></p>
+		</div>
+	</div>
+	<hr class="w-[1px] h-full hidden lg:block bg-black/20">
+	<HeaderAction class="hidden lg:block" />
+</nav>
+</template>

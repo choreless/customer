@@ -20,6 +20,7 @@ module.exports = {
 		'vue/multi-word-component-names': ['off'],
 		'vue/prop-name-casing': ['off'],
 		'vue/singleline-html-element-content-newline': ['off'],
+		'vue/v-on-event-hyphenation': ['off'],
 		camelcase: ['off'],
 		curly: ['off'],
 		indent: ['warn', 'tab'],

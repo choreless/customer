@@ -6,6 +6,7 @@ module.exports = {
 		'arrow-spacing': ['off'],
 		'block-spacing': ['off'],
 		'brace-style': ['off'],
+		'func-call-spacing': ['off'],
 		'import/no-named-as-default': ['off'],
 		'keyword-spacing': ['off'],
 		'no-tabs': ['warn', { allowIndentationTabs: true }],

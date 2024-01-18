@@ -1,17 +1,14 @@
-type JobStatus = 'resume'|'pause'|'complete';
+export type OrderStatus = 'in_progress'|'complete';
 
-interface JobWasher {
+export interface OrderWasher {
 	id: string
-	customer_id: string
-	customer_name: string
 	bags: number[]
-	stopwatch: string
-	stopwatch_at: string
-	status: JobStatus
-	created_at: string
+	completed_at: number[]
+	status: OrderStatus
+	customer_name: string
 }
 
-interface JobAdmin {
+export interface JobAdmin {
 	id: string
 	cid: string
 	customer_first_name: string
@@ -22,6 +19,3 @@ interface JobAdmin {
 	stopwatch: number
 	created_at: string
 }
-
-
-export { JobStatus, JobWasher, JobAdmin }

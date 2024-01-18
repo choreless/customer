@@ -24,5 +24,11 @@ export default {
 			title,
 			type: 'success'
 		})
+	},
+	underDevelopment(){
+		notify({
+			title: 'This is under development',
+			type: 'info'
+		})
 	}
 };

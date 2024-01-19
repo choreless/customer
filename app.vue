@@ -4,6 +4,7 @@ const setting = useSetting();
 
 <template>
 <div>
+	<VitePwaManifest />
 	<NuxtLayout>
 		<NuxtPage />
 	</NuxtLayout>

@@ -9,7 +9,7 @@ const api = useApi();
 const orders = ref<OrderWasher[]>([]);
 const search = ref('');
 const sort = ref<'latest'|'oldest'>();
-const status = ref<OrderStatus>();
+const status = ref<OrderStatus>('in_progress');
 const active_orders_count = ref(0);
 
 async function getActiveOrders(){
@@ -20,11 +20,7 @@ async function getActiveOrders(){
 async function getOrders(){
 	getActiveOrders();
 	const usp = new URLSearchParams();
-	if(status.value) usp.append('status', status.value);
-	else {
-		usp.append('status', 'in_progress');
-		usp.append('status', 'complete');
-	}
+	usp.append('status', status.value);
 	if(search.value) usp.append('search', search.value);
 	if(sort.value) usp.append('sort', sort.value);
 	const {data}: {data: OrderWasher[]} = await api.get(`/orders?${usp}`);

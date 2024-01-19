@@ -49,11 +49,11 @@ watch([search, sort, status], ()=>{getOrders();})
 <template>
 <div class="max-w-4xl px-2 mx-auto mt-12">
 	<div>
-		<div class="flex items-center justify-center rounded-t-[0.625rem] h-[1.875rem] bg-brand-orange">
+		<NuxtLink to="/dashboard" class="flex items-center justify-center rounded-t-[0.625rem] h-[1.875rem] bg-brand-orange">
 			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="2" viewBox="0 0 24 2" fill="none">
 				<path d="M1.95865 1H22.0414" stroke="white" strokeWidth="2" strokeLinecap="round" />
 			</svg>
-		</div>
+		</NuxtLink>
 		<div class="grid sm:grid-cols-[auto_auto_auto_1fr] items-center gap-x-4 gap-y-1 py-7">
 			<div class="flex items-center gap-x-5 ps-7 border border-t-0 rounded-b-[inherit] border-transparent">
 				<span class="w-4 h-4 rounded-full bg-brand-orange" />

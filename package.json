@@ -8,11 +8,12 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-		"lint": "eslint ."
+    "lint": "eslint ."
   },
   "devDependencies": {
     "@nuxtjs/eslint-config-typescript": "^12.1.0",
     "@nuxtjs/tailwindcss": "^6.10.4",
+    "@vite-pwa/nuxt": "^0.4.0",
     "daisyui": "^4.6.0",
     "eslint": "^8.56.0",
     "nuxt": "^3.9.3",

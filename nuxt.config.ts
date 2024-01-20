@@ -1,7 +1,7 @@
 /** base */
 const AppName = 'Admin';
 const AppUrl = process.env.AppUrl ?? 'http://localhost:3000';
-const AppVersion = '0.1.0';
+const AppVersion = process.env.AppVersion ?? 'Dev';
 const ApiMain = process.env.ApiMain ?? 'https://api.getchoreless.com';
 
 /** dev */

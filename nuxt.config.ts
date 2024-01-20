@@ -15,7 +15,7 @@ export default defineNuxtConfig({
 		manifest: {
 			name: 'Choreless Point of Sale (POS)',
 			short_name: 'Choreless (POS)',
-			description: 'Wash & Fold, Laundry Pickup & Delivery, SEA Laundry Service',
+			description: 'The Choreless Point of Sale App streamlines laundromat operations for owners, managers, and attendants. Our proprietary tablet system facilitates processing wash and fold orders, transactions, inventory tracking, and in-store management from A to Z. Choreless optimizes employee and customer interactions with tailored tools to boost efficiency and revenue.',
 			start_url: '/',
 			id: 'admin.getchoreless.com',
 			display: 'fullscreen',

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import format from 'date-fns/format';
+import differenceInSeconds from 'date-fns/differenceInSeconds';
 import { calculateBagsWeight } from '~/lib/order';
 import type { OrderStatus, OrderWasher } from '@/types/job';
 
@@ -11,6 +13,7 @@ const search = ref('');
 const sort = ref<'latest'|'oldest'>();
 const status = ref<OrderStatus>('in_progress');
 const active_orders_count = ref(0);
+const now = useNow();
 
 async function getActiveOrders(){
 	const { data } = await api.get('/stats/orders');
@@ -90,6 +93,7 @@ watch([search, sort, status], ()=>{getOrders();})
 							<p>{{ calculateBagsWeight(order.bags) }}</p>
 						</div>
 					</td>
+					<td class="border-y font-medium" :class="differenceInSeconds(new Date(order.due_time), now)<0 && 'text-error'">{{ format(order.due_time as any as Date, 'yyyy-M-d K:m aa') }}</td>
 					<td class="border-y font-medium">{{ order.status==='in_progress' ? 'Processing' : 'Completed' }}</td>
 					<td v-if="status===undefined || status==='in_progress'" class="border border-s-0">
 						<button v-if="order.status==='in_progress'" class="btn btn-sm btn-square btn-outline border-none btn-info hover:!text-white" @click="completeOrder(order.id)">

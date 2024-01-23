@@ -8,7 +8,7 @@ const ApiMain = process.env.ApiMain ?? 'https://api.getchoreless.com';
 const debug = Boolean(process.env.debug) ?? false;
 
 export default defineNuxtConfig({
-	modules: ['@nuxtjs/tailwindcss', '@pinia/nuxt', 'nuxt-icon', '@vite-pwa/nuxt'],
+	modules: ['@nuxtjs/tailwindcss', '@pinia/nuxt', 'nuxt-icon', '@vite-pwa/nuxt', '@vueuse/nuxt'],
 
 	pwa: {
 		registerType: 'autoUpdate',

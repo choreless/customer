@@ -21,7 +21,7 @@ watch(bags, n=>{emit('setBags', n)}, { deep: true })
 </script>
 
 <template>
-<section class="bg-white z-10 flex-grow">
+<section class="bg-white flex-grow">
 	<div class="max-w-lg mx-auto px-3 md:px-0">
 		<h2 class="text-2xl text-center font-bold">{{ step==='order_details' ? 'Order details' : 'Weight order' }}</h2>
 		<div class="flex flex-col gap-1.5">

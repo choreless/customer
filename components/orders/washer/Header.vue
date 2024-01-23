@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import format from 'date-fns/format';
+import addDays from 'date-fns/addDays';
 import HeaderAction from './HeaderAction.vue';
 import type { Customer } from '~/pages/orders/create.vue';
 
@@ -6,7 +8,23 @@ defineProps<{
 	total_bag: number
 	total_weight: number
 	customer?: Customer
+	due_time: string
 }>();
+
+const emit = defineEmits<{
+	(e: 'dueTime', due_time: string): void
+}>();
+
+const now = useNow();
+const date = ref(new Date());
+const date_difference = computed(()=>date.value.getDate()-now.value.getDate());
+
+function setDate(addition: number){
+	date.value.setDate(new Date().getDate()+addition);
+	date.value = new Date(date.value);
+}
+
+watch(date, n=>{ emit('dueTime', format(n, 'yyyy-M-d K:m aa')) }, { immediate: true })
 </script>
 
 <template>
@@ -22,7 +40,19 @@ defineProps<{
 		</div>
 		<div class="flex items-center gap-x-5">
 			<img src="https://ik.imagekit.io/choreless/v2/icons/calendar.svg" alt="icon" loading="lazy" class="w-5">
-			<p class="overflow-auto whitespace-nowrap">Due: --</p>
+			<VDatePicker v-model="date" :first-day-of-week="2" mode="datetime" hide-time-header class="pb-2">
+				<template #default="{ togglePopover }">
+					<button class="overflow-auto whitespace-nowrap" @click="togglePopover">Due: {{ due_time }} </button>
+				</template>
+				<template #footer>
+					<div class="w-full px-3 grid grid-cols-2 gap-1.5">
+						<button class="btn btn-sm btn-primary" :class="date_difference===0 || 'btn-outline'" @click="setDate(0)">Today</button>
+						<button class="btn btn-sm btn-primary" :class="date_difference===1 || 'btn-outline'" @click="setDate(1)">Tomorrow</button>
+						<button class="btn btn-sm btn-primary" :class="date_difference===2 || 'btn-outline'" @click="setDate(2)">{{ format(addDays(now, 2), 'EEEE') }}</button>
+						<button class="btn btn-sm btn-primary" :class="date_difference===3 || 'btn-outline'" @click="setDate(3)">{{ format(addDays(now, 3), 'EEEE') }}</button>
+					</div>
+				</template>
+			</VDatePicker>
 		</div>
 		<div class="flex gap-x-5 w-fit px-2 py-1 rounded-full bg-brand-orange/20 text-brand-orange">
 			<img src="https://ik.imagekit.io/choreless/v2/icons/bag.svg" alt="icon" loading="lazy" class="w-5">

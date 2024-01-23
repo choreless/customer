@@ -3,6 +3,7 @@ export type OrderStatus = 'in_progress'|'complete';
 export interface OrderWasher {
 	id: string
 	bags: number[]
+	due_time: string
 	completed_at: number[]
 	status: OrderStatus
 	customer_name: string

@@ -28,7 +28,7 @@ const loading = ref(false);
 const bags = ref<(number|null)[]>();
 const total_bag = ref(0);
 const total_weight = ref(0);
-const due_time = ref('');
+const due_time = ref(0);
 const error = reactive({
 	total_weight: false
 })
@@ -63,7 +63,7 @@ export type { Step, Customer };
 <div>
 	<SelectCustomer v-show="step==='select_customer'" @setCustomerId="(v: string)=>{customer_id=v; step='order_details';}" />
 	<div v-if="['order_details', 'weight_order'].includes(step)" class="flex flex-col h-screen gap-y-4">
-		<Header :total_bag="total_bag" :total_weight="total_weight" :customer="customer" :due_time="due_time" @dueTime="v=>{due_time=v}" />
+		<Header :total_bag="total_bag" :total_weight="total_weight" :customer="customer" @dueTime="v=>{due_time=v}" />
 		<OrderDetails v-if="['order_details', 'weight_order'].includes(step)" :step="step" :customer="customer" :error_total_weight="error.total_weight" @setBags="v=>{ bags=v }" @setTotalBag="v=>{ total_bag = v; }" @setTotalWeight="v=>{ total_weight=v }" @next="next()" />
 		<Footer :step="step" :total_weight="total_weight" :loading="loading" @next="next()" />
 	</div>

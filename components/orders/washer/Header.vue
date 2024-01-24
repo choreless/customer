@@ -8,11 +8,10 @@ defineProps<{
 	total_bag: number
 	total_weight: number
 	customer?: Customer
-	due_time: string
 }>();
 
 const emit = defineEmits<{
-	(e: 'dueTime', due_time: string): void
+	(e: 'dueTime', due_time: number): void
 }>();
 
 const now = useNow();
@@ -24,7 +23,7 @@ function setDate(addition: number){
 	date.value = new Date(date.value);
 }
 
-watch(date, n=>{ emit('dueTime', format(n, 'yyyy-M-d K:m aa')) }, { immediate: true })
+watch(date, n=>{ emit('dueTime', new Date(n).valueOf()) }, { immediate: true })
 </script>
 
 <template>
@@ -42,7 +41,7 @@ watch(date, n=>{ emit('dueTime', format(n, 'yyyy-M-d K:m aa')) }, { immediate: t
 			<img src="https://ik.imagekit.io/choreless/v2/icons/calendar.svg" alt="icon" loading="lazy" class="w-5">
 			<VDatePicker v-model="date" :first-day-of-week="2" mode="datetime" hide-time-header class="pb-2">
 				<template #default="{ togglePopover }">
-					<button class="overflow-auto whitespace-nowrap" @click="togglePopover">Due: {{ due_time }} </button>
+					<button class="overflow-auto whitespace-nowrap" @click="togglePopover">Due: {{ format(date, 'EEE M/dd, hh:mm aaa') }} </button>
 				</template>
 				<template #footer>
 					<div class="w-full px-3 grid grid-cols-2 gap-1.5">

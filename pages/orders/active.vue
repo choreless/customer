@@ -81,6 +81,7 @@ watch([search, sort, status], ()=>{getOrders();})
 				<tr v-for="order of orders" :key="order.id" class="bg-neutral-200/60 [&_td]:border-black/5 shadow-[0px_0px_4px_0px_rgba(0,_0,_0,_0.05)]">
 					<td class="border border-e-0 text-lg font-medium uppercase">{{ order.id }}</td>
 					<td class="border-y text-base">{{ order.customer_name }}</td>
+					<td class="border-y font-medium" :class="differenceInSeconds(new Date(order.due_time), now)<0 && 'text-brand-orange'">{{ format(order.due_time as any as Date, 'EEE M/dd, hh:mm aaa') }}</td>
 					<td class="border-y">
 						<div class="flex items-center gap-x-1.5">
 							<img src="https://ik.imagekit.io/choreless/v2/icons/bag2.svg" alt="icon" loading="lazy" class="w-4">
@@ -93,7 +94,6 @@ watch([search, sort, status], ()=>{getOrders();})
 							<p>{{ calculateBagsWeight(order.bags) }}</p>
 						</div>
 					</td>
-					<td class="border-y font-medium" :class="differenceInSeconds(new Date(order.due_time), now)<0 && 'text-error'">{{ format(order.due_time as any as Date, 'yyyy-M-d K:m aa') }}</td>
 					<td class="border-y font-medium">{{ order.status==='in_progress' ? 'Processing' : 'Completed' }}</td>
 					<td v-if="status===undefined || status==='in_progress'" class="border border-s-0">
 						<button v-if="order.status==='in_progress'" class="btn btn-sm btn-square btn-outline border-none btn-info hover:!text-white" @click="completeOrder(order.id)">

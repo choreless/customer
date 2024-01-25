@@ -56,10 +56,10 @@ onMounted(async ()=>{
 				</template>
 				<template v-else>
 					<IconPerson class="stroke-black w-6" />
-					<Multiselect v-model="customer_id" :options="customers" placeholder="Select customer" :searchable="true" :can-clear="false" :close-on-deselect="true" class="input-md" />
+					<Multiselect v-model="customer_id" :options="customers" placeholder="Select customer" :searchable="true" :can-clear="false" :can-deselect="false" :close-on-deselect="true" class="input-md" />
 				</template>
-				<p v-if="error.customer_id" class="text-error">* Customer name is required</p>
 			</div>
+			<p v-if="error.customer_id" class="text-error">* Customer name is required</p>
 		</div>
 	</div>
 	<hr>

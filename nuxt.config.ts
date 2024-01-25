@@ -18,7 +18,7 @@ export default defineNuxtConfig({
 			description: 'The Choreless Point of Sale App streamlines laundromat operations for owners, managers, and attendants. Our proprietary tablet system facilitates processing wash and fold orders, transactions, inventory tracking, and in-store management from A to Z. Choreless optimizes employee and customer interactions with tailored tools to boost efficiency and revenue.',
 			start_url: '/',
 			id: 'admin.getchoreless.com',
-			display: 'fullscreen',
+			display: 'standalone',
 			theme_color: '#f85a47',
 			background_color: '#ffffff',
 			icons: [

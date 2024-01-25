@@ -8,14 +8,19 @@ interface Customer {
 const emit = defineEmits(['setCustomerId']);
 const api = useApi();
 
+const loading = ref(false);
 const customers = ref<{value: string, label: string}[]>([]);
 const customer_id = ref('');
 const error = reactive({
 	customer_id: false
 })
 
-const {data}: {data: Customer[]} = await api.get('/users');
-customers.value = data.map(v=>({value: v.id, label: `${v.first_name} ${v.last_name}`}));
+async function getCustomers(){
+	loading.value = true;
+	const {data}: {data: Customer[]} = await api.get('/users');
+	customers.value = data.map(v=>({value: v.id, label: `${v.first_name} ${v.last_name}`}));
+	loading.value = false;
+}
 
 function next(){
 	error.customer_id = !customer_id.value;
@@ -24,6 +29,10 @@ function next(){
 }
 
 watch(customer_id, n=>{ error.customer_id = !n; })
+
+onMounted(async ()=>{
+	await getCustomers();
+});
 </script>
 
 <template>
@@ -40,10 +49,15 @@ watch(customer_id, n=>{ error.customer_id = !n; })
 	<div class="grow flex items-center justify-center">
 		<div>
 			<h1 class="text-3xl sm:text-5xl">Who is the customer?</h1>
-			<div class="mt-8 grid grid-cols-[auto_1fr] items-center gap-x-[1.6875rem]">
-				<IconPerson class="stroke-black w-6" />
-				<Multiselect v-model="customer_id" :options="customers" placeholder="Select customer" :searchable="true" :can-clear="false" :close-on-deselect="true" class="input-md" />
-				<span />
+			<div class="mt-8 grid grid-cols-[auto_1fr] items-center" :class="loading ? 'gap-x-2' : 'gap-x-[1.6875rem]'">
+				<template v-if="loading">
+					<span class="loading loading-ring text-success" />
+					<p>Loading...</p>
+				</template>
+				<template v-else>
+					<IconPerson class="stroke-black w-6" />
+					<Multiselect v-model="customer_id" :options="customers" placeholder="Select customer" :searchable="true" :can-clear="false" :close-on-deselect="true" class="input-md" />
+				</template>
 				<p v-if="error.customer_id" class="text-error">* Customer name is required</p>
 			</div>
 		</div>

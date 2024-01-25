@@ -46,7 +46,7 @@ watch([search, sort, status], ()=>{getOrders();})
 </script>
 
 <template>
-<div class="max-w-4xl px-2 mx-auto mt-12">
+<div class="mx-auto mt-6 sm:mt-12 px-2 sm:px-5">
 	<div>
 		<NuxtLink to="/dashboard" class="flex items-center justify-center rounded-t-[0.625rem] h-[1.875rem] bg-brand-orange">
 			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="2" viewBox="0 0 24 2" fill="none">
@@ -80,8 +80,8 @@ watch([search, sort, status], ()=>{getOrders();})
 			<tbody>
 				<tr v-for="order of orders" :key="order.id" class="bg-neutral-200/60 [&_td]:border-black/5 shadow-[0px_0px_4px_0px_rgba(0,_0,_0,_0.05)]">
 					<td class="border border-e-0 text-lg font-medium uppercase">{{ order.id }}</td>
-					<td class="border-y text-base">{{ order.customer_name }}</td>
-					<td class="border-y font-medium" :class="differenceInSeconds(new Date(order.due_time), now)<0 && 'text-[#c46040]'">Due: {{ format(order.due_time as any as Date, 'EEE M/dd, hh:mm aaa') }}</td>
+					<td class="border-y text-base whitespace-nowrap">{{ order.customer_name }}</td>
+					<td class="border-y font-medium whitespace-nowrap" :class="differenceInSeconds(new Date(order.due_time), now)<0 && 'text-[#c46040]'">Due: {{ format(order.due_time as any as Date, 'EEE M/dd, hh:mm aaa') }}</td>
 					<td class="border-y">
 						<div class="flex items-center gap-x-1.5">
 							<img src="https://ik.imagekit.io/choreless/v2/icons/bag2.svg" alt="icon" loading="lazy" class="w-4">

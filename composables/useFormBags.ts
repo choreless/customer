@@ -8,5 +8,6 @@ export default function(){
 		delete bags.value[key];
 		bags.value = bags.value.filter(v=>v!==undefined);
 	}
+	watch(bags, n=>{if(n.at(-1)) bags.value.push(null);}, {deep: true});
 	return {bags, total_bag, total_weight, deleteBag};
 }

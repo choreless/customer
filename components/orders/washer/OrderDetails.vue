@@ -50,7 +50,7 @@ watch(bags, n=>{emit('setBags', n)}, { deep: true })
 						<div v-for="(v, k) of bags" :key="k" class="grid items-center gap-x-2" :class="{'grid-cols-[1fr_auto]': bags.length>1}">
 							<label class="input-float !h-[3.125rem]">
 								<input v-model.number="bags[k]" type="number" placeholder="">
-								<p>Bag {{ k+1 }} (lb<template v-if="v && v>1">s</template>) </p>
+								<p>Bag {{ k+1 }} (lb<template v-if="v && v>1">s</template>)</p>
 							</label>
 							<button v-if="bags.length>1" class="btn btn-square btn-outline border-none btn-error hover:!text-white" @click="deleteBag(k)"><Icon name="ic:baseline-delete-forever" class="text-3xl" /></button>
 						</div>

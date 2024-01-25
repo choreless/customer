@@ -16,6 +16,7 @@ const emit = defineEmits<{
 
 const now = useNow();
 const date = ref(new Date());
+date.value.setMinutes(0, 0, 0);
 const date_difference = computed(()=>date.value.getDate()-now.value.getDate());
 
 function setDate(addition: number){
@@ -39,7 +40,7 @@ watch(date, n=>{ emit('dueTime', new Date(n).valueOf()) }, { immediate: true })
 		</div>
 		<div class="flex items-center gap-x-5">
 			<img src="https://ik.imagekit.io/choreless/v2/icons/calendar.svg" alt="icon" loading="lazy" class="w-5">
-			<VDatePicker v-model="date" :first-day-of-week="2" mode="datetime" hide-time-header class="pb-2">
+			<VDatePicker v-model="date" :first-day-of-week="2" mode="datetime" hide-time-header class="pb-2" :time-accuracy="1">
 				<template #default="{ togglePopover }">
 					<button class="overflow-auto whitespace-nowrap" @click="togglePopover">Due: {{ format(date, 'EEE M/dd, hh:mm aaa') }} </button>
 				</template>

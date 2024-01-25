@@ -21,7 +21,7 @@ const customer_store = useAdminCustomer();
 			<p>loading</p>
 		</div>
 		<p class="px-2">{{ customer_store.customers.length }} customer{{ customer_store.customers.length>1 ? 's':'' }}</p>
-		<div v-if="customer_store.customers.length">
+		<div v-if="customer_store.customers.length" class="min-h-[9rem] max-h-[calc(100vh-17rem)] overflow-y-auto">
 			<button v-for="customer of customer_store.customers" :key="customer.id" class="flex items-center justify-between gap-x-3 w-full py-2.5 px-4 text-start border-b [&.active]:bg-brand-black/10 hover:!bg-brand-black/10" :class="customer_store.id===customer.id && 'active'" @click="customer_store.id=customer.id">
 				<div class="whitespace-nowrap overflow-auto">
 					<p>{{ customer.first_name }} {{ customer.last_name }}</p>

@@ -107,7 +107,7 @@ const phone_imask = useIMask({
 		<div v-if="step==='otp'">
 			<div class="grid grid-cols-[1fr_auto] justify-around items-center px-0">
 				<label class="input-float w-full h-full">
-					<input v-model="otp" type="text" maxlength="6" placeholder="" class="!border-r-0 !rounded-r-none">
+					<input v-model="otp" type="text" inputmode="numeric" maxlength="6" placeholder="" class="!border-r-0 !rounded-r-none">
 					<p>Code</p>
 				</label>
 				<div class="input border-base-content/20 rounded-[0.3125rem] !outline-none h-[3.75rem] rounded-s-none border-s-0 flex items-center">

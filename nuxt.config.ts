@@ -11,7 +11,7 @@ export default defineNuxtConfig({
 	modules: ['@nuxtjs/tailwindcss', '@pinia/nuxt', 'nuxt-icon', '@vite-pwa/nuxt', '@vueuse/nuxt'],
 
 	pwa: {
-		registerType: 'autoUpdate',
+		registerType: 'prompt',
 		manifest: {
 			name: 'Choreless Point of Sale (POS)',
 			short_name: 'Choreless (POS)',

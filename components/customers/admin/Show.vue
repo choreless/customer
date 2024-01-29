@@ -268,6 +268,7 @@ watch(business_name, n=>{ error.business_name = !n })
 			<div>
 				<p class="font-bold">Contact info</p>
 				<div class="mt-2.5">
+					<p v-if="business_name" class="text-sm leading-5">{{ business_name }}</p>
 					<p class="text-sm leading-5">{{ first_name }} {{ last_name }}</p>
 					<p class="text-sm leading-5">{{ email }}</p>
 					<p class="text-sm leading-5">{{ phone.masked }}</p>

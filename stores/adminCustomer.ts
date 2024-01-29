@@ -1,3 +1,4 @@
+import Fuse from 'fuse.js';
 interface Customer {
 	id: string
 	first_name: string
@@ -12,10 +13,21 @@ export const useAdminCustomer = defineStore('admin_customers', ()=>{
 		index: false
 	});
 	// start panel
-	const search = ref('');
 	const customers = ref<Customer[]>([]);
+	const search = ref('');
+	const filter_customers = ref<Customer[]>([]);
 	// end panel
 	const id = ref<string>('');
+
+	const fuse = computed(()=>{
+		return new Fuse(customers.value, {
+			threshold: 0.1,
+			keys: ['email', 'phone', {
+				name: 'name',
+				getFn: customer=>`${customer.first_name} ${customer.last_name}`
+			}]
+		});
+	})
 
 	async function getCustomers(){
 		loading.index = true;
@@ -24,14 +36,18 @@ export const useAdminCustomer = defineStore('admin_customers', ()=>{
 		if(search.value) usp.append('search', search.value);
 		const {data} = await api.get(`/users?${usp}`);
 		customers.value = data;
+		filter_customers.value = data;
 		loading.index = false;
 	}
 
 	watch(id, ()=>{ end_panel.value = id.value ? 'show' : undefined; })
-	watch(search, ()=>{ getCustomers() })
+	watch(search, ()=>{
+		if(search.value.length) filter_customers.value = fuse.value.search(search.value).map(v=>v.item);
+		else filter_customers.value = customers.value;
+	})
 
 	return {
-		end_panel, loading, search, customers, id,
+		end_panel, loading, search, customers, filter_customers, id,
 		getCustomers
 	}
 })

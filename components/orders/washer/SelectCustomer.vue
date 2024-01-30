@@ -1,8 +1,7 @@
 <script setup lang="ts">
 interface Customer {
 	id: string
-	first_name: string
-	last_name: string
+	name: string
 }
 
 const emit = defineEmits(['setCustomerId']);
@@ -18,7 +17,7 @@ const error = reactive({
 async function getCustomers(){
 	loading.value = true;
 	const {data}: {data: Customer[]} = await api.get('/users');
-	customers.value = data.map(v=>({value: v.id, label: `${v.first_name} ${v.last_name}`}));
+	customers.value = data.map(v=>({value: v.id, label: v.name}));
 	loading.value = false;
 }
 

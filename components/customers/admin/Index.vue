@@ -24,7 +24,8 @@ const customer_store = useAdminCustomer();
 		<div v-if="customer_store.filter_customers.length" class="min-h-[9rem] max-h-[calc(100vh-17rem)] overflow-y-auto">
 			<button v-for="customer of customer_store.filter_customers" :key="customer.id" class="flex items-center justify-between gap-x-3 w-full py-2.5 px-4 text-start border-b [&.active]:bg-brand-black/10 hover:!bg-brand-black/10" :class="customer_store.id===customer.id && 'active'" @click="customer_store.id=customer.id">
 				<div class="whitespace-nowrap overflow-auto">
-					<p>{{ customer.first_name }} {{ customer.last_name }}</p>
+					<p v-if="customer.type==='retail'">{{ customer.first_name }} {{ customer.last_name }}</p>
+					<p v-else>{{ customer.business_name }}</p>
 					<p class="whitespace-nowrap overflow-auto text-black/50">{{ customer.email }}</p>
 				</div>
 				<p class="text-sm">{{ customer.phone }}</p>

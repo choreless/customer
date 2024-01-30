@@ -1,10 +1,13 @@
 import Fuse from 'fuse.js';
+import type { CustomerType } from '~/types/user';
 interface Customer {
 	id: string
 	first_name: string
 	last_name: string
-	phone: string
 	email: string
+	phone: string
+	type: CustomerType
+	business_name: null|string
 }
 
 export const useAdminCustomer = defineStore('admin_customers', ()=>{
@@ -22,10 +25,16 @@ export const useAdminCustomer = defineStore('admin_customers', ()=>{
 	const fuse = computed(()=>{
 		return new Fuse(customers.value, {
 			threshold: 0.1,
-			keys: ['email', 'phone', {
-				name: 'name',
-				getFn: customer=>`${customer.first_name} ${customer.last_name}`
-			}]
+			keys: ['email', 'phone',
+				{
+					name: 'person_name',
+					getFn: customer=>`${customer.first_name} ${customer.last_name}`
+				},
+				{
+					name: 'business_name',
+					getFn: customer=>customer.business_name ?? ''
+				}
+			]
 		});
 	})
 

@@ -37,9 +37,12 @@ function toggleStatus(){
 }
 
 async function completeOrder(id: string){
-	await api.post(`/orders/${id}`);
-	getOrders();
-	notify.success('Order has been completed');
+	const {data}: {data: boolean} = await api.post(`/orders/${id}`, {action: 'complete'});
+	if(data){
+		getOrders();
+		notify.success('Order has been completed');
+	}
+	else notify.error('Failed to complete the order');
 }
 
 watch([search, sort, status], ()=>{getOrders();})

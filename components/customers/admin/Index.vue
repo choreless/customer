@@ -12,10 +12,17 @@ const customer_store = useAdminCustomer();
 			</button>
 		</div>
 		<hr>
-		<label class="flex items-center join border m-2.5">
-			<input v-model="customer_store.search" type="search" placeholder="Search by name, email, phone" class="join-item input w-full focus:border-none focus:outline-none focus-within:border-none focus-within:outline-none">
-			<Icon name="ic:outline-search" class="join-item text-3xl me-2" />
-		</label>
+		<div class="grid grid-cols-1 sm:grid-cols-[1fr_auto] items-center m-2.5 gap-1.5">
+			<label class="flex items-center join border">
+				<input v-model="customer_store.search" type="search" placeholder="Search by name, email, phone" class="join-item input w-full focus:border-none focus:outline-none focus-within:border-none focus-within:outline-none">
+				<Icon name="ic:outline-search" class="join-item text-3xl me-2" />
+			</label>
+			<select v-model="customer_store.filter_type" class="select select-bordered">
+				<option value="">All</option>
+				<option value="retail">Retail</option>
+				<option value="commercial">Commercial</option>
+			</select>
+		</div>
 		<div class="flex gap-x-2 px-4" :class="!customer_store.loading.index && 'invisible'">
 			<span class="loading loading-bars bg-primary" />
 			<p>loading</p>

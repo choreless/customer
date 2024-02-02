@@ -18,6 +18,7 @@ export const useAdminCustomer = defineStore('admin_customers', ()=>{
 	// start panel
 	const customers = ref<Customer[]>([]);
 	const search = ref('');
+	const filter_type = ref<CustomerType|''>('');
 	const filter_customers = ref<Customer[]>([]);
 	// end panel
 	const id = ref<string>('');
@@ -50,13 +51,14 @@ export const useAdminCustomer = defineStore('admin_customers', ()=>{
 	}
 
 	watch(id, ()=>{ end_panel.value = id.value ? 'show' : undefined; })
-	watch(search, ()=>{
+	watch([search, filter_type], ()=>{
 		if(search.value.length) filter_customers.value = fuse.value.search(search.value).map(v=>v.item);
 		else filter_customers.value = customers.value;
+		if(filter_type.value) filter_customers.value = filter_customers.value.filter(v=>v.type===filter_type.value);
 	})
 
 	return {
-		end_panel, loading, search, customers, filter_customers, id,
+		end_panel, loading, search, customers, filter_customers, id, filter_type,
 		getCustomers
 	}
 })

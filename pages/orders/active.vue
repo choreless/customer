@@ -45,6 +45,15 @@ async function completeOrder(id: string){
 	else notify.error('Failed to complete the order');
 }
 
+async function deleteOrder(id: string){
+	const {data}: {data: boolean} = await api.delete(`/orders/${id}`);
+	if(data){
+		getOrders();
+		notify.success('Order has been deleted');
+	}
+	else notify.error('Failed to delete the order');
+}
+
 watch([search, sort, status], ()=>{getOrders();})
 </script>
 
@@ -98,10 +107,15 @@ watch([search, sort, status], ()=>{getOrders();})
 						</div>
 					</td>
 					<td class="border-y font-medium">{{ order.status==='in_progress' ? 'Processing' : 'Completed' }}</td>
-					<td v-if="status===undefined || status==='in_progress'" class="border border-s-0">
-						<button v-if="order.status==='in_progress'" class="btn btn-sm btn-square btn-outline border-none btn-info hover:!text-white" @click="completeOrder(order.id)">
-							<Icon name="lets-icons:flag-finish-alt" class="text-2xl" />
-						</button>
+					<td v-if="status==='in_progress'" class="border border-s-0">
+						<div class="flex items-center gap-x-2">
+							<button class="btn btn-sm btn-square btn-outline border-none btn-info hover:!text-white" @click="completeOrder(order.id)">
+								<Icon name="lets-icons:flag-finish-alt" class="text-2xl" />
+							</button>
+							<button class="btn btn-sm btn-square btn-outline border-none btn-error hover:!text-white" @click="deleteOrder(order.id)">
+								<Icon name="ic:baseline-delete-forever" class="text-2xl" />
+							</button>
+						</div>
 					</td>
 				</tr>
 			</tbody>

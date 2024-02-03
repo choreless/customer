@@ -14,6 +14,7 @@ const sort = ref<'latest'|'oldest'>();
 const status = ref<OrderStatus>('in_progress');
 const active_orders_count = ref(0);
 const now = useNow();
+const delete_id = ref<string>();
 
 async function getActiveOrders(){
 	const { data } = await api.get('/stats/orders');
@@ -45,10 +46,11 @@ async function completeOrder(id: string){
 	else notify.error('Failed to complete the order');
 }
 
-async function deleteOrder(id: string){
-	const {data}: {data: boolean} = await api.delete(`/orders/${id}`);
+async function deleteOrder(){
+	const {data}: {data: boolean} = await api.delete(`/orders/${delete_id.value}`);
 	if(data){
 		getOrders();
+		delete_id.value = undefined;
 		notify.success('Order has been deleted');
 	}
 	else notify.error('Failed to delete the order');
@@ -112,7 +114,7 @@ watch([search, sort, status], ()=>{getOrders();})
 							<button class="btn btn-sm btn-square btn-outline border-none btn-info hover:!text-white" @click="completeOrder(order.id)">
 								<Icon name="lets-icons:flag-finish-alt" class="text-2xl" />
 							</button>
-							<button class="btn btn-sm btn-square btn-outline border-none btn-error hover:!text-white" @click="deleteOrder(order.id)">
+							<button class="btn btn-sm btn-square btn-outline border-none btn-error hover:!text-white" @click="delete_id=order.id">
 								<Icon name="ic:baseline-delete-forever" class="text-2xl" />
 							</button>
 						</div>
@@ -122,5 +124,16 @@ watch([search, sort, status], ()=>{getOrders();})
 		</table>
 	</div>
 	<div v-else class="alert alert-info mt-4">No orders found</div>
+	<dialog class="modal" :class="delete_id && 'modal-open'">
+		<div class="modal-box max-w-2xl rounded-2xl shadow-[0px_0px_15px_0px_#00000015] bg-white">
+			<h1 class="text-lg sm:text-3xl text-center mt-2 sm:mt-6">Are you sure you want to void this order?</h1>
+			<p class="sm:text-2xl text-center mt-1 sm:mt-4">You will not be able to reactive it.</p>
+			<div class="flex justify-center gap-x-8 mt-4 sm:mt-8">
+				<button class="btn btn-outline sm:btn-wide rounded-full hover:scale-105 btn-info" @click="delete_id=undefined">CANCEL</button>
+				<button class="btn sm:btn-wide rounded-full hover:scale-105 btn-error text-white" @click="deleteOrder()">CONFIRM</button>
+			</div>
+		</div>
+		<div class="modal-backdrop bg-black/40" @click="delete_id=undefined" />
+	</dialog>
 </div>
 </template>

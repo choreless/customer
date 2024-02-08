@@ -21,6 +21,7 @@ module.exports = {
 		'vue/prop-name-casing': ['off'],
 		'vue/singleline-html-element-content-newline': ['off'],
 		'vue/v-on-event-hyphenation': ['off'],
+		'vue/attribute-hyphenation': ['off'],
 		camelcase: ['off'],
 		curly: ['off'],
 		indent: ['warn', 'tab'],

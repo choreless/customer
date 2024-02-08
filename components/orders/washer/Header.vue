@@ -2,29 +2,37 @@
 import format from 'date-fns/format';
 import addDays from 'date-fns/addDays';
 import HeaderAction from './HeaderAction.vue';
-import type { Customer } from '~/pages/orders/create.vue';
+import type { CustomerInfo4Washer } from '~/types/user';
+type DueTime = Date|null;
 
-defineProps<{
+const props = defineProps<{
 	total_bag: number
 	total_weight: number
-	customer?: Customer
+	customer?: CustomerInfo4Washer
+	due_time: DueTime
 }>();
 
 const emit = defineEmits<{
-	(e: 'dueTime', due_time: number): void
+	(e: 'update:due_time', due_time: DueTime): void
 }>();
 
 const now = useNow();
-const date = ref(new Date());
-date.value.setMinutes(0, 0, 0);
-const date_difference = computed(()=>date.value.getDate()-now.value.getDate());
+const computed_time = ref<DueTime>(props.due_time);
+watch(computed_time, n=>{
+	emit('update:due_time', n);
+})
+const date_difference = computed(()=>{
+	if(computed_time.value) return computed_time.value.getDate()-now.value.getDate();
+});
 
 function setDate(addition: number){
-	date.value.setDate(new Date().getDate()+addition);
-	date.value = new Date(date.value);
+	if(!computed_time.value){
+		computed_time.value = new Date();
+		computed_time.value.setMinutes(0, 0, 0);
+	}
+	computed_time.value.setDate(new Date().getDate()+addition);
+	computed_time.value = new Date(computed_time.value);
 }
-
-watch(date, n=>{ emit('dueTime', new Date(n).valueOf()) }, { immediate: true })
 </script>
 
 <template>
@@ -40,9 +48,9 @@ watch(date, n=>{ emit('dueTime', new Date(n).valueOf()) }, { immediate: true })
 		</div>
 		<div class="flex items-center gap-x-5">
 			<img src="https://ik.imagekit.io/choreless/v2/icons/calendar.svg" alt="icon" loading="lazy" class="w-5">
-			<VDatePicker v-model="date" :first-day-of-week="2" mode="datetime" hide-time-header class="pb-2" :time-accuracy="1">
+			<VDatePicker v-model="computed_time" :first-day-of-week="2" mode="datetime" hide-time-header class="pb-2" :time-accuracy="1">
 				<template #default="{ togglePopover }">
-					<button class="overflow-auto whitespace-nowrap" @click="togglePopover">Due: {{ format(date, 'EEE M/dd, hh:mm aaa') }} </button>
+					<button class="overflow-auto whitespace-nowrap" @click="togglePopover">Due: {{ computed_time ? format(computed_time, 'EEE M/dd, hh:mm aaa') : 'N/A' }} </button>
 				</template>
 				<template #footer>
 					<div class="w-full px-3 grid grid-cols-2 gap-1.5">

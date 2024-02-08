@@ -52,7 +52,7 @@
 .input-float2 {
 	@apply block h-[3.75rem];
 	input {
-		@apply input input-bordered rounded-[0.3125rem] !outline-none w-full h-full bg-white;
+		@apply input input-bordered rounded-[0.3125rem] !outline-none w-full h-full bg-transparent;
 	}
 	input:focus, input:not(:placeholder-shown) {
 		@apply border-t-0;

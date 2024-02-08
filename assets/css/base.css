@@ -48,3 +48,25 @@
 		@apply text-neutral translate-x-2.5;
 	}
 }
+
+.input-float2 {
+	@apply block h-[3.75rem];
+	input {
+		@apply input input-bordered rounded-[0.3125rem] !outline-none w-full h-full bg-white;
+	}
+	input:focus, input:not(:placeholder-shown) {
+		@apply border-t-0;
+	}
+	input+p {
+		@apply ms-5 px-[1px] w-fit select-none duration-100 text-gray-500;
+	}
+	input:placeholder-shown+p {
+		@apply -mt-10;
+	}
+	input:not(:placeholder-shown)+p, input:focus+p {
+		@apply -mt-[4.5rem] ms-3;
+	}
+	input:focus+p {
+		@apply ms-3.5 text-brand-black;
+	}
+}

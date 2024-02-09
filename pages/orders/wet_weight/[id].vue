@@ -3,7 +3,7 @@ import Header from '~/components/orders/washer/Header.vue';
 import OrderDetails from '~/components/orders/washer/OrderDetails.vue';
 import Footer from '~/components/orders/washer/Footer.vue';
 import type { CustomerInfo4Washer } from '~/types/user';
-import type { Order4Washer } from '~/types/order';
+import type { Order4Washer, UpdateResponseApi4Washer } from '~/types/order';
 
 definePageMeta({
 	layout: 'clean',
@@ -32,11 +32,11 @@ async function next(){
 	error.total_weight = total_weight.value<=0;
 	if(error.total_weight) return;
 	loading.value = true;
-	const {data}: {data: boolean} = await api.post(`/orders/${id}`, {
+	const {data}: {data: UpdateResponseApi4Washer} = await api.post(`/orders/${id}`, {
 		action: 'complete',
 		bags_final: bags.value!.filter(v=>v && v>0)
 	})
-	if(data) await navigateTo('/orders/active');
+	if(data.success) await navigateTo('/orders/active');
 	else notify.error('Failed to complete the order');
 	loading.value = false;
 }

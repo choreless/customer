@@ -4,6 +4,7 @@ import Header from '~/components/orders/washer/Header.vue';
 import OrderDetails from '~/components/orders/washer/OrderDetails.vue';
 import Footer from '~/components/orders/washer/Footer.vue';
 import type { CustomerInfo4Washer } from '~/types/user';
+import type { UpdateResponseApi4Washer } from '~/types/order';
 
 useHead({ title: 'Orders - New Order' })
 definePageMeta({
@@ -36,13 +37,13 @@ async function next(){
 		error.total_weight = total_weight.value<=0;
 		if(error.total_weight) return;
 		loading.value = true;
-		const {data}: {data: boolean} = await api.post(`/orders/${order_id.value}`, {
+		const {data}: {data: UpdateResponseApi4Washer} = await api.post(`/orders/${order_id.value}`, {
 			action: 'edit',
 			bags_initial: bags.value!.filter(v=>v && v>0),
 			due_time: due_time.value ? due_time.value.valueOf() : null,
 			is_wet: is_wet.value
 		})
-		if(data) await navigateTo('/orders/active');
+		if(data.success) await navigateTo('/orders/active');
 		else notify.error('Failed to update the order');
 		loading.value = false;
 	}

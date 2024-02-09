@@ -2,7 +2,7 @@
 import format from 'date-fns/format';
 import differenceInSeconds from 'date-fns/differenceInSeconds';
 import { calculateBagsWeight } from '~/lib/order';
-import type { Orders4Washer, OrderStatus } from '~/types/order';
+import type { Orders4Washer, OrderStatus, UpdateResponseApi4Washer } from '~/types/order';
 
 useHead({ title: 'Orders - Active' })
 definePageMeta({ middleware: 'washer' })
@@ -40,8 +40,8 @@ async function completeOrder(order: Orders4Washer){
 	if(!order.bags_initial) await navigateTo(`/orders/edit/${order.id}`);
 	else if(order.is_wet) await navigateTo(`/orders/wet_weight/${order.id}`);
 	else {
-		const {data}: {data: boolean} = await api.post(`/orders/${order.id}`, {action: 'complete'});
-		if(data){
+		const {data}: {data: UpdateResponseApi4Washer} = await api.post(`/orders/${order.id}`, {action: 'complete'});
+		if(data.success){
 			getOrders();
 			notify.success('Order has been completed');
 		}

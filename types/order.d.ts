@@ -20,3 +20,7 @@ export interface Orders4Washer {
 	created_at: string
 	customer_name: string
 }
+
+export type UpdateResponseApi4Washer =
+{ success: false, error: 'input'|'bags_initial'|'bags_final' } |
+{ success: true }

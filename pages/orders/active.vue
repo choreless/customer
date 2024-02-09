@@ -2,19 +2,18 @@
 import format from 'date-fns/format';
 import differenceInSeconds from 'date-fns/differenceInSeconds';
 import { calculateBagsWeight } from '~/lib/order';
-import type { OrderStatus, OrderWasher } from '@/types/job';
+import type { Orders4Washer, OrderStatus } from '~/types/order';
 
 useHead({ title: 'Orders - Active' })
 definePageMeta({ middleware: 'washer' })
 const api = useApi();
 
-const orders = ref<OrderWasher[]>([]);
+const orders = ref<Orders4Washer[]>([]);
 const search = ref('');
 const sort = ref<'latest'|'oldest'>();
 const status = ref<OrderStatus>('in_progress');
 const active_orders_count = ref(0);
 const now = useNow();
-const delete_id = ref<string>();
 
 async function getActiveOrders(){
 	const { data } = await api.get('/stats/orders');
@@ -27,7 +26,7 @@ async function getOrders(){
 	usp.append('status', status.value);
 	if(search.value) usp.append('search', search.value);
 	if(sort.value) usp.append('sort', sort.value);
-	const {data}: {data: OrderWasher[]} = await api.get(`/orders?${usp}`);
+	const {data}: {data: Orders4Washer[]} = await api.get(`/orders?${usp}`);
 	orders.value = data;
 }
 getOrders();
@@ -37,23 +36,17 @@ function toggleStatus(){
 	else status.value = 'complete';
 }
 
-async function completeOrder(id: string){
-	const {data}: {data: boolean} = await api.post(`/orders/${id}`, {action: 'complete'});
-	if(data){
-		getOrders();
-		notify.success('Order has been completed');
+async function completeOrder(order: Orders4Washer){
+	if(!order.bags_initial) await navigateTo(`/orders/edit/${order.id}`);
+	else if(order.is_wet) await navigateTo(`/orders/wet_weight/${order.id}`);
+	else {
+		const {data}: {data: boolean} = await api.post(`/orders/${order.id}`, {action: 'complete'});
+		if(data){
+			getOrders();
+			notify.success('Order has been completed');
+		}
+		else notify.error('Failed to complete the order');
 	}
-	else notify.error('Failed to complete the order');
-}
-
-async function deleteOrder(){
-	const {data}: {data: boolean} = await api.delete(`/orders/${delete_id.value}`);
-	if(data){
-		getOrders();
-		delete_id.value = undefined;
-		notify.success('Order has been deleted');
-	}
-	else notify.error('Failed to delete the order');
 }
 
 watch([search, sort, status], ()=>{getOrders();})
@@ -92,48 +85,41 @@ watch([search, sort, status], ()=>{getOrders();})
 	<div v-if="orders.length" class="overflow-x-auto text-base">
 		<table class="table border-separate border-spacing-y-4">
 			<tbody>
-				<tr v-for="order of orders" :key="order.id" class="bg-neutral-200/60 [&_td]:border-black/5 shadow-[0px_0px_4px_0px_rgba(0,_0,_0,_0.05)]">
-					<td class="border border-e-0 text-lg font-medium uppercase">{{ order.id }}</td>
-					<td class="border-y text-base whitespace-nowrap">{{ order.customer_name }}</td>
-					<td class="border-y font-medium whitespace-nowrap" :class="differenceInSeconds(new Date(order.due_time), now)<0 && 'text-[#c46040]'">Due: {{ format(order.due_time as any as Date, 'EEE M/dd, hh:mm aaa') }}</td>
-					<td class="border-y">
-						<div class="flex items-center gap-x-1.5">
+				<tr v-for="order of orders" :key="order.id" class="bg-neutral-200/60 [&_td]:border-black/5 hover:border-none hover:-translate-y-0.5 duration-500 shadow-[0px_0px_4px_0px_rgba(0,_0,_0,_0.05)] group" :class="status==='in_progress' && 'cursor-pointer'" @click="status==='in_progress' && navigateTo(`/orders/edit/${order.id}`)">
+					<td class="border border-e-0 text-lg font-medium uppercase group-hover:rounded-s-xl group-hover:border-info">{{ order.id }}</td>
+					<td class="border-y group-hover:border-info text-base whitespace-nowrap">{{ order.customer_name }}</td>
+					<td class="border-y group-hover:border-info font-medium whitespace-nowrap" :class="order.due_time && differenceInSeconds(new Date(order.due_time), now)<0 && 'text-[#c46040]'">Due: {{ order.due_time ? format(order.due_time as any as Date, 'EEE M/dd, hh:mm aaa') : 'N/A' }}</td>
+					<td class="border-y group-hover:border-info">
+						<div v-if="order.bags_initial" class="flex items-center gap-x-1.5">
 							<img src="https://ik.imagekit.io/choreless/v2/icons/bag2.svg" alt="icon" loading="lazy" class="w-4">
-							<p>{{ order.bags.length }}</p>
+							<p>{{ order.bags_initial.length }}</p>
+						</div>
+						<p v-if="status==='in_progress' && order.is_wet">Wet Order</p>
+						<div v-if="order.bags_final" class="flex items-center gap-x-1.5">
+							<img src="https://ik.imagekit.io/choreless/v2/icons/bag2.svg" alt="icon" loading="lazy" class="w-4">
+							<p>{{ order.bags_final.length }}</p>
 						</div>
 					</td>
-					<td class="border-y">
-						<div class="flex items-center gap-x-1.5">
+					<td class="border-y group-hover:border-info">
+						<div v-if="order.bags_initial" class="flex items-center gap-x-1.5">
 							<img src="https://ik.imagekit.io/choreless/v2/icons/weight.svg" alt="icon" loading="lazy" class="w-4">
-							<p>{{ calculateBagsWeight(order.bags) }}</p>
+							<p>{{ calculateBagsWeight(order.bags_initial) }}</p>
+						</div>
+						<div v-if="order.bags_final" class="flex items-center gap-x-1.5">
+							<img src="https://ik.imagekit.io/choreless/v2/icons/weight.svg" alt="icon" loading="lazy" class="w-4">
+							<p>{{ calculateBagsWeight(order.bags_final) }}</p>
 						</div>
 					</td>
-					<td class="border-y font-medium">{{ order.status==='in_progress' ? 'Processing' : 'Completed' }}</td>
-					<td v-if="status==='in_progress'" class="border border-s-0">
-						<div class="flex items-center gap-x-2">
-							<button class="btn btn-sm btn-square btn-outline border-none btn-info hover:!text-white" @click="completeOrder(order.id)">
-								<Icon name="lets-icons:flag-finish-alt" class="text-2xl" />
-							</button>
-							<button class="btn btn-sm btn-square btn-outline border-none btn-error hover:!text-white" @click="delete_id=order.id">
-								<Icon name="ic:baseline-delete-forever" class="text-2xl" />
-							</button>
-						</div>
+					<td class="border-y group-hover:border-info font-medium" :class="status==='complete' && 'border-e group-hover:rounded-e-xl'">{{ order.status==='in_progress' ? 'Processing' : 'Completed' }}</td>
+					<td v-if="status==='in_progress'" class="border border-s-0 group-hover:rounded-e-xl group-hover:border-info">
+						<button class="btn btn-sm btn-square btn-outline border-none btn-info hover:!text-white" @click="completeOrder(order)">
+							<Icon name="lets-icons:flag-finish-alt" class="text-2xl" />
+						</button>
 					</td>
 				</tr>
 			</tbody>
 		</table>
 	</div>
 	<div v-else class="alert alert-info mt-4">No orders found</div>
-	<dialog class="modal" :class="delete_id && 'modal-open'">
-		<div class="modal-box max-w-2xl rounded-2xl shadow-[0px_0px_15px_0px_#00000015] bg-white">
-			<h1 class="text-lg sm:text-3xl text-center mt-2 sm:mt-6">Are you sure you want to void this order?</h1>
-			<p class="sm:text-2xl text-center mt-1 sm:mt-4">You will not be able to reactive it.</p>
-			<div class="flex justify-center gap-x-8 mt-4 sm:mt-8">
-				<button class="btn btn-outline sm:btn-wide rounded-full hover:scale-105 btn-info" @click="delete_id=undefined">CANCEL</button>
-				<button class="btn sm:btn-wide rounded-full hover:scale-105 btn-error text-white" @click="deleteOrder()">CONFIRM</button>
-			</div>
-		</div>
-		<div class="modal-backdrop bg-black/40" @click="delete_id=undefined" />
-	</dialog>
 </div>
 </template>

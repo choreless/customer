@@ -11,7 +11,7 @@ defineEmits<{(e: 'next'): void}>();
 </script>
 
 <template>
-<section class="grid grid-cols-1 lg:grid-cols-3 items-center justify-between gap-y-1 px-4 lg:px-[3.125rem] border-t py-5 border-black/20">
+<section class="md:sticky md:bottom-0 grid grid-cols-1 lg:grid-cols-3 items-center justify-between gap-y-1 px-4 lg:px-[3.125rem] border-t py-5 border-black/20 bg-white">
 	<div class="flex lg:flex-col items-center gap-x-2.5 mr-auto">
 		<h4 class="text-lg lg:text-2xl font-bold lg:mt-2.5 lg:order-2"><b>{{ step==='order_details' ? 'Intake' : 'Processing' }}</b></h4>
 		<div class="flex gap-2.5 lg:gap-5 h-3 lg:h-5 lg:order-1">

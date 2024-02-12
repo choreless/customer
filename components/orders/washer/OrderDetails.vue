@@ -37,7 +37,7 @@ const computed_is_wet = computed({
 </script>
 
 <template>
-<section class="bg-white flex-grow flex items-center">
+<section class="flex-grow flex items-center">
 	<div class="max-w-3xl mx-auto px-3 md:px-0">
 		<div v-if="step==='wet_weight'">
 			<h2 class="text-4xl text-center font-medium">How much does the order weight?</h2>

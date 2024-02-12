@@ -36,7 +36,7 @@ function setDate(addition: number){
 </script>
 
 <template>
-<nav class="lg:sticky lg:top-0 flex flex-col lg:flex-row lg:items-center justify-between gap-y-3 lg:gap-y-8 px-4 lg:px-[3.75rem] py-5 border-b border-black/20">
+<nav class="md:sticky md:top-0 flex flex-col lg:flex-row lg:items-center justify-between gap-y-3 lg:gap-y-8 px-4 lg:px-[3.75rem] py-5 border-b border-black/20 bg-white">
 	<div class="flex justify-between">
 		<img src="https://ik.imagekit.io/choreless/v2/icons/busket.svg" alt="icon" loading="lazy" class="w-8 lg:w-16">
 		<HeaderAction class="block lg:hidden" />

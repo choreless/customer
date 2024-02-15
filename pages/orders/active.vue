@@ -2,6 +2,7 @@
 import format from 'date-fns/format';
 import differenceInSeconds from 'date-fns/differenceInSeconds';
 import { calculateBagsWeight } from '~/lib/order';
+import { formatSeconds } from '~/lib/time';
 import type { Orders4Washer, OrderStatus, UpdateResponseApi4Washer } from '~/types/order';
 
 useHead({ title: 'Orders - Active' })
@@ -47,6 +48,10 @@ async function completeOrder(order: Orders4Washer){
 		}
 		else notify.error('Failed to complete the order');
 	}
+}
+
+function calculateEfficiency(bags_initial: number[], bags_final: null|number[], created_at: string, completed_at: string){
+	return formatSeconds(differenceInSeconds(new Date(completed_at), new Date(created_at))/calculateBagsWeight(bags_final ?? bags_initial)).value;
 }
 
 watch([search, sort, status], ()=>{getOrders();})
@@ -100,17 +105,20 @@ watch([search, sort, status], ()=>{getOrders();})
 							<p>{{ order.bags_final.length }}</p>
 						</div>
 					</td>
-					<td class="border-y group-hover:border-info">
+					<td class="border-y group-hover:border-info" :class="order.status==='complete' ? (((order.bags_initial && calculateBagsWeight(order.bags_initial)>30) || (order.bags_final && calculateBagsWeight(order.bags_final)>30)) ? 'text-success stroke-success' : 'text-error stroke-error') : 'stroke-black'">
 						<div v-if="order.bags_initial" class="flex items-center gap-x-1.5">
-							<img src="https://ik.imagekit.io/choreless/v2/icons/weight.svg" alt="icon" loading="lazy" class="w-4">
+							<IconWeight class="stroke-inherit" />
 							<p>{{ calculateBagsWeight(order.bags_initial) }}</p>
 						</div>
 						<div v-if="order.bags_final" class="flex items-center gap-x-1.5">
-							<img src="https://ik.imagekit.io/choreless/v2/icons/weight.svg" alt="icon" loading="lazy" class="w-4">
+							<IconWeight class="stroke-inherit" />
 							<p>{{ calculateBagsWeight(order.bags_final) }}</p>
 						</div>
 					</td>
-					<td class="border-y group-hover:border-info font-medium" :class="status==='complete' && 'border-e group-hover:rounded-e-xl'">{{ order.status==='in_progress' ? 'Processing' : 'Completed' }}</td>
+					<td class="border-y group-hover:border-info font-medium whitespace-nowrap" :class="status==='complete' && 'border-e group-hover:rounded-e-xl'">
+						<template v-if="order.status==='in_progress'">Processing</template>
+						<template v-else>Completed ({{ calculateEfficiency(order.bags_initial, order.bags_final, order.created_at, order.completed_at) }} per lb)</template>
+					</td>
 					<td v-if="status==='in_progress'" class="border border-s-0 group-hover:rounded-e-xl group-hover:border-info">
 						<button class="btn btn-sm btn-square btn-outline border-none btn-info hover:!text-white" @click="completeOrder(order)">
 							<Icon name="lets-icons:flag-finish-alt" class="text-2xl" />

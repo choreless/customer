@@ -9,17 +9,23 @@ export interface Order4Washer {
 	customer_id: string
 }
 
-export interface Orders4Washer {
+export type Orders4Washer = {
 	id: string
-	bags_initial: Bags,
-	is_wet: boolean,
-	bags_final: Bags,
-	due_time: string|null,
-	completed_at: string|null,
-	status: OrderStatus
+	bags_initial: number[]
+	is_wet: boolean
+	bags_final: Bags
+	due_time: string|null
 	created_at: string
 	customer_name: string
-}
+} &
+({
+	status: 'in_progress'
+	completed_at: null
+} |
+{
+	status: 'complete'
+	completed_at: string
+})
 
 export type UpdateResponseApi4Washer =
 { success: false, error: 'input'|'bags_initial'|'bags_final' } |

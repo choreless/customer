@@ -1,8 +1,11 @@
+import { breakpointsTailwind, useBreakpoints } from '@vueuse/core';
+
 export const useSetting = defineStore('setting', ()=>{
 	const loading = ref(false); // global loading
+	const breakpoints = useBreakpoints(breakpointsTailwind);
 
 	return {
-		loading
+		loading, breakpoints
 	}
 })
 

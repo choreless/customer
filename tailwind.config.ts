@@ -21,7 +21,8 @@ const config: Config = {
 				}
 			},
 			fontFamily: {
-				GTWalsheim: 'GTWalsheim'
+				GTWalsheim: 'GTWalsheim',
+				CaveatBrush: 'CaveatBrush'
 			}
 		}
 	},

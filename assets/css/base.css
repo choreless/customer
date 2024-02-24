@@ -26,6 +26,11 @@
 	font-weight: 700;
 }
 
+@font-face {
+	font-family: "CaveatBrush";
+	src: url("/fonts/CaveatBrush.ttf");
+}
+
 *, *::before, *::after {
 	font-family: 'GTWalsheim';
 }

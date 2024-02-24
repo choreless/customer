@@ -61,7 +61,7 @@ async function next(){
 				</button>
 			</div>
 			<div v-show="show_calendar">
-				<VCalendar borderless expanded class="mt-8 -z-10" title-position="left" :first-day-of-week="2" :columns="setting.breakpoints.sm ? 2 : 1" :attributes="[{highlight: true, dates: book.date}]" @dayclick="({date: local_date}: CalendarDay)=>{book.date=book.formatDate(local_date); show_calendar=false;}" />
+				<VCalendar borderless expanded class="mt-8" title-position="left" :first-day-of-week="2" :columns="setting.breakpoints.sm ? 2 : 1" :attributes="[{highlight: true, dates: book.date}]" @dayclick="({date: local_date}: CalendarDay)=>{book.date=book.formatDate(local_date); show_calendar=false;}" />
 			</div>
 			<p class="text-brand-black/50">All deliveries are between 5pm and 10pm. Standard turnaround on all orders is 2-3 days. Rush turnaround is available for a small fee.</p>
 		</div>

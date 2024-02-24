@@ -1,3 +1,4 @@
+/** @deprecated */
 export const addons = ['Delicates', 'Hang-Dry', 'Hangers', "Don't mix bags", 'Fabric Softener', 'OxiClean (Whites Only)'] as const;
 export const addons2 = {
 	Clorox: '$0.10 / lb',

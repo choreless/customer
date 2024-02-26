@@ -74,6 +74,18 @@ async function next(){
 				<p class="mt-3">{{ v==='next_day' ? '$1.80/lbs' : '$1.60/lbs' }}</p>
 			</button>
 		</div>
+		<h1 class="text-xl sm:text-2xl font-bold leading-loose mt-2.5">Your delivery is schedule for:</h1>
+		<div class="flex border-brand-black/20">
+			<div class="px-3 sm:px-6 py-2 border-2 min-w-28 rounded-md rounded-e-none text-center border-inherit">
+				<p>{{ format(book.scheduled_delivery, 'MMM') }}</p>
+				<p class="text-3xl sm:text-5xl font-bold my-1">{{ format(book.scheduled_delivery, 'dd') }}</p>
+				<p>{{ format(book.scheduled_delivery, 'iii') }}</p>
+			</div>
+			<div class="px-3 sm:px-6 py-2 border-2 border-s-0 rounded-md rounded-s-none grow flex flex-col justify-center border-inherit">
+				<p class="capitalize text-brand-black/50">{{ book.wash_type }} Wash</p>
+				<p>{{ book.service_speed==='next_day' ? 'Next day delivery' : '2 day delivery' }}</p>
+			</div>
+		</div>
 		<h1 class="text-xl sm:text-2xl font-bold leading-loose mt-2.5">Frequency:</h1>
 		<div class="flex flex-wrap sm:grid sm:grid-cols-2 gap-2.5 mt-2.5">
 			<button v-for="f of book.frequencies" :key="f" class="btn btn-outline text-xl grow border-brand-black/20 [&:is(:hover,.active)]:bg-brand-blue [&:is(:hover,.active)]:border-brand-blue [&:is(:hover,.active)]:text-white" :class="f==book.frequency && 'active'" @click="book.frequency=f">{{ f }}</button>

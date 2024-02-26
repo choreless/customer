@@ -1,4 +1,5 @@
 import format from 'date-fns/format';
+import addDays from 'date-fns/addDays';
 import customer from '~/lib/customer';
 
 export const usePageBook = defineStore('page_book', ()=>{
@@ -27,6 +28,8 @@ export const usePageBook = defineStore('page_book', ()=>{
 		dryer_temperature: false
 	})
 
+	const scheduled_delivery = computed(()=>addDays(new Date(date.value), service_speed.value==='next_day' ? 1 : 2));
+
 	watch(zip, n=>{error.zip = !n;})
 	watch(detergent, n=>{error.detergent = !n;})
 	watch(water_temperature, n=>{error.water_temperature = !n;})
@@ -39,6 +42,7 @@ export const usePageBook = defineStore('page_book', ()=>{
 	return {
 		wash_types, service_speeds, frequencies, now,
 		step, wash_type, zip, care_services, addons, detergent, water_temperature, dryer_temperature, service_speed, frequency, date, error,
+		scheduled_delivery,
 		formatDate
 	}
 })

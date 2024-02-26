@@ -6,8 +6,7 @@ import SelectPickupInfo from '@/components/book/SelectPickupInfo.vue';
 
 useHead({ title: 'Book' })
 definePageMeta({
-	layout: 'clean',
-	middleware: 'guest'
+	layout: 'clean'
 })
 
 const book = usePageBook();

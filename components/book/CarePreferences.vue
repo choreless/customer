@@ -3,10 +3,9 @@ import customer from '~/lib/customer';
 const book = usePageBook();
 
 function next(){
-	book.error.detergent = !book.detergent;
 	book.error.water_temperature = !book.water_temperature;
 	book.error.dryer_temperature = !book.dryer_temperature;
-	if(book.error.detergent || book.error.water_temperature || book.error.dryer_temperature) return;
+	if(book.error.water_temperature || book.error.dryer_temperature) return;
 	book.step++;
 }
 </script>
@@ -15,16 +14,6 @@ function next(){
 <div>
 	<div class="max-w-xl mx-auto my-6 px-2">
 		<h1 class="text-xl sm:text-2xl font-bold leading-loose">Care Preferences</h1>
-		<h2 class="text-lg sm:text-xl font-bold leading-loose mt-2.5 text-brand-black">Detergent</h2>
-		<div class="sm:mt-2.5">
-			<div class="flex flex-wrap gap-2.5">
-				<label v-for="v of customer.detergents" :key="v" class="btn btn-outline font-normal grow border-brand-black/20 [&:is(:hover,.active)]:bg-brand-blue [&:is(:hover,.active)]:border-brand-blue [&:is(:hover,.active)]:text-white" :class="book.detergent===v && 'active'">
-					<input v-model="book.detergent" type="radio" :value="v" hidden>
-					<p>{{ v }}</p>
-				</label>
-			</div>
-			<p v-if="book.error.detergent" class="text-error">* Detergent is required</p>
-		</div>
 		<h2 class="text-lg sm:text-xl font-bold leading-loose mt-2.5 text-brand-black">Water Temp</h2>
 		<div class="sm:mt-2.5">
 			<div class="flex flex-wrap gap-2.5">

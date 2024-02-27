@@ -72,15 +72,6 @@ function selectDate({date, isDisabled}: CalendarDay){
 			</div>
 			<p class="text-brand-black/50">All deliveries are between 5pm and 10pm. Standard turnaround on all orders is 2-3 days. Rush turnaround is available for a small fee.</p>
 		</div>
-		<h1 class="text-xl sm:text-2xl font-bold leading-loose mt-2.5">Service speed:</h1>
-		<div class="grid sm:grid-cols-2 gap-2.5 mt-2.5">
-			<button v-for="v of book.service_speeds" :key="v" class="text-center px-3 sm:px-6 py-5 border-2 rounded-md border-brand-black/20 [&:is(:hover,.active)]:border-brand-blue" :class="v===book.service_speed && 'active'" @click="book.service_speed=v">
-				<img :src="`https://ik.imagekit.io/choreless/v2/icons/${v==='next_day' ? 'separate_wash%202' : 'mixed_wash%203'}.svg`" alt="icon" loading="lazy" class="w-12 mx-auto">
-				<p class="text-lg sm:text-xl font-bold leading-loose mt-2.5 mb-1.5">{{ v==='next_day' ? 'Next day delivery' : '2 day delivery' }}</p>
-				<p class="text-sm leading-4">{{ v==='next_day' ? 'Clothes will be separated & washed Differently but fold together.' : 'Clothes will washed and fold together.' }}</p>
-				<p class="mt-3">{{ v==='next_day' ? '$1.80/lbs' : '$1.60/lbs' }}</p>
-			</button>
-		</div>
 		<h1 class="text-xl sm:text-2xl font-bold leading-loose mt-2.5">Your delivery is schedule for:</h1>
 		<div class="flex border-brand-black/20">
 			<div class="px-3 sm:px-6 py-2 border-2 min-w-28 rounded-md rounded-e-none text-center border-inherit">

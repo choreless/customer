@@ -10,7 +10,7 @@ export const usePageBook = defineStore('page_book', ()=>{
 	const now = useNow();
 
 	const step = ref<0|1|2>(0);
-	const wash_type = ref<typeof wash_types[number]>('mixed');
+	const wash_type = ref<typeof wash_types[number]>();
 	const zip = ref('');
 	const care_services = ref<typeof customer.care_services[number][]>([]);
 	const addons = ref<(keyof typeof customer.addons2)[]>([]);
@@ -22,6 +22,7 @@ export const usePageBook = defineStore('page_book', ()=>{
 	const date = ref(formatISO(now.value, {representation: 'date'}));
 
 	const error = reactive({
+		wash_type: false,
 		zip: false,
 		detergent: false,
 		water_temperature: false,
@@ -39,8 +40,9 @@ export const usePageBook = defineStore('page_book', ()=>{
 	);
 	const scheduled_delivery = computed(()=>addDays(parseISO(date.value), service_speed.value==='next_day' ? 1 : 2));
 
-	watch(zip, n=>{error.zip = !n;})
+	watch(wash_type, n=>{error.wash_type = !n;})
 	watch(detergent, n=>{error.detergent = !n;})
+	watch(zip, n=>{error.zip = !n;})
 	watch(water_temperature, n=>{error.water_temperature = !n;})
 	watch(dryer_temperature, n=>{error.dryer_temperature = !n;})
 

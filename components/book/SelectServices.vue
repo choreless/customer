@@ -15,6 +15,11 @@ function next(){
 	if(book.error.wash_type || book.error.detergent || book.error.zip) return;
 	zips.includes(book.zip) ? book.step++ : book.step=-1;
 }
+
+function dialogSave(){
+	book.error.detergent = !book.detergent;
+	if(!book.error.detergent) is_dialog_open.value = false;
+}
 </script>
 
 <template>
@@ -33,7 +38,7 @@ function next(){
 						<p class="text-sm font-medium">24-48h Service</p>
 					</div>
 				</div>
-				<div class="btn btn-sm btn-outline text-base px-2 sm:px-3 text-brand-blue border-brand-blue group-[:is(.active,:hover)]:bg-brand-blue group-[:is(.active,:hover)]:border-brand-blue group-[:is(.active,:hover)]:text-white"><span class="text-2xl">+</span> {{ book.wash_type===v ? 'Added' : 'Add' }}</div>
+				<div class="btn btn-sm btn-outline text-base px-2 sm:px-3 text-brand-blue border-brand-blue [&:is(.active,:hover)]:bg-brand-blue [&:is(.active,:hover)]:border-brand-blue [&:is(.active,:hover)]:text-white" :class="book.wash_type===v && book.detergent && 'active'"><span class="text-2xl">+</span> {{ book.wash_type===v && book.detergent ? 'Added' : 'Add' }}</div>
 			</div>
 			<p class="mt-2.5">A <span class="font-bold">{{ v==='mixed' ? '$30' : '$40' }} minimum</span> order value applies.</p>
 			<div class="flex gap-x-1.5 mt-2.5">
@@ -80,16 +85,19 @@ function next(){
 	</div>
 	<dialog class="modal" :class="is_dialog_open && 'modal-open'">
 		<div class="modal-box max-w-2xl rounded-2xl shadow-[0px_0px_15px_0px_#00000015] bg-white">
-			<h1 class="text-xl sm:text-2xl font-bold leading-loose mt-2.5">Service speed:</h1>
+			<div class="flex items-center justify-between mt-2.5">
+				<h1 class="text-xl sm:text-2xl font-bold leading-loose">Service speed<sup>*</sup>:</h1>
+				<button class="btn btn-sm btn-square text-error hover:btn-error" @click="is_dialog_open=false"><Icon name="radix-icons:cross-1" class="text-2xl" /></button>
+			</div>
 			<div class="grid sm:grid-cols-2 gap-2.5 mt-2.5">
 				<button v-for="v of book.service_speeds" :key="v" class="text-center px-3 sm:px-6 py-5 border-2 rounded-md border-brand-black/20 [&:is(:hover,.active)]:border-brand-blue" :class="v===book.service_speed && 'active'" @click="book.service_speed=v">
 					<img :src="`https://ik.imagekit.io/choreless/v2/icons/${v==='next_day' ? 'separate_wash%202' : 'mixed_wash%203'}.svg`" alt="icon" loading="lazy" class="w-12 mx-auto">
 					<p class="text-lg sm:text-xl font-bold leading-loose mt-2.5 mb-1.5">{{ v==='next_day' ? 'Next day delivery' : '2 day delivery' }}</p>
 					<p class="text-sm leading-4">{{ v==='next_day' ? 'Clothes will be separated & washed Differently but fold together.' : 'Clothes will washed and fold together.' }}</p>
-					<p class="mt-3">{{ v==='next_day' ? '$1.80/lbs' : '$1.60/lbs' }}</p>
+					<p class="mt-3">{{ v==='next_day' ? '$1.80/lb' : '$1.60/lb' }}</p>
 				</button>
 			</div>
-			<h2 class="text-lg sm:text-xl font-bold leading-loose mt-2.5 text-brand-black">Detergent</h2>
+			<h2 class="text-lg sm:text-xl font-bold leading-loose mt-2.5 text-brand-black">Detergent<sup>*</sup></h2>
 			<div class="sm:mt-2.5">
 				<div class="flex flex-wrap gap-2.5">
 					<label v-for="v of customer.detergents" :key="v" class="btn btn-outline font-normal grow border-brand-black/20 [&:is(:hover,.active)]:bg-brand-blue [&:is(:hover,.active)]:border-brand-blue [&:is(:hover,.active)]:text-white" :class="book.detergent===v && 'active'">
@@ -108,7 +116,7 @@ function next(){
 					</label>
 				</template>
 			</div>
-			<button class="btn w-full h-[3.75rem] mt-5 px-5 py-[0.9375rem] rounded-[0.3125rem] text-2xl text-white bg-brand-orange border-brand-orange hover:text-brand-orange hover:bg-transparent hover:border-brand-orange" @click="is_dialog_open=false">Save</button>
+			<button v-if="book.detergent" class="btn w-full h-[3.75rem] mt-5 px-5 py-[0.9375rem] rounded-[0.3125rem] text-2xl text-white bg-brand-orange border-brand-orange hover:text-brand-orange hover:bg-transparent hover:border-brand-orange" @click="dialogSave()">Save</button>
 		</div>
 		<div class="modal-backdrop bg-black/40" @click="is_dialog_open=false" />
 	</dialog>

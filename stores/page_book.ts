@@ -13,7 +13,7 @@ export const usePageBook = defineStore('page_book', ()=>{
 	const wash_type = ref<typeof wash_types[number]>();
 	const zip = ref('');
 	const care_services = ref<typeof customer.care_services[number][]>([]);
-	const addons = ref<(keyof typeof customer.addons2)[]>([]);
+	const addons = ref<(typeof customer.addons2[number]['name'])[]>([]);
 	const detergent = ref<typeof customer.detergents[number]>();
 	const water_temperature = ref<typeof customer.water_temperatures[number]>();
 	const dryer_temperature = ref<typeof customer.dryer_temperatures[number]>();

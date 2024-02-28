@@ -101,10 +101,12 @@ function next(){
 			</div>
 			<p class="text-brand-black/50 mt-5">Add-ons</p>
 			<div class="flex flex-wrap gap-2.5 mt-2.5">
-				<label v-for="v, p in customer.addons2" :key="p" class="badge !p-4 cursor-pointer bg-black/5 hover:scale-105 hover:bg-primary hover:text-white [&.active]:bg-primary [&.active]:text-white" :class="book.addons.includes(p) && 'active'">
-					<input v-model="book.addons" type="checkbox" :value="p" hidden>
-					<p>{{ p }} + {{ v }} </p>
-				</label>
+				<template v-for="v of customer.addons2" :key="v.name">
+					<label v-if="v.wash_type==='both' || v.wash_type===book.wash_type" class="badge !p-4 cursor-pointer bg-black/5 hover:scale-105 hover:bg-primary hover:text-white [&.active]:bg-primary [&.active]:text-white" :class="book.addons.includes(v.name) && 'active'">
+						<input v-model="book.addons" type="checkbox" :value="v.name" hidden>
+						<p>{{ v.name }} + {{ v.cost }}</p>
+					</label>
+				</template>
 			</div>
 			<button class="btn w-full h-[3.75rem] mt-5 px-5 py-[0.9375rem] rounded-[0.3125rem] text-2xl text-white bg-brand-orange border-brand-orange hover:text-brand-orange hover:bg-transparent hover:border-brand-orange" @click="is_dialog_open=false">Save</button>
 		</div>

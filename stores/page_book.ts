@@ -9,7 +9,7 @@ export const usePageBook = defineStore('page_book', ()=>{
 	const frequencies = ['Just once', 'Weekly', 'Every two weeks', 'Every four weeks'] as const;
 	const now = useNow();
 
-	const step = ref<0|1|2>(0);
+	const step = ref<-1|0|1|2>(0); // -1 means service is not available in the area
 	const wash_type = ref<typeof wash_types[number]>();
 	const zip = ref('');
 	const care_services = ref<typeof customer.care_services[number][]>([]);

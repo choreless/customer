@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import zips from '~/assets/data/zip_services.json';
 import customer from '~/lib/customer';
 
 const book = usePageBook();
@@ -12,7 +13,7 @@ function next(){
 	book.error.zip = !book.zip;
 	if(!book.error.wash_type && book.error.detergent) is_dialog_open.value = true;
 	if(book.error.wash_type || book.error.detergent || book.error.zip) return;
-	book.step++;
+	zips.includes(book.zip) ? book.step++ : book.step=-1;
 }
 </script>
 

@@ -15,30 +15,85 @@ async function next(){
 	usp.append('form_id', book.wash_type==='mixed' ? '3' : '2');
 	usp.append('zipcode', book.zip);
 	usp.append('date', book.date);
-	// addons
-	if(book.addons.includes('Vinegar')) usp.append('extras[2]', '1');
-	if(book.addons.includes('Baking Soda')) usp.append('extras[3]', '1');
-	if(book.addons.includes('OxiClean')) usp.append('extras[4]', '1');
-	if(book.addons.includes('Customer Supplied')) usp.append('extras[6]', '1');
-	if(book.addons.includes('Bounce')) usp.append('extras[9]', '1');
-	if(book.addons.includes('Tide')) usp.append('extras[8]', '1');
-	if(book.addons.includes('Gain')) usp.append('extras[7]', '1');
-	if(book.addons.includes('Softener Downy')) usp.append('extras[10]', '1');
-	// water temperature
-	if(book.water_temperature==='Cold') usp.append('extras[15]', '1');
-	else if(book.water_temperature==='Hot') usp.append('extras[14]', '1');
-	// dryer temperature
-	if(book.dryer_temperature==='Low') usp.append('extras[13]', '1');
-	else if(book.dryer_temperature==='Medium') usp.append('extras[12]', '1');
-	else if(book.dryer_temperature==='High') usp.append('extras[11]', '1');
-	// delivery speed
-	usp.append('service_id', book.service_speed==='next_day' ? '9' : '10');
-	// frequency
-	if(book.frequency==='Just once') usp.append('frequency_id', '20');
-	else if(book.frequency==='Weekly') usp.append('frequency_id', '21');
-	else if(book.frequency==='Every two weeks') usp.append('frequency_id', '22');
-	else usp.append('frequency_id', '23');
-	await navigateTo(`https://chorelesslaundry.bookingkoala.com/booknow?${usp}`, {external: true})
+
+	if(book.wash_type==='mixed'){
+		// service speed
+		usp.append('service_id', book.service_speed==='next_day' ? '9' : '10');
+		// detergent
+		if(book.detergent==='Premium Scented') usp.append('extras[39]', '1');
+		else if(book.detergent==='Hypoallergenic') usp.append('extras[5]', '1');
+		else usp.append('extras[6]', '1');
+		// addons
+		book.addons.forEach(v=>{
+			if(v==='Vinegar') usp.append('extras[2]', '1');
+			if(v==='Baking Soda') usp.append('extras[3]', '1');
+			if(v==='OxiClean') usp.append('extras[4]', '1');
+			if(v==='Bounce') usp.append('extras[9]', '1');
+			if(v==='Tide') usp.append('extras[8]', '1');
+			if(v==='Gain') usp.append('extras[7]', '1');
+			if(v==='Softener Downy') usp.append('extras[10]', '1');
+		})
+		// extra services
+		if(book.extra_service) usp.append('extras[18]', '1');
+		// care services
+		book.care_services.forEach(v=>{
+			if(v==='Delicates') usp.append('extras[17]', '1');
+			else if(v==='Hang-Dry') usp.append('extras[16]', '1');
+			else if(v==='Hangers') usp.append('extras[37]', '1');
+			else usp.append('extras[38]', '1');
+		})
+		// water temperature
+		usp.append(`extras[${book.water_temperature==='Cold' ? '15' : '14'}]`, '1');
+		// dryer temperature
+		if(book.dryer_temperature==='Low') usp.append('extras[13]', '1');
+		else if(book.dryer_temperature==='Medium') usp.append('extras[12]', '1');
+		else if(book.dryer_temperature==='High') usp.append('extras[11]', '1');
+		// frequency
+		if(book.frequency==='Just once') usp.append('frequency_id', '20');
+		else if(book.frequency==='Weekly') usp.append('frequency_id', '21');
+		else if(book.frequency==='Every two weeks') usp.append('frequency_id', '22');
+		else usp.append('frequency_id', '23');
+	}
+	else {
+		// service speed
+		usp.append('service_id', book.service_speed==='next_day' ? '11' : '12');
+		// detergent
+		if(book.detergent==='Premium Scented') usp.append('extras[42]', '1');
+		else if(book.detergent==='Hypoallergenic') usp.append('extras[22]', '1');
+		else usp.append('extras[23]', '1');
+		// addons
+		book.addons.forEach(v=>{
+			if(v==='Clorox') usp.append('extras[36]', '1');
+			if(v==='Vinegar') usp.append('extras[19]', '1');
+			if(v==='Baking Soda') usp.append('extras[20]', '1');
+			if(v==='OxiClean') usp.append('extras[21]', '1');
+			if(v==='Bounce') usp.append('extras[26]', '1');
+			if(v==='Tide') usp.append('extras[25]', '1');
+			if(v==='Gain') usp.append('extras[24]', '1');
+			if(v==='Softener Downy') usp.append('extras[27]', '1');
+		})
+		// extra services
+		if(book.extra_service) usp.append('extras[35]', '1');
+		// care services
+		book.care_services.forEach(v=>{
+			if(v==='Delicates') usp.append('extras[34]', '1');
+			else if(v==='Hang-Dry') usp.append('extras[33]', '1');
+			else if(v==='Hangers') usp.append('extras[41]', '1');
+			else usp.append('extras[40]', '1');
+		})
+		// water temperature
+		usp.append(`extras[${book.water_temperature==='Cold' ? '32' : '31'}]`, '1');
+		// dryer temperature
+		if(book.dryer_temperature==='Low') usp.append('extras[30]', '1');
+		else if(book.dryer_temperature==='Medium') usp.append('extras[29]', '1');
+		else if(book.dryer_temperature==='High') usp.append('extras[28]', '1');
+		// frequency
+		if(book.frequency==='Just once') usp.append('frequency_id', '25');
+		else if(book.frequency==='Weekly') usp.append('frequency_id', '26');
+		else if(book.frequency==='Every two weeks') usp.append('frequency_id', '27');
+		else usp.append('frequency_id', '28');
+	}
+	await navigateTo(`https://chorelesslaundry.bookingkoala.com/booknow?${usp}`, {external: true});
 }
 
 function selectDate({date, isDisabled}: CalendarDay){

@@ -4,7 +4,6 @@ import customer from '~/lib/customer';
 
 const book = usePageBook();
 
-const extra_service = ref<boolean>();
 const is_dialog_open = ref(false);
 
 function next(){
@@ -52,10 +51,10 @@ function dialogSave(){
 		<h1 class="text-xl sm:text-2xl font-bold leading-loose mt-2.5">Extra services</h1>
 		<p class="mt-2.5">Do you have any large items, like a blanket, that will require their own load? <NuxtLink class="border-b border-brand-black">See pricing</NuxtLink></p>
 		<div class="flex gap-x-5 mt-5">
-			<button class="btn btn-outline text-xl grow border-brand-black/20 [&:is(:hover,.active)]:bg-brand-blue [&:is(:hover,.active)]:border-brand-blue [&:is(:hover,.active)]:text-white" :class="extra_service && 'active'" @click="extra_service=true">Yes</button>
-			<button class="btn btn-outline text-xl grow border-brand-black/20 [&:is(:hover,.active)]:bg-brand-blue [&:is(:hover,.active)]:border-brand-blue [&:is(:hover,.active)]:text-white" :class="extra_service===false && 'active'" @click="extra_service=false">No</button>
+			<button class="btn btn-outline text-xl grow border-brand-black/20 [&:is(:hover,.active)]:bg-brand-blue [&:is(:hover,.active)]:border-brand-blue [&:is(:hover,.active)]:text-white" :class="book.extra_service && 'active'" @click="book.extra_service=true">Yes</button>
+			<button class="btn btn-outline text-xl grow border-brand-black/20 [&:is(:hover,.active)]:bg-brand-blue [&:is(:hover,.active)]:border-brand-blue [&:is(:hover,.active)]:text-white" :class="book.extra_service===false && 'active'" @click="book.extra_service=false">No</button>
 		</div>
-		<div v-if="extra_service" class="text-center border rounded-md mt-2.5 px-2 sm:px-16 py-2.5 border-brand-black/20">
+		<div v-if="book.extra_service" class="text-center border rounded-md mt-2.5 px-2 sm:px-16 py-2.5 border-brand-black/20">
 			<p class="text-lg sm:text-2xl font-bold">$8 per large item (+ per pound rate)</p>
 			<p class="text-sm sm:text-base mt-1 leading-[1.125rem]">Please note: We cannot accommodate extra large items, like king comforters. Extra large items will be returned without laundry at no charge.</p>
 		</div>
@@ -84,7 +83,7 @@ function dialogSave(){
 		<button class="btn w-full h-[3.75rem] mt-2.5 px-5 py-[0.9375rem] rounded-[0.3125rem] text-2xl text-white bg-brand-orange border-brand-orange hover:text-brand-orange hover:bg-transparent hover:border-brand-orange" @click="next()">Continue</button>
 	</div>
 	<dialog class="modal" :class="is_dialog_open && 'modal-open'">
-		<div class="modal-box max-w-2xl rounded-2xl shadow-[0px_0px_15px_0px_#00000015] bg-white">
+		<div class="modal-box max-w-[37.5rem] rounded-2xl shadow-[0px_0px_15px_0px_#00000015] bg-white">
 			<div class="flex items-center justify-between mt-2.5">
 				<h1 class="text-xl sm:text-2xl font-bold leading-loose">Service speed<sup>*</sup>:</h1>
 				<button class="btn btn-sm btn-square text-error hover:btn-error" @click="is_dialog_open=false"><Icon name="radix-icons:cross-1" class="text-2xl" /></button>

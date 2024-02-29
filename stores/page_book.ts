@@ -11,6 +11,7 @@ export const usePageBook = defineStore('page_book', ()=>{
 
 	const step = ref<-1|0|1|2>(0); // -1 means service is not available in the area
 	const wash_type = ref<typeof wash_types[number]>();
+	const extra_service = ref<boolean>();
 	const zip = ref('');
 	const care_services = ref<typeof customer.care_services[number][]>([]);
 	const addons = ref<(typeof customer.addons2[number]['name'])[]>([]);
@@ -48,7 +49,7 @@ export const usePageBook = defineStore('page_book', ()=>{
 
 	return {
 		wash_types, service_speeds, frequencies, now,
-		step, wash_type, zip, care_services, addons, detergent, water_temperature, dryer_temperature, service_speed, frequency, date, error,
+		step, wash_type, extra_service, zip, care_services, addons, detergent, water_temperature, dryer_temperature, service_speed, frequency, date, error,
 		pinned_pickup_dates, scheduled_delivery
 	}
 })

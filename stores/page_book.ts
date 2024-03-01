@@ -20,6 +20,7 @@ export const usePageBook = defineStore('page_book', ()=>{
 	const last_name = ref('');
 	const email = ref('');
 	const promo_code = ref('');
+	const bags_count = ref(1);
 	const wash_type = ref<typeof wash_types[number]>();
 	const extra_service = ref<boolean>();
 	const zip = ref('');
@@ -69,7 +70,7 @@ export const usePageBook = defineStore('page_book', ()=>{
 		wash_types, service_speeds, frequencies, now,
 		usertype, step,
 		phone, first_name, last_name, email, promo_code,
-		wash_type, extra_service, zip, care_services, addons, detergent, water_temperature, dryer_temperature, service_speed, frequency, date, error,
+		bags_count, wash_type, extra_service, zip, care_services, addons, detergent, water_temperature, dryer_temperature, service_speed, frequency, date, error,
 		pinned_pickup_dates, scheduled_delivery
 	}
 })

@@ -24,7 +24,16 @@ function dialogSave(){
 <template>
 <div>
 	<div class="max-w-xl mx-auto my-6 px-2">
-		<h1 class="text-xl sm:text-2xl font-bold leading-loose">What services do you need?</h1>
+		<h1 class="text-xl sm:text-2xl font-bold leading-loose">Laundry</h1>
+		<div class="text-2xl flex justify-between">
+			<p>How many bags?</p>
+			<div class="flex items-center gap-x-2.5">
+				<button class="btn btn-sm btn-circle bg-transparent border-brand-black hover:bg-error hover:border-error" :disabled="book.bags_count<2" @click="book.bags_count--"><Icon name="ic:outline-minus" class="text-2xl" /></button>
+				<p>{{ book.bags_count }}</p>
+				<button class="btn btn-sm btn-circle bg-transparent border-brand-black hover:bg-success hover:border-success" @click="book.bags_count++"><Icon name="ic:outline-plus" class="text-2xl" /></button>
+			</div>
+		</div>
+		<h1 class="text-xl sm:text-2xl font-bold leading-loose mt-5">What services do you need?</h1>
 		<button v-for="v of book.wash_types" :key="v" class="w-full mt-2.5 p-2.5 border-2 rounded-md text-start group border-brand-black/10 [&:is(:hover,.active)]:border-brand-blue [&:is(:hover,.active)]:bg-[#f5f9fd]" :class="book.wash_type===v && 'active'" @click="book.wash_type=v; is_dialog_open=true;">
 			<div class="w-full flex items-center justify-between">
 				<div class="flex flex-col sm:flex-row sm:items-center gap-x-2.5 gap-y-2">

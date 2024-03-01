@@ -26,6 +26,8 @@ async function next(){
 	usp.append('date', book.date);
 
 	if(book.wash_type==='mixed'){
+		// number of bags
+		usp.append('extras[44]', String(book.bags_count));
 		// service speed
 		usp.append('service_id', book.service_speed==='next_day' ? '9' : '10');
 		// detergent
@@ -64,6 +66,8 @@ async function next(){
 		else usp.append('frequency_id', '23');
 	}
 	else {
+		// number of bags
+		usp.append('extras[43]', String(book.bags_count));
 		// service speed
 		usp.append('service_id', book.service_speed==='next_day' ? '11' : '12');
 		// detergent

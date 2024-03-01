@@ -55,6 +55,7 @@ export const usePageBook = defineStore('page_book', ()=>{
 	);
 	const scheduled_delivery = computed(()=>addDays(parseISO(date.value), service_speed.value==='next_day' ? 1 : 2));
 
+	watch(phone, n=>{error.phone = n.unmasked.length===10 ? false : undefined;})
 	watch(first_name, n=>{error.first_name = n ? 'success' : 'error';})
 	watch(last_name, n=>{error.last_name = n ? 'success' : 'error';})
 	watch(email, n=>{ error.email = z.string().email().safeParse(n).success ? 'success' : 'error'; })

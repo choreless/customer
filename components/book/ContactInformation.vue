@@ -1,25 +1,31 @@
 <script setup lang="ts">
 import { z } from 'zod';
+import zips from '~/assets/data/zip_services.json';
 
 const setting = useSetting();
 const book = usePageBook();
 const api = useApi();
 
-const isFormValid = ()=>book.error.first_name==='success' && book.error.last_name==='success' && book.error.email==='success';
+const isFormValid = ()=>book.error.first_name==='success' && book.error.last_name==='success' && book.error.email==='success' && book.zip;
 
 async function next(){
 	book.error.first_name = book.first_name ? 'success' : 'error';
 	book.error.last_name = book.last_name ? 'success' : 'error';
 	book.error.email = z.string().email().safeParse(book.email).success ? 'success' : 'error';
-	if(isFormValid()){
-		setting.loading = true;
-		book.error.email = 'progress';
-		const {data} = await api.get(`/users/email_verifier?email=${book.email}`);
-		book.error.email = data ? 'success' : 'error';
-		setting.loading = false;
+	book.error.zip = !book.zip;
+	if(!isFormValid()) return;
 
-		if(isFormValid()) book.step++;
+	setting.loading = true;
+	book.error.email = 'progress';
+	const {data: is_email_valid}: {data: boolean} = await api.get(`/users/email_verifier?email=${book.email}`);
+	setting.loading = false;
+
+	if(!is_email_valid){
+		book.error.email = 'error';
+		return;
 	}
+	book.error.email = 'success';
+	zips.includes(book.zip) ? book.step++ : book.step=-1;
 }
 </script>
 
@@ -81,6 +87,11 @@ async function next(){
 			<input v-model="book.promo_code" type="text" placeholder="">
 			<p>Referral / Promo Code</p>
 		</label>
+		<label class="input-float mt-5">
+			<input v-model="book.zip" type="text" placeholder="">
+			<p>Zip Code</p>
+		</label>
+		<p v-if="book.error.zip" class="text-error">* Zip is required</p>
 		<button class="btn w-full h-[3.75rem] rounded-[0.3125rem] text-2xl px-5 py-[0.9375rem] mt-5 text-white bg-brand-orange border-brand-orange hover:text-brand-orange hover:bg-transparent hover:border-brand-orange" @click="next()">Continue</button>
 	</div>
 </div>

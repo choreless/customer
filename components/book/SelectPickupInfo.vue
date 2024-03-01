@@ -12,6 +12,15 @@ const show_calendar = ref(false);
 async function next(){
 	const usp = new URLSearchParams();
 	usp.append('no_redirect', 'okay');
+
+	if(book.usertype==='new'){
+		usp.append('f_name', book.first_name);
+		usp.append('l_name', book.last_name);
+		usp.append('email', book.email);
+		usp.append('phone', book.phone.unmasked);
+		usp.append('coupon', book.promo_code);
+	}
+
 	usp.append('form_id', book.wash_type==='mixed' ? '3' : '2');
 	usp.append('zipcode', book.zip);
 	usp.append('date', book.date);

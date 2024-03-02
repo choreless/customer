@@ -114,11 +114,15 @@ function selectDate({date, isDisabled}: CalendarDay){
 	book.date = formatISO(date, {representation: 'date'});
 	show_calendar.value=false;
 }
+
+onMounted(()=>{
+	if(!book.date) book.date = formatISO(book.now, {representation: 'date'});
+})
 </script>
 
 <template>
 <div>
-	<div class="max-w-xl mx-auto my-6 px-2">
+	<div v-if="book.date" class="max-w-xl mx-auto my-6 px-2">
 		<div class="mt-2.5">
 			<h1 class="text-xl sm:text-2xl font-bold leading-loose">Choose your pickup date:</h1>
 			<div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mt-2.5">

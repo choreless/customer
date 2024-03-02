@@ -31,7 +31,7 @@ export const usePageBook = defineStore('page_book', ()=>{
 	const dryer_temperature = ref<typeof customer.dryer_temperatures[number]>();
 	const service_speed = ref<typeof service_speeds[number]>('next_day');
 	const frequency = ref<typeof frequencies[number]>('Just once');
-	const date = ref(formatISO(now.value, {representation: 'date'}));
+	const date = ref();
 
 	const error = reactive({
 		phone: undefined as undefined | boolean,

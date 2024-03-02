@@ -11,7 +11,7 @@ const show_calendar = ref(false);
 
 async function next(){
 	const usp = new URLSearchParams();
-	usp.append('no_redirect', 'okay');
+	usp.append('redirect', 'none');
 
 	if(book.usertype==='new'){
 		usp.append('f_name', book.first_name);

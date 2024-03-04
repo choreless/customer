@@ -5,7 +5,7 @@ import parseISO from 'date-fns/parseISO';
 import type { CalendarDay } from 'v-calendar/dist/types/src/utils/page.js';
 
 const book = usePageBook();
-const setting = useSetting();
+const app = useApp();
 
 const show_calendar = ref(false);
 
@@ -139,7 +139,7 @@ onMounted(()=>{
 			</div>
 			<div v-show="show_calendar">
 				<ClientOnly>
-					<VCalendar borderless expanded class="mt-8" title-position="left" :first-day-of-week="2" :columns="setting.breakpoints.sm ? 2 : 1" :min-date="book.pinned_pickup_dates[0].unformatted" :attributes="[{highlight: true, dates: parseISO(book.date)}]" @dayclick="selectDate" />
+					<VCalendar borderless expanded class="mt-8" title-position="left" :first-day-of-week="2" :columns="app.breakpoints.sm ? 2 : 1" :min-date="book.pinned_pickup_dates[0].unformatted" :attributes="[{highlight: true, dates: parseISO(book.date)}]" @dayclick="selectDate" />
 				</ClientOnly>
 			</div>
 			<p class="text-brand-black/50">All deliveries are between 5pm and 10pm. Standard turnaround on all orders is 2-3 days. Rush turnaround is available for a small fee.</p>

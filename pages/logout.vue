@@ -2,13 +2,13 @@
 useHead({ title: 'Logout' })
 definePageMeta({ middleware: 'auth' })
 const api = useApi();
-const setting = useSetting();
+const app = useApp();
 const user = useUser();
 
-setting.loading = true;
+app.loading = true;
 await api.delete('/users/logout');
 user.$reset();
-setting.loading = false;
+app.loading = false;
 await navigateTo('/');
 </script>
 

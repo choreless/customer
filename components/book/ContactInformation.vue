@@ -2,7 +2,7 @@
 import { z } from 'zod';
 import zips from '~/assets/data/zip_services.json';
 
-const setting = useSetting();
+const app = useApp();
 const book = usePageBook();
 const api = useApi();
 
@@ -15,10 +15,10 @@ async function next(){
 	book.error.zip = !book.zip;
 	if(!isFormValid()) return;
 
-	setting.loading = true;
+	app.loading = true;
 	book.error.email = 'progress';
 	const {data: is_email_valid}: {data: boolean} = await api.get(`/users/email_verifier?email=${book.email}`);
-	setting.loading = false;
+	app.loading = false;
 
 	if(!is_email_valid){
 		book.error.email = 'error';

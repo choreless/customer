@@ -8,7 +8,7 @@ definePageMeta({
 	layout: 'clean',
 	middleware: 'guest'
 })
-const setting = useSetting();
+const app = useApp();
 const user = useUser();
 const api = useApi();
 
@@ -51,7 +51,7 @@ async function verify(){
 	error.invalid_credential = false;
 	error.phone = phone.unmasked.length!==10;
 	if(error.phone) return false;
-	setting.loading = true;
+	app.loading = true;
 	if(login_method.value==='phone_otp' && phone_otp_step.value==='phone'){
 		const usp = new URLSearchParams();
 		usp.append('login_method', 'phone_otp');
@@ -72,7 +72,7 @@ async function verify(){
 		}
 		await login(usp);
 	}
-	setting.loading = false;
+	app.loading = false;
 }
 
 watch(otp, n=>{ n.length===6 ? verify() : error.invalid_credential = false; })
@@ -121,7 +121,7 @@ const phone_imask = useIMask({
 	</div>
 	<div class="mt-3">
 		<p v-if="login_method==='phone_password' && error.invalid_credential" class="text-error">* Invalid credential</p>
-		<button v-if="!setting.loading && (login_method==='phone_password' || (login_method==='phone_otp' && phone_otp_step==='phone'))" class="btn w-full h-[3.75rem] rounded-[0.3125rem] text-2xl px-5 py-[0.9375rem] text-white bg-brand-orange border-brand-orange hover:text-brand-orange hover:bg-transparent hover:border-brand-orange" @click="verify()">Verify</button>
+		<button v-if="!app.loading && (login_method==='phone_password' || (login_method==='phone_otp' && phone_otp_step==='phone'))" class="btn w-full h-[3.75rem] rounded-[0.3125rem] text-2xl px-5 py-[0.9375rem] text-white bg-brand-orange border-brand-orange hover:text-brand-orange hover:bg-transparent hover:border-brand-orange" @click="verify()">Verify</button>
 		<div v-if="login_method==='phone_otp' && phone_otp_step==='otp'">
 			<div class="grid grid-cols-[1fr_auto] justify-around items-center px-0">
 				<label class="input-float w-full h-full">
@@ -129,7 +129,7 @@ const phone_imask = useIMask({
 					<p>Code</p>
 				</label>
 				<div class="input border-base-content/20 rounded-[0.3125rem] !outline-none h-[3.75rem] rounded-s-none border-s-0 flex items-center">
-					<button :disabled="setting.loading" class="btn btn-sm bg-transparent border-none shadow-none hover:bg-brand-orange hover:text-white uppercase" @click="phone_otp_step='phone';otp='';verify()">RESEND!</button>
+					<button :disabled="app.loading" class="btn btn-sm bg-transparent border-none shadow-none hover:bg-brand-orange hover:text-white uppercase" @click="phone_otp_step='phone';otp='';verify()">RESEND!</button>
 				</div>
 			</div>
 			<p v-if="error.invalid_credential" class="text-error">* Invalid OTP</p>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Changelog } from './types/misc';
+import type { Changelog } from '~/types/misc';
 
 const { $pwa } = useNuxtApp();
 const api = useApi();
@@ -19,9 +19,9 @@ changelog.value = data;
 	<h1 class="text-xl">Update is available.</h1>
 	<div class="w-full px-4">
 		<div class="max-w-lg max-h-40 w-full mx-auto px-2 flex flex-col gap-y-4 overflow-y-auto">
-			<div v-for="(cl, cl_key) of changelog" :key="cl_key">
+			<div v-for="cl of changelog" :key="cl.version">
 				<p class="sticky top-0 text-lg font-bold bg-white text-success">v{{ cl.version }}</p>
-				<p v-for="change of cl.changes" :key="cl_key+change[0]">{{ change[0] }} <a :href="`https://github.com/choreless/admin/commit/${change[1]}`" target="_blank" class="text-sm font-medium decoration-wavy hover:underline text-blue-600">#{{ change[1].slice(0, 5) }}</a></p>
+				<p v-for="(change, change_key) of cl.changes" :key="change_key">{{ change }}</p>
 			</div>
 		</div>
 	</div>

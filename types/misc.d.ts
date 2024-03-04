@@ -1,4 +1,4 @@
 export interface Changelog {
 	version: string,
-	changes: [string, string][]
+	changes: string[]
 }

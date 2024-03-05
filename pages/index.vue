@@ -23,7 +23,7 @@ const error = reactive({
 	invalid_credential: false
 })
 
-function phone_paste(e: ClipboardEvent){
+function phonePaste(e: ClipboardEvent){
 	const selection = getSelection()?.toString()?.replace(/[^\d]+/g, '');
 	if(selection && selection.length===10) phone_imask.unmasked.value = '';
 	if(phone_imask.unmasked.value.length!==0) return false;
@@ -95,7 +95,7 @@ const phone_imask = useIMask({
 	<div class="mt-6">
 		<div class="grid grid-cols-[1fr_auto] justify-around items-center gap-x-2 border border-base-content/20 rounded-[0.3125rem]">
 			<label class="input-float">
-				<input :ref="phone_imask.el" type="tel" class="!border-none" :value="phone.masked" placeholder="" @paste="phone_paste" @keydown.enter="verify()">
+				<input :ref="phone_imask.el" type="tel" class="!border-none" :value="phone.masked" placeholder="" @paste="phonePaste" @keydown.enter="verify()">
 				<p>Phone number</p>
 			</label>
 			<div class="w-6 h-6 me-4">

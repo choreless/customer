@@ -2,7 +2,7 @@
 import { IMask, useIMask } from 'vue-imask';
 import { z } from 'zod';
 import zips from '~/assets/data/zip_services.json';
-import { addons as addon_list, detergents, dryer_temperatures, water_temperatures } from '~/lib/customer';
+import { detergents, water_temperatures, dryer_temperatures } from '~/lib/customer';
 import type { CustomerType } from '~/types/user';
 
 const api = useApi();
@@ -16,7 +16,6 @@ interface Customer {
 	unit_or_suite?: string,
 	city: string,
 	zip: string,
-	addons: typeof addon_list[number][],
 	detergent: typeof detergents[number],
 	dryer_temperature: typeof dryer_temperatures[number],
 	water_temperature: typeof water_temperatures[number],
@@ -38,7 +37,6 @@ const unit_or_suite = ref('');
 const city = ref('');
 const zip = ref('');
 const phone = reactive({masked: '', unmasked: ''});
-const addons = ref<typeof addon_list[number][]>([]);
 const detergent = ref<typeof detergents[number]>();
 const dryer_temperature = ref<typeof dryer_temperatures[number]>()
 const water_temperature = ref<typeof water_temperatures[number]>();
@@ -103,7 +101,6 @@ async function getCustomer(){
 		unit_or_suite.value = data.unit_or_suite ?? '';
 		city.value = data.city;
 		zip.value = data.zip;
-		addons.value = data.addons;
 		detergent.value = data.detergent;
 		dryer_temperature.value = data.dryer_temperature;
 		water_temperature.value = data.water_temperature;
@@ -142,7 +139,6 @@ async function update(){
 		if(error.detergent || error.dryer_temperature || error.water_temperature) return;
 		loading.update = true;
 		const {data}: {data: UpdateResponse} = await api.put(`/users/${customer.id}`, {
-			addons: addons.value,
 			detergent: detergent.value,
 			dryer_temperature: dryer_temperature.value,
 			water_temperature: water_temperature.value,
@@ -432,13 +428,6 @@ watch(business_name, n=>{ error.business_name = !n })
 			</div>
 		</div>
 		<div v-else-if="tab==='preference'" class="mx-2 lg:mx-6">
-			<p class="my-2.5 text-brand-black/50">Add-ons</p>
-			<div class="flex flex-wrap gap-2.5">
-				<label v-for="addon of addon_list" :key="addon" class="badge !p-4 bg-black/5 hover:scale-105 hover:bg-primary hover:text-white relative [&.active]:bg-primary [&.active]:text-white cursor-pointer" :class="addons.includes(addon) && 'active'">
-					<input v-model="addons" type="checkbox" :value="addon" hidden>
-					<p>{{ addon }}</p>
-				</label>
-			</div>
 			<p class="my-2.5 text-brand-black/50">Choose a Detergent</p>
 			<div>
 				<div class="flex flex-wrap gap-2.5">
@@ -449,16 +438,6 @@ watch(business_name, n=>{ error.business_name = !n })
 				</div>
 				<p v-if="error.detergent" class="text-error">* Detergent is required</p>
 			</div>
-			<p class="my-2.5 text-brand-black/50">Dryer Temperature</p>
-			<div>
-				<div class="flex flex-wrap gap-2.5">
-					<label v-for="v of dryer_temperatures" :key="v" class="badge !p-4 cursor-pointer bg-black/5 hover:bg-primary hover:scale-105 hover:text-white [&.active]:bg-primary [&.active]:text-white" :class="dryer_temperature===v && 'active'">
-						<input v-model="dryer_temperature" type="radio" :value="v" class="radio" hidden>
-						<p>{{ v }}</p>
-					</label>
-				</div>
-				<p v-if="error.dryer_temperature" class="text-error">* Dryer Temperature is required</p>
-			</div>
 			<p class="my-2.5 text-brand-black/50">Water Temperature</p>
 			<div>
 				<div class="flex flex-wrap gap-2.5">
@@ -468,6 +447,16 @@ watch(business_name, n=>{ error.business_name = !n })
 					</label>
 				</div>
 				<p v-if="error.water_temperature" class="text-error">* Water Temperature is required</p>
+			</div>
+			<p class="my-2.5 text-brand-black/50">Dryer Temperature</p>
+			<div>
+				<div class="flex flex-wrap gap-2.5">
+					<label v-for="v of dryer_temperatures" :key="v" class="badge !p-4 cursor-pointer bg-black/5 hover:bg-primary hover:scale-105 hover:text-white [&.active]:bg-primary [&.active]:text-white" :class="dryer_temperature===v && 'active'">
+						<input v-model="dryer_temperature" type="radio" :value="v" class="radio" hidden>
+						<p>{{ v }}</p>
+					</label>
+				</div>
+				<p v-if="error.dryer_temperature" class="text-error">* Dryer Temperature is required</p>
 			</div>
 			<textarea v-model="comment" placeholder="Care Preferences" class="textarea textarea-bordered w-full mt-5" rows="3" />
 		</div>

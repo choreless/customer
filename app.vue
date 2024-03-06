@@ -1,16 +1,11 @@
 <script setup lang="ts">
-import Update from '~/components/app/Update.vue';
-
 const app = useApp();
-const { $pwa } = useNuxtApp();
 
 const {isLoading} = useLoadingIndicator({throttle: 500});
 </script>
 
 <template>
 <div>
-	<VitePwaManifest />
-	<Update v-if="$pwa?.needRefresh" />
 	<NuxtLayout>
 		<NuxtPage />
 	</NuxtLayout>

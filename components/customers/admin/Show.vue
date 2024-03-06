@@ -9,20 +9,22 @@ const api = useApi();
 const customer = useAdminCustomer();
 
 interface Customer {
-	id: string,
-	type: CustomerType,
-	business_name?: string,
-	address: string,
-	unit_or_suite?: string,
-	city: string,
-	zip: string,
-	detergent: typeof detergents[number],
-	dryer_temperature: typeof dryer_temperatures[number],
-	water_temperature: typeof water_temperatures[number],
-	comment: string,
-	first_name: string,
-	last_name: string,
-	phone: string,
+	id: string
+	type: CustomerType
+	business_name?: string
+	address: string
+	unit_or_suite?: string
+	city: string
+	zip: string
+	detergent: typeof detergents[number]
+	water_temperature: typeof water_temperatures[number]
+	dryer_temperature: typeof dryer_temperatures[number]
+	hang_dry: boolean
+	show_preference_while_ordering: boolean
+	comment: string
+	first_name: string
+	last_name: string
+	phone: string
 	email: string
 }
 
@@ -38,8 +40,10 @@ const city = ref('');
 const zip = ref('');
 const phone = reactive({masked: '', unmasked: ''});
 const detergent = ref<typeof detergents[number]>();
-const dryer_temperature = ref<typeof dryer_temperatures[number]>()
 const water_temperature = ref<typeof water_temperatures[number]>();
+const dryer_temperature = ref<typeof dryer_temperatures[number]>();
+const hang_dry = ref(false);
+const show_preference_while_ordering = ref(false);
 const comment = ref('');
 
 const loading = reactive({
@@ -102,8 +106,10 @@ async function getCustomer(){
 		city.value = data.city;
 		zip.value = data.zip;
 		detergent.value = data.detergent;
-		dryer_temperature.value = data.dryer_temperature;
 		water_temperature.value = data.water_temperature;
+		dryer_temperature.value = data.dryer_temperature;
+		hang_dry.value = data.hang_dry;
+		show_preference_while_ordering.value = data.show_preference_while_ordering;
 		comment.value = data.comment ?? '';
 	}
 }
@@ -134,14 +140,16 @@ async function update(){
 	}
 	else if(tab.value==='preference'){
 		error.detergent = !detergent.value;
-		error.dryer_temperature = !dryer_temperature.value;
 		error.water_temperature = !water_temperature.value;
+		error.dryer_temperature = !dryer_temperature.value;
 		if(error.detergent || error.dryer_temperature || error.water_temperature) return;
 		loading.update = true;
 		const {data}: {data: UpdateResponse} = await api.put(`/users/${customer.id}`, {
 			detergent: detergent.value,
-			dryer_temperature: dryer_temperature.value,
 			water_temperature: water_temperature.value,
+			dryer_temperature: dryer_temperature.value,
+			hang_dry: hang_dry.value,
+			show_preference_while_ordering: show_preference_while_ordering.value,
 			comment: comment.value
 		})
 		if(data.success) notify.success('Information has been updated.');
@@ -200,8 +208,8 @@ watch(address, n=>{ error.address = !n })
 watch(city, n=>{ error.city = !n })
 watch(zip, n=>{ error.zip = !zips.includes(n); })
 watch(detergent, ()=>{ error.detergent = false; })
+watch(water_temperature, ()=>{ error.water_temperature = false; })
 watch(dryer_temperature, ()=>{ error.dryer_temperature = false; })
-watch(water_temperature, ()=>{ error.dryer_temperature = false; })
 watch(business_name, n=>{ error.business_name = !n })
 </script>
 
@@ -459,6 +467,14 @@ watch(business_name, n=>{ error.business_name = !n })
 				<p v-if="error.dryer_temperature" class="text-error">* Dryer Temperature is required</p>
 			</div>
 			<textarea v-model="comment" placeholder="Care Preferences" class="textarea textarea-bordered w-full mt-5" rows="3" />
+			<label class="flex justify-between items-center cursor-pointer border rounded-md px-4 py-2 mt-2.5">
+				<p class="my-2.5 text-brand-black/50">Hang Dry</p>
+				<input v-model="hang_dry" type="checkbox" class="toggle toggle-primary">
+			</label>
+			<label class="flex items-center gap-x-2.5 cursor-pointer mt-5">
+				<input v-model="show_preference_while_ordering" type="checkbox" class="checkbox checkbox-primary">
+				<p>Show this while ordering</p>
+			</label>
 		</div>
 		<div v-else-if="tab==='type'" class="mx-2">
 			<div class="flex flex-col items-center gap-4 lg:flex-row lg:justify-center pt-16">

@@ -22,6 +22,8 @@ const zip = ref('');
 const detergent = ref<typeof detergents[number]>();
 const water_temperature = ref<typeof water_temperatures[number]>();
 const dryer_temperature = ref<typeof dryer_temperatures[number]>()
+const hang_dry = ref(false);
+const show_preference_while_ordering = ref(false);
 const comment = ref('');
 
 const loading = reactive({
@@ -109,6 +111,8 @@ async function save(){
 				detergent: detergent.value,
 				water_temperature: water_temperature.value,
 				dryer_temperature: dryer_temperature.value,
+				hang_dry: hang_dry.value,
+				show_preference_while_ordering: show_preference_while_ordering.value,
 				comment: comment.value,
 				business_name: business_name.value
 			}
@@ -144,7 +148,7 @@ watch(address, n=>{ error.address = !n })
 watch(city, n=>{ error.city = !n })
 watch(zip, n=>{ error.zip = !zips.includes(n); })
 watch(detergent, ()=>{ error.detergent = false; })
-watch(water_temperature, ()=>{ error.dryer_temperature = false; })
+watch(water_temperature, ()=>{ error.water_temperature = false; })
 watch(dryer_temperature, ()=>{ error.dryer_temperature = false; })
 </script>
 
@@ -334,6 +338,14 @@ watch(dryer_temperature, ()=>{ error.dryer_temperature = false; })
 				<p v-if="error.dryer_temperature" class="text-error">* Dryer Temperature is required</p>
 			</div>
 			<textarea v-model="comment" placeholder="Care Preferences" class="textarea textarea-bordered w-full mt-5" rows="3" />
+			<label class="flex justify-between items-center cursor-pointer border rounded-md px-4 py-2 mt-2.5">
+				<p class="my-2.5 text-brand-black/50">Hang Dry</p>
+				<input v-model="hang_dry" type="checkbox" class="toggle toggle-primary">
+			</label>
+			<label class="flex items-center gap-x-2.5 cursor-pointer mt-5">
+				<input v-model="show_preference_while_ordering" type="checkbox" class="checkbox checkbox-primary">
+				<p>Show this while ordering</p>
+			</label>
 		</div>
 	</div>
 	<div v-if="['info', 'preference'].includes(step)" class="mt-5">

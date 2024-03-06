@@ -1,5 +1,5 @@
 /** base */
-const AppName = 'Admin';
+const AppName = 'Customer';
 const AppUrl = process.env.AppUrl ?? 'http://localhost:3000';
 const AppVersion = process.env.AppVersion ?? 'Dev';
 const ApiMain = process.env.ApiMain ?? 'https://api.getchoreless.com';
@@ -13,11 +13,11 @@ export default defineNuxtConfig({
 	pwa: {
 		registerType: 'prompt',
 		manifest: {
-			name: 'Choreless Point of Sale (POS)',
-			short_name: 'Choreless (POS)',
-			description: 'The Choreless Point of Sale App streamlines laundromat operations for owners, managers, and attendants. Our proprietary tablet system facilitates processing wash and fold orders, transactions, inventory tracking, and in-store management from A to Z. Choreless optimizes employee and customer interactions with tailored tools to boost efficiency and revenue.',
+			name: 'Choreless',
+			short_name: 'Choreless',
+			description: '',
 			start_url: '/',
-			id: 'admin.getchoreless.com',
+			id: 'v2.getchoreless.com',
 			display: 'standalone',
 			theme_color: '#f85a47',
 			background_color: '#ffffff',

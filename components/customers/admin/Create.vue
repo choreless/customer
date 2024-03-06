@@ -2,7 +2,7 @@
 import { useIMask } from 'vue-imask';
 import { z } from 'zod';
 import zips from '~/assets/data/zip_services.json';
-import { addons as addon_list, detergents, dryer_temperatures, water_temperatures } from '~/lib/customer';
+import { detergents, dryer_temperatures, water_temperatures } from '~/lib/customer';
 import type { CustomerType } from '~/types/user';
 
 const api = useApi();
@@ -19,10 +19,9 @@ const address = ref('');
 const unit_or_suite = ref('');
 const city = ref('');
 const zip = ref('');
-const addons = ref<typeof addon_list[number][]>([]);
 const detergent = ref<typeof detergents[number]>();
-const dryer_temperature = ref<typeof dryer_temperatures[number]>()
 const water_temperature = ref<typeof water_temperatures[number]>();
+const dryer_temperature = ref<typeof dryer_temperatures[number]>()
 const comment = ref('');
 
 const loading = reactive({
@@ -39,8 +38,8 @@ const error = reactive({
 	city: undefined as undefined|boolean,
 	zip: undefined as undefined|boolean,
 	detergent: false,
-	dryer_temperature: false,
-	water_temperature: false
+	water_temperature: false,
+	dryer_temperature: false
 })
 
 const phone_imask = useIMask({
@@ -107,10 +106,9 @@ async function save(){
 				unit_or_suite: unit_or_suite.value,
 				city: city.value,
 				zip: zip.value,
-				addons: addons.value,
 				detergent: detergent.value,
-				dryer_temperature: dryer_temperature.value,
 				water_temperature: water_temperature.value,
+				dryer_temperature: dryer_temperature.value,
 				comment: comment.value,
 				business_name: business_name.value
 			}
@@ -146,8 +144,8 @@ watch(address, n=>{ error.address = !n })
 watch(city, n=>{ error.city = !n })
 watch(zip, n=>{ error.zip = !zips.includes(n); })
 watch(detergent, ()=>{ error.detergent = false; })
-watch(dryer_temperature, ()=>{ error.dryer_temperature = false; })
 watch(water_temperature, ()=>{ error.dryer_temperature = false; })
+watch(dryer_temperature, ()=>{ error.dryer_temperature = false; })
 </script>
 
 <template>
@@ -305,13 +303,6 @@ watch(water_temperature, ()=>{ error.dryer_temperature = false; })
 	</div>
 	<div v-else-if="step==='preference'">
 		<div class="mx-2 lg:mx-11">
-			<p class="my-2.5 text-brand-black/50">Add-ons</p>
-			<div class="flex flex-wrap gap-2.5">
-				<label v-for="addon of addon_list" :key="addon" class="badge !p-4 bg-black/5 hover:scale-105 hover:bg-primary hover:text-white relative [&.active]:bg-primary [&.active]:text-white cursor-pointer" :class="addons.includes(addon) && 'active'">
-					<input v-model="addons" type="checkbox" :value="addon" hidden>
-					<p>{{ addon }}</p>
-				</label>
-			</div>
 			<p class="my-2.5 text-brand-black/50">Choose a Detergent</p>
 			<div>
 				<div class="flex flex-wrap gap-2.5">
@@ -322,16 +313,6 @@ watch(water_temperature, ()=>{ error.dryer_temperature = false; })
 				</div>
 				<p v-if="error.detergent" class="text-error">* Detergent is required</p>
 			</div>
-			<p class="my-2.5 text-brand-black/50">Dryer Temperature</p>
-			<div>
-				<div class="flex flex-wrap gap-2.5">
-					<label v-for="v of dryer_temperatures" :key="v" class="badge !p-4 cursor-pointer bg-black/5 hover:bg-primary hover:scale-105 hover:text-white [&.active]:bg-primary [&.active]:text-white" :class="dryer_temperature===v && 'active'">
-						<input v-model="dryer_temperature" type="radio" :value="v" class="radio" hidden>
-						<p>{{ v }}</p>
-					</label>
-				</div>
-				<p v-if="error.dryer_temperature" class="text-error">* Dryer Temperature is required</p>
-			</div>
 			<p class="my-2.5 text-brand-black/50">Water Temperature</p>
 			<div>
 				<div class="flex flex-wrap gap-2.5">
@@ -341,6 +322,16 @@ watch(water_temperature, ()=>{ error.dryer_temperature = false; })
 					</label>
 				</div>
 				<p v-if="error.water_temperature" class="text-error">* Water Temperature is required</p>
+			</div>
+			<p class="my-2.5 text-brand-black/50">Dryer Temperature</p>
+			<div>
+				<div class="flex flex-wrap gap-2.5">
+					<label v-for="v of dryer_temperatures" :key="v" class="badge !p-4 cursor-pointer bg-black/5 hover:bg-primary hover:scale-105 hover:text-white [&.active]:bg-primary [&.active]:text-white" :class="dryer_temperature===v && 'active'">
+						<input v-model="dryer_temperature" type="radio" :value="v" class="radio" hidden>
+						<p>{{ v }}</p>
+					</label>
+				</div>
+				<p v-if="error.dryer_temperature" class="text-error">* Dryer Temperature is required</p>
 			</div>
 			<textarea v-model="comment" placeholder="Care Preferences" class="textarea textarea-bordered w-full mt-5" rows="3" />
 		</div>

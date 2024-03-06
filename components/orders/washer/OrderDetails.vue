@@ -49,10 +49,6 @@ const computed_is_wet = computed({
 				<p class="text-sm"><b>Detergent:</b> {{ customer?.detergent }}</p>
 				<p class="text-sm"><b>Water Temp:</b> {{ customer?.water_temperature }}</p>
 				<p class="text-sm"><b>Dryer Temp:</b> {{ customer?.dryer_temperature }}</p>
-				<div class="flex text-sm gap-1">
-					<b class="text-nowrap">Add-ons:</b>
-					<p>{{ customer?.addons.join(', ') }}</p>
-				</div>
 			</div>
 			<div class="mt-5">
 				<h3 class="font-bold">Preferences Notes</h3>

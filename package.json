@@ -13,6 +13,7 @@
   "devDependencies": {
     "@nuxtjs/eslint-config-typescript": "^12.1.0",
     "@nuxtjs/tailwindcss": "^6.11.4",
+    "@types/google.maps": "^3.55.4",
     "@vueuse/core": "^10.9.0",
     "@vueuse/nuxt": "^10.9.0",
     "daisyui": "^4.7.2",
@@ -23,6 +24,7 @@
     "vue-router": "^4.3.0"
   },
   "dependencies": {
+    "@googlemaps/js-api-loader": "^1.16.6",
     "@kyvg/vue3-notification": "^3.2.0",
     "@pinia/nuxt": "^0.5.1",
     "@popperjs/core": "^2.11.8",

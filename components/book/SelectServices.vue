@@ -84,7 +84,7 @@ function dialogSave(){
 				<p>{{ v }}</p>
 			</label>
 		</div>
-		<label v-if="book.usertype==='old'" class="input-float mt-5">
+		<label class="input-float mt-5">
 			<input v-model="book.zip" type="text" placeholder="">
 			<p>Zip Code</p>
 		</label>

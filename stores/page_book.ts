@@ -1,11 +1,7 @@
 import addDays from 'date-fns/addDays';
 import formatISO from 'date-fns/formatISO';
 import parseISO from 'date-fns/parseISO';
-import { z } from 'zod';
 import customer from '~/lib/customer';
-
-type InputStatus = 'info'|'success'|'error';
-type EmailStatus = InputStatus|'progress';
 
 export const usePageBook = defineStore('page_book', ()=>{
 	const wash_types = ['mixed', 'separate'] as const;
@@ -13,13 +9,7 @@ export const usePageBook = defineStore('page_book', ()=>{
 	const frequencies = ['Just once', 'Weekly', 'Every two weeks', 'Every four weeks'] as const;
 	const now = useNow();
 
-	const usertype = ref<'new'|'old'>('new');
 	const step = ref<-1|0|1|2|3|4>(0); // -1 means service is not available in the area
-	const phone = reactive({masked: '', unmasked: ''});
-	const first_name = ref('');
-	const last_name = ref('');
-	const email = ref('');
-	const promo_code = ref('');
 	const bags_count = ref(1);
 	const wash_type = ref<typeof wash_types[number]>();
 	const extra_service = ref<boolean>();
@@ -34,10 +24,6 @@ export const usePageBook = defineStore('page_book', ()=>{
 	const date = ref();
 
 	const error = reactive({
-		phone: undefined as undefined | boolean,
-		first_name: ref<InputStatus>('info'),
-		last_name: ref<InputStatus>('info'),
-		email: ref<EmailStatus>('info'),
 		wash_type: false,
 		zip: false,
 		detergent: false,
@@ -56,10 +42,6 @@ export const usePageBook = defineStore('page_book', ()=>{
 	);
 	const scheduled_delivery = computed(()=>addDays(parseISO(date.value), service_speed.value==='next_day' ? 1 : 2));
 
-	watch(phone, n=>{error.phone = n.unmasked.length===10 ? false : undefined;})
-	watch(first_name, n=>{error.first_name = n ? 'success' : 'error';})
-	watch(last_name, n=>{error.last_name = n ? 'success' : 'error';})
-	watch(email, n=>{ error.email = z.string().email().safeParse(n).success ? 'success' : 'error'; })
 	watch(wash_type, n=>{error.wash_type = !n;})
 	watch(detergent, n=>{error.detergent = !n;})
 	watch(zip, n=>{error.zip = !n;})
@@ -68,9 +50,7 @@ export const usePageBook = defineStore('page_book', ()=>{
 
 	return {
 		wash_types, service_speeds, frequencies, now,
-		usertype, step,
-		phone, first_name, last_name, email, promo_code,
-		bags_count, wash_type, extra_service, zip, care_services, addons, detergent, water_temperature, dryer_temperature, service_speed, frequency, date, error,
+		step, bags_count, wash_type, extra_service, zip, care_services, addons, detergent, water_temperature, dryer_temperature, service_speed, frequency, date, error,
 		pinned_pickup_dates, scheduled_delivery
 	}
 })

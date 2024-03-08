@@ -10,7 +10,7 @@ const show_changelog = ref(false);
 			<NuxtLink to="/dashboard">
 				<img src="https://ik.imagekit.io/choreless/v2/icons/choreless-white.svg" alt="logo" loading="lazy" class="h-10">
 			</NuxtLink>
-			<button class="block text-xs font-bold px-1 ms-0.5 -mt-2 rounded-sm text-white hover:bg-warning hover:text-black" @click="show_changelog=true">v{{ $config.public.base.AppVersion }}</button>
+			<button class="block text-xs font-bold px-1 ms-0.5 -mt-2 rounded-sm text-white hover:bg-warning hover:text-black" @click="show_changelog=true">v{{ $config.public.base.APP_VERSION }}</button>
 		</div>
 		<NuxtLink href="/logout" class="btn btn-sm flex items-center h-[1.1875rem] rounded-md text-base text-brand-orange hover:bg-brand-orange hover:text-white">Logout</NuxtLink>
 	</nav>

@@ -1,12 +1,12 @@
 /** base */
-const AppName = 'Customer';
-const AppUrl = process.env.AppUrl ?? 'http://localhost:3000';
-const AppVersion = process.env.AppVersion ?? 'Dev';
-const ApiMain = process.env.ApiMain ?? 'https://api.getchoreless.com';
+const APP_NAME = 'Customer';
+const APP_VERSION = process.env.APP_VERSION ?? 'Dev';
+const APP_URL = process.env.APP_URL ?? 'http://localhost:3000';
+const API_MAIN = process.env.API_MAIN ?? 'https://api.getchoreless.com';
 const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY ?? '';
 
 /** dev */
-const debug = Boolean(process.env.debug) ?? false;
+const DEBUG = Boolean(process.env.DEBUG) ?? false;
 
 export default defineNuxtConfig({
 	modules: ['@nuxtjs/tailwindcss', '@pinia/nuxt', 'nuxt-icon', '@vueuse/nuxt'],
@@ -19,16 +19,16 @@ export default defineNuxtConfig({
 	runtimeConfig: {
 		public: {
 			base: {
-				AppName,
-				AppUrl,
-				AppVersion,
-				ApiMain,
+				APP_NAME,
+				APP_VERSION,
+				APP_URL,
+				API_MAIN,
 				GOOGLE_API_KEY
 			},
 			dev: {
-				debug
+				DEBUG
 			}
 		}
 	},
-	devtools: { enabled: debug }
+	devtools: { enabled: DEBUG }
 })

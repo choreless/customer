@@ -137,9 +137,9 @@ onMounted(async ()=>{
 		zoom: 9,
 		mapTypeId: 'roadmap',
 		disableDefaultUI: true,
-		mapId: '548873f885812ca8'
-		// gestureHandling: 'none',
-		// keyboardShortcuts: false
+		mapId: '548873f885812ca8',
+		gestureHandling: 'none',
+		keyboardShortcuts: false
 	};
 	map.value = new Map(map_ref.value as HTMLDivElement, mapOptions);
 

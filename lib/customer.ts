@@ -11,7 +11,8 @@ export const addons2 = [
 	{name: 'Softener Downy', cost: '$0.10 / lb', wash_type: 'both'}
 ] as const;
 export const care_services = ['Delicates', 'Hang-Dry', 'Hangers', "Don't mix bags"] as const;
-export const detergents = ['Premium Scented', 'Hypoallergenic', 'I will provide'] as const;
+// export const detergents = ['Premium Scented', 'Hypoallergenic', 'I will provide'] as const;
+export const detergents = [{value: 'Premium Scented', isPopular: true, discription: 'Top-rated Premium brand scented detergent'}, {value: 'Hypoallergenic', isPopular: false, discription: 'Detergent that is free from dyes, perfumes, scents, & optical brighteners'}, {value: 'I will provide', isPopular: false, discription: 'Include detergent with your laungry and we`ll use it Whatever is not used will be returned to you.'}]as const;
 export const dryer_temperatures = ['High', 'Medium', 'Low'] as const;
 export const water_temperatures = ['Cold', 'Hot'] as const;
 

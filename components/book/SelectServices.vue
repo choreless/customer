@@ -1,18 +1,24 @@
 <script setup lang="ts">
-import zips from '~/assets/data/zip_services.json';
+import Delicates from '../icon/Delicates.vue';
+import Hangdry from '../icon/Hangdry.vue';
+import SeperateWash from '../icon/Seperate-wash.vue';
+import checkBadge from '../icon/checkBadge.vue'
+
+// import zips from '~/assets/data/zip_services.json';
 import customer from '~/lib/customer';
 
 const book = usePageBook();
-
+const collapsed= ref(false)
 const is_dialog_open = ref(false);
 
 function next(){
 	book.error.wash_type = !book.wash_type;
 	book.error.detergent = !book.detergent;
-	book.error.zip = !book.zip;
+	// book.error.zip = !book.zip;
 	if(!book.error.wash_type && book.error.detergent) is_dialog_open.value = true;
-	if(book.error.wash_type || book.error.detergent || book.error.zip) return;
-	zips.includes(book.zip) ? book.step++ : book.step=-1;
+	if(book.error.wash_type || book.error.detergent) return;
+	// zips.includes(book.zip) ? book.step++ : book.step=-1;
+	book.step++
 }
 
 function dialogSave(){
@@ -79,17 +85,17 @@ function dialogSave(){
 		<h2 class="text-lg sm:text-xl font-bold leading-loose mt-2.5 text-brand-black">Any specific notes about this order?</h2>
 		<textarea rows="2" class="textarea textarea-bordered w-full mt-2.5" placeholder="Add specific notes about this order? " />
 		<div class="flex flex-wrap gap-2.5 mb-2.5">
-			<label v-for="v of customer.care_services" :key="v" class="badge !p-4 cursor-pointer bg-black/5 hover:scale-105 hover:bg-primary hover:text-white [&.active]:bg-primary [&.active]:text-white" :class="book.care_services.includes(v) && 'active'">
+			<label v-for="v,index of customer.care_services" :key="v" class="badge !p-4 cursor-pointer bg-black/5 hover:scale-105 hover:bg-primary hover:text-white [&.active]:bg-primary [&.active]:text-white" :class="book.care_services.includes(v) && 'active'">
 				<input v-model="book.care_services" type="checkbox" :value="v" hidden>
-				<p>{{ v }}</p>
+				<p class="flex items-center gap-x-2"><Delicates v-if="index === 0" /><Hangdry v-if="index === 1" /> <Icon v-if="index === 2" name="ph:coat-hanger" class="text-base" /> <Seperate-wash v-if="index === 3" /> {{ v }}</p>
 			</label>
 		</div>
-		<label class="input-float mt-5">
+		<!-- <label class="input-float mt-5">
 			<input v-model="book.zip" type="text" placeholder="">
 			<p>Zip Code</p>
 		</label>
-		<p v-if="book.error.zip" class="text-error">* Zip is required</p>
-		<button class="btn w-full h-[3.75rem] mt-2.5 px-5 py-[0.9375rem] rounded-[0.3125rem] text-2xl text-white bg-brand-orange border-brand-orange hover:text-brand-orange hover:bg-transparent hover:border-brand-orange" @click="next()">Continue</button>
+		<p v-if="book.error.zip" class="text-error">* Zip is required</p> -->
+		<button :disabled="!book.wash_type || !book.detergent" class="btn w-full h-[3.75rem] mt-2.5 px-5 py-[0.9375rem] rounded-[0.3125rem] text-2xl text-white bg-brand-orange border-brand-orange hover:text-brand-orange hover:bg-transparent hover:border-brand-orange" @click="next()">Continue</button>
 	</div>
 	<dialog class="modal" :class="is_dialog_open && 'modal-open'">
 		<div class="modal-box max-w-[37.5rem] rounded-2xl shadow-[0px_0px_15px_0px_#00000015] bg-white">
@@ -98,15 +104,32 @@ function dialogSave(){
 				<button class="btn btn-sm btn-square text-error hover:btn-error" @click="is_dialog_open=false"><Icon name="radix-icons:cross-1" class="text-2xl" /></button>
 			</div>
 			<div class="grid sm:grid-cols-2 gap-2.5 mt-2.5">
-				<button v-for="v of book.service_speeds" :key="v" class="text-center px-3 sm:px-6 py-5 border-2 rounded-md border-brand-black/20 [&:is(:hover,.active)]:border-brand-blue" :class="v===book.service_speed && 'active'" @click="book.service_speed=v">
+				<button v-for="v of book.service_speeds" :key="v" class="relative text-center px-3 sm:px-6 py-5 border-2 rounded-md border-brand-black/20 [&:is(:hover,.active)]:border-[#F85A47]" :class="v===book.service_speed && 'active'" @click="book.service_speed=v">
 					<img :src="`https://ik.imagekit.io/choreless/v2/icons/${v==='next_day' ? 'separate_wash%202' : 'mixed_wash%203'}.svg`" alt="icon" loading="lazy" class="w-12 mx-auto">
 					<p class="text-lg sm:text-xl font-bold leading-loose mt-2.5 mb-1.5">{{ v==='next_day' ? 'Next day delivery' : '2 day delivery' }}</p>
 					<p class="text-sm leading-4">{{ v==='next_day' ? 'Clothes will be separated & washed Differently but fold together.' : 'Clothes will washed and fold together.' }}</p>
 					<p class="mt-3">{{ v==='next_day' ? '$1.80/lb' : '$1.60/lb' }}</p>
+					<checkBadge v-if="v===book.service_speed" class="absolute top-[-1px] right-[-1px]"/>
 				</button>
 			</div>
 			<h2 class="text-lg sm:text-xl font-bold leading-loose mt-2.5 text-brand-black">Detergent<sup>*</sup></h2>
-			<div class="sm:mt-2.5">
+			<div class="collapse bg-base-200 border border-gray-400 rounded-md">
+				<input v-model="collapsed" type="checkbox">
+				<div class="collapse-title text-base uppercase  flex justify-between items-center pe-4 font-bold">
+					{{ book.detergent ?? 'Choose Detergent' }}
+					<Icon :name="!collapsed ? 'material-symbols:add-rounded' : 'ic:sharp-minus'" />
+				</div>
+				<div class="collapse-content bg-white">
+					<label v-for="v of customer.detergents" :key="v.value" class="detergent-label">
+
+						<input v-model="book.detergent" type="radio" :value="v.value" class="detergent-input">
+						<div class="flex">
+							<span class="max-w-[87%]"><p>{{ v.value }} <span v-if="v.isPopular" class="pl-5 text-xs text-gray-400 items-center">(Most popular choice)</span></p><p class="mt-2 text-gray-500">{{ v.discription }}</p></span> </div>
+
+					</label>
+				</div>
+			</div>
+			<!-- <div class="sm:mt-2.5">
 				<div class="flex flex-wrap gap-2.5">
 					<label v-for="v of customer.detergents" :key="v" class="btn btn-outline font-normal grow border-brand-black/20 [&:is(:hover,.active)]:bg-brand-blue [&:is(:hover,.active)]:border-brand-blue [&:is(:hover,.active)]:text-white" :class="book.detergent===v && 'active'">
 						<input v-model="book.detergent" type="radio" :value="v" hidden>
@@ -114,7 +137,7 @@ function dialogSave(){
 					</label>
 				</div>
 				<p v-if="book.error.detergent" class="text-error">* Detergent is required</p>
-			</div>
+			</div> -->
 			<p class="text-brand-black/50 mt-5">Add-ons</p>
 			<div class="flex flex-wrap gap-2.5 mt-2.5">
 				<template v-for="v of customer.addons2" :key="v.name">
@@ -124,9 +147,55 @@ function dialogSave(){
 					</label>
 				</template>
 			</div>
-			<button v-if="book.detergent" class="btn w-full h-[3.75rem] mt-5 px-5 py-[0.9375rem] rounded-[0.3125rem] text-2xl text-white bg-brand-orange border-brand-orange hover:text-brand-orange hover:bg-transparent hover:border-brand-orange" @click="dialogSave()">Save</button>
+			<button :disabled="!book.detergent" class="btn w-full h-[3.75rem] mt-5 px-5 py-[0.9375rem] rounded-[0.3125rem] text-2xl text-white bg-brand-orange border-brand-orange hover:text-brand-orange hover:bg-transparent hover:border-brand-orange" @click="dialogSave()">Save</button>
 		</div>
 		<div class="modal-backdrop bg-black/40" @click="is_dialog_open=false" />
 	</dialog>
 </div>
 </template>
+<style scoped>
+.detergent-input {
+  display: none;
+}
+
+.detergent-label {
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.detergent-label div {
+  position: relative;
+  line-height: 22px;
+}
+
+.detergent-label div:before,
+.detergent-label div:after {
+  content: '';
+}
+
+.detergent-label div:before {
+  border: 1px solid #222021;
+  border-radius: 4px;
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.detergent-label div:after {
+  background: #f85a47;
+  width: 14px;
+  height: 14px;
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  transition: 300ms;
+  opacity: 0;
+}
+
+.detergent-label .detergent-input:checked+div:after {
+  opacity: 1;
+}
+
+</style>

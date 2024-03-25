@@ -19,14 +19,14 @@ function next(){
 				<p>Phone number</p>
 			</label>
 			<div class="w-6 h-6 me-4">
-				<!-- <img v-if="entry.error.phone===undefined" v-tooltip="{content: 'Phone number is required', theme: 'tooltip-primary', triggers: ['hover', 'click']}" src="https://ik.imagekit.io/choreless/v2/icons/FigmaInfo.svg" alt="icon" loading="lazy"> -->
+				<img v-if="entry.error.phone===undefined" v-tooltip="{content: 'Phone number is required', theme: 'tooltip-primary', triggers: ['hover', 'click']}" src="https://ik.imagekit.io/choreless/v2/icons/FigmaInfo.svg" alt="icon" loading="lazy">
 				<img v-if="entry.error.phone" src="https://ik.imagekit.io/choreless/v2/icons/MaterialSymbolsCancelRounded.svg" alt="icon" loading="lazy">
 				<img v-else-if="entry.error.phone===false" src="https://ik.imagekit.io/choreless/v2/icons/FigmaSuccess.svg" alt="icon" loading="lazy">
 			</div>
 		</div>
 		<p v-if="entry.error.phone" class="text-error">* Invalid phone number</p>
 	</div>
-	<button class="h-auto py-[15px] px-5 btn w-full rounded-[0.3125rem] text-2xl mt-3 text-white bg-brand-orange border-brand-orange hover:text-brand-orange hover:bg-transparent hover:border-brand-orange" @click="next()">Verify</button>
+	<button :disabled="entry.error.phone != false && entry.error.phone === undefined" class="h-auto py-[15px] px-5 btn w-full rounded-[0.3125rem] text-2xl mt-3 text-white bg-brand-orange border-brand-orange hover:text-brand-orange hover:bg-transparent hover:border-brand-orange" @click="next()">Verify</button>
 	<p class="text-xs leading-4 text-center mt-[10px] opacity-50">Your order status will be updated via this phone number.</p>
 </div>
 </template>

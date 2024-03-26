@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import type { vTooltip } from 'floating-vue';
-
-const minChargeTooltipContent = `<`
+const promoCode = ref('12323ED')
 
 useHead({ title: 'Summary' });
 definePageMeta({
@@ -71,6 +70,7 @@ definePageMeta({
                                         </span>
                                         Apply promo code
                                     </button>
+                                    <form-promocode-input v-model:promoCode="promoCode" />
                                 </div>
                             </div>
                         </div>

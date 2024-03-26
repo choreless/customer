@@ -22,6 +22,9 @@
                     <div class=" size-8 rounded-full items-center justify-center inline-flex shrink-0 bg-[#EDEEF1]">
                         <icon-coin fill="black" width="16" height="16"/>
                     </div>
+                    <div>
+                        <span class=" text-sm">Due today</span>
+                    </div>
                 </div>
             </div>
         </div>

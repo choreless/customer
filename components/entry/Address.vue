@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import ChoreLessLocation from '../icon/ChorelessLocation.vue';
 import GooglePlace from '~/components/form/place/Google.vue';
 import MetaPlace from '~/components/form/place/Meta.vue';
 import type { Address } from '~/components/form/place/Google.vue';
@@ -71,6 +72,9 @@ const error_drop = reactive<Error>({
 	collection_type: false
 })
 
+const handleCheckboxChange = () => {
+	has_drop.value = !has_drop.value
+}
 function next(){
 
 }
@@ -153,22 +157,34 @@ onMounted(async ()=>{
 </script>
 
 <template>
-<div class="mt-2 sm:mt-12 h-full">
+<div class="mt-[3.12rem] h-full">
+	<h1 class="text-[2rem] leading-10 font-bold text-center">Enter Your Address</h1>
 	<p ref="marker_pick_ref" class="w-10 h-10 rounded-full border-2 hidden justify-center items-center text-2xl font-medium bg-brand-orange border-white text-white">P</p>
 	<p ref="marker_drop_ref" class="w-10 h-10 rounded-full border-2 hidden justify-center items-center text-2xl font-medium bg-white border-brand-orange text-brand-orange">D</p>
 
-	<div class="h-full flex flex-col gap-y-12">
-		<div class="max-w-5xl px-2 mx-auto w-full">
-			<label class="cursor-pointer flex items-center gap-x-2 justify-end pe-6">
-				<span class="label-text">Different drop-off</span>
-				<input v-model="has_drop" type="checkbox" class="toggle bg-black checked:bg-brand-orange">
-			</label>
-
-			<div class="grid gap-x-2 mt-3" :class="has_drop ? 'grid-cols-[1fr_1fr_auto]' : 'grid-cols-[1fr_auto]'">
-				<GooglePlace v-model="address_pick" intent="pick" />
-				<GooglePlace v-model="address_drop" intent="drop" :class="!has_drop && 'hidden'" />
-				<button class="btn w-full rounded-[0.3125rem] px-6 text-white bg-brand-orange border-brand-orange hover:text-brand-orange hover:bg-transparent hover:border-brand-orange" @click="next()">Continue</button>
+	<div class="h-full flex flex-col gap-y-12 mt-[24px]">
+		<div class=" px-2 mx-auto w-full max-w-[59.063rem]">
+			<div class="cursor-pointer flex items-center gap-x-[1.86rem] justify-end pe-6">
+				<span @click="handleCheckboxChange" class="label-text text-xs">Different drop-off</span>
+				<label class="flex items-center cursor-pointer select-none text-dark dark:text-white">
+					<div class="relative">
+						<input type="checkbox" class="sr-only" @change="handleCheckboxChange">
+						<div :class="{'!bg-[#F85A471A]' : has_drop}" class="h-5 rounded-full shadow-inner bg-[#D9D9D9] dark:bg-dark-2 w-[38px]" />
+						<div
+							:class="{ 'translate-x-full !bg-[#F85A47]': has_drop }"
+							class="absolute left-[-8px] shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition bg-white rounded-full dot shadow-switch-1 dark:bg-dark-4 -top-1 h-7 w-7"
+						/>
+					</div>
+				</label>
+				<!-- <input v-model="has_drop" type="checkbox" class="toggle bg-black checked:bg-brand-orange"> -->
 			</div>
+
+			<div class="grid gap-x-2 mt-5 h-20 shadow-[0px_0px_15px_0px_rgba(0,0,0,0.10)] pr-[10px] rounded" :class="has_drop ? 'grid-cols-[1fr_1fr_auto]' : 'grid-cols-[1fr_auto]'">
+				<GooglePlace v-model="address_pick" intent="pick" :hasDrop="has_drop" />
+				<GooglePlace v-model="address_drop" intent="drop" :class="!has_drop && 'hidden'" />
+				<button class="my-auto btn w-full rounded-[0.3125rem] text-white bg-brand-orange border-brand-orange hover:text-brand-orange hover:bg-transparent hover:border-brand-orange px-[45px] py-[13px]" @click="next()">Continue</button>
+			</div>
+			<div class="flex items-center mt-5 gap-x-[10px]"><ChoreLessLocation class="w-4 h-[18px]" /><p class="text-[#3063FF] text-base not-italic font-bold leading-[normal]">Show hotels near me</p></div>
 		</div>
 
 		<div class="w-full h-full">

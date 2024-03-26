@@ -43,6 +43,8 @@
 
 .multiselect {
 	@apply p-0;
+	@apply h-20;
+	@apply border-none;
 	.multiselect-wrapper {
 		@apply h-full;
 		.multiselect-search {
@@ -55,6 +57,7 @@
 			@apply pe-[3.7rem];
 		}
 		.multiselect-caret {
+			@apply hidden;
 			@apply pe-10;
 		}
 		.multiselect-tags-search {

@@ -34,3 +34,7 @@
 	.v-popper__inner { @apply bg-success; }
 	.v-popper__arrow-inner, .v-popper__arrow-outer { @apply border-success; }
 }
+.v-popper--theme-tooltip-white {
+	.v-popper__inner { @apply bg-white shadow; }
+	.v-popper__arrow-inner, .v-popper__arrow-outer { @apply border-white; }
+}

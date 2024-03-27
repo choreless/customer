@@ -1,7 +1,14 @@
 <script lang="ts" setup>
 import type { vTooltip } from 'floating-vue';
-const promoCode = ref<String>('chek')
-const showPromocodeInput = ref<Boolean>(false)
+
+
+const promoCode = ref<String>('');
+const tip = ref<String | Number | null>(null)
+const customTip = ref<String | Number | null>(null)
+const showPromocodeInput = ref<Boolean>(false);
+const showTipInput = ref<Boolean>(false);
+
+
 useHead({ title: 'Summary' });
 definePageMeta({
     layout: 'clean'
@@ -61,7 +68,7 @@ definePageMeta({
                                 <span>learn more</span>
                             </NuxtLink>
 
-                            <div class="mt-1">
+                            <div class="mt-1 space-y-2">
                                 <div class="space-y-2">
                                     <button @click="showPromocodeInput = !showPromocodeInput"
                                         class="flex items-center text-sm gap-3 text-[#838383] hover:text-gray-800 transition duration-200 ease-linear">
@@ -71,6 +78,17 @@ definePageMeta({
                                         Apply promo code
                                     </button>
                                     <form-promocode-input v-model:promoCode="promoCode" v-if="showPromocodeInput" />
+                                </div>
+                                <div class="space-y-2">
+                                    <button @click="showTipInput = !showTipInput"
+                                        class="flex items-center text-sm gap-3 text-[#838383] hover:text-gray-800 transition duration-200 ease-linear">
+                                        <span>
+                                            <icon-plus-circle />
+                                        </span>
+                                        Add tip
+                                    </button>
+                                    <form-tip-input v-if="showTipInput" v-model:tip="tip"
+                                        v-model:customTip="customTip" />
                                 </div>
                             </div>
                         </div>

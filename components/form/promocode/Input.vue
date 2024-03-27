@@ -8,10 +8,8 @@ const props = withDefaults(defineProps<{
     isValidPromocode: null
 })
 
-console.log({ props })
 
 const borderClass = computed(() => {
-    console.log({ pp: promoCode.value, pm: props.isValidPromocode, vs: props.isValidPromocode === false })
     if (promoCode.value && props.isValidPromocode === true) return 'border-brand-black';
     else if (promoCode.value && props.isValidPromocode === false) return 'border-[#FF4D4D]';
     else return 'border-[#00000033] hover:border-brand-black'

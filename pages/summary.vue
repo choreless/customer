@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { vTooltip } from 'floating-vue';
-const promoCode = ref('12323ED')
-
+const promoCode = ref<String>('chek')
+const showPromocodeInput = ref<Boolean>(false)
 useHead({ title: 'Summary' });
 definePageMeta({
     layout: 'clean'
@@ -62,15 +62,15 @@ definePageMeta({
                             </NuxtLink>
 
                             <div class="mt-1">
-                                <div>
-                                    <button
+                                <div class="space-y-2">
+                                    <button @click="showPromocodeInput = !showPromocodeInput"
                                         class="flex items-center text-sm gap-3 text-[#838383] hover:text-gray-800 transition duration-200 ease-linear">
                                         <span>
                                             <icon-plus-circle />
                                         </span>
                                         Apply promo code
                                     </button>
-                                    <form-promocode-input v-model:promoCode="promoCode" />
+                                    <form-promocode-input v-model:promoCode="promoCode" v-if="showPromocodeInput" />
                                 </div>
                             </div>
                         </div>

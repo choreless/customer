@@ -1,9 +1,9 @@
 <script setup lang="ts">
 withDefaults(defineProps<{
-    width: string,
-    height: string,
-    fill: string,
-    stroke: string
+    width?: string,
+    height?: string,
+    fill?: string,
+    stroke?: string
 }>(), {
     width: '15',
     height: '15',

@@ -1,13 +1,11 @@
 <script lang="ts" setup>
-import type { vTooltip } from 'floating-vue';
-
 
 const promoCode = ref<String>('');
 const tip = ref<String | Number | null>(null)
 const customTip = ref<String | Number | null>(null)
 const showPromocodeInput = ref<Boolean>(false);
 const showTipInput = ref<Boolean>(false);
-
+const showDetails = ref<Boolean>(false);
 
 useHead({ title: 'Summary' });
 definePageMeta({
@@ -22,13 +20,13 @@ definePageMeta({
         </div>
         <div class="p-[164px] space-y-5">
             <img src="https://ik.imagekit.io/choreless/v2/icons/choreless.svg" />
-            <div class="space-y-20">
+            <div class="space-y-8">
                 <div class="space-y-[10px]">
                     <h4 class="text-black text-[2rem] font-bold leading-[38px]">Summary</h4>
                     <small class=" text-sm text-[#838383] max-w-[322px]">Please double check all the information to
                         ensure it is <br> correct before booking</small>
                 </div>
-                <div>
+                <div class="">
                     <div class="flex items-start gap-4">
                         <div class=" size-8 rounded-full items-center justify-center inline-flex shrink-0 bg-[#EDEEF1]">
                             <icon-coin fill="black" width="16" height="16" />
@@ -93,6 +91,145 @@ definePageMeta({
                             </div>
                         </div>
                     </div>
+                    <div
+                        class="py-4 relative space-y-8 before:absolute before:top-12 before:bottom-[calc(50%-30px)] before:left-[15px] before:z-0 before:w-0.5 before:bg-gray-200 before:content-['']">
+                        <div class="flex items-start gap-4 py-2.5 z-10 relative group">
+                            <div
+                                class=" size-8 rounded-full items-center justify-center inline-flex shrink-0 bg-[#EDEEF1] overflow-hidden">
+                                <span
+                                    class=" transform group-hover:translate-y-[-35px] group-hover:h-0 group-hover:w-0 gro transition-all duration-100 ease-linear">
+                                    <icon-arrow-up />
+                                </span>
+                                <nuxt-link to="/" class="invisible group-hover:visible size-0 group-hover:size-auto">
+                                    <icon-edit />
+                                </nuxt-link>
+                            </div>
+                            <div>
+                                <span class="text-[#838383] text-base">Pickup</span>
+                                <h4 class="text-black text-xl font-medium flex items-center gap-2">720 seneca st
+                                    seattle, WA</h4>
+                                <p class=" text-sm text-[#838383]">
+                                    Collect from me in person
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4 py-2.5 z-10 relative group">
+                            <div
+                                class=" size-8 rounded-full items-center justify-center inline-flex shrink-0 bg-[#EDEEF1] overflow-hidden">
+                                <span
+                                    class=" transform group-hover:translate-y-[-35px] group-hover:h-0 group-hover:w-0 gro transition-all duration-100 ease-linear">
+                                    <icon-arrow-down />
+                                </span>
+                                <nuxt-link to="/" class="invisible group-hover:visible size-0 group-hover:size-auto">
+                                    <icon-edit />
+                                </nuxt-link>
+                            </div>
+                            <div>
+                                <span class="text-[#838383] text-base">Drop-off</span>
+                                <h4 class="text-black text-xl font-medium flex items-center gap-2">7800 st Seattle,
+                                    WA </h4>
+                                <p class=" text-sm text-[#838383]">
+                                    Collect from me in person
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative space-y-8 transition-all duration-200 ease-linear"
+                        :class="showDetails ? 'h-[500px] opacity-100 overflow-visible' : 'h-0 overflow-hidden '">
+                        <div class="flex items-start gap-4 py-2.5 z-10 relative group">
+                            <div
+                                class=" size-8 rounded-full items-center justify-center inline-flex shrink-0 bg-[#EDEEF1] overflow-hidden">
+                                <span
+                                    class=" transform group-hover:translate-y-[-35px] group-hover:h-0 group-hover:w-0 gro transition-all duration-100 ease-linear">
+                                    <icon-calender />
+                                </span>
+                                <nuxt-link to="/" class="invisible group-hover:visible size-0 group-hover:size-auto">
+                                    <icon-edit />
+                                </nuxt-link>
+                            </div>
+                            <div>
+                                <span class="text-[#838383] text-base">Arrival window</span>
+                                <h4 class="text-black text-xl font-medium flex items-center gap-2">Sun, Nov 12th - 9AM
+                                    to 10AM</h4>
+
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4 py-2.5 z-10 relative group">
+                            <div
+                                class=" size-8 rounded-full items-center justify-center inline-flex shrink-0 bg-[#EDEEF1] overflow-hidden">
+                                <span
+                                    class=" transform group-hover:translate-y-[-35px] group-hover:h-0 group-hover:w-0 gro transition-all duration-100 ease-linear">
+                                    <icon-schedule />
+                                </span>
+                                <nuxt-link to="/" class="invisible group-hover:visible size-0 group-hover:size-auto">
+                                    <icon-edit />
+                                </nuxt-link>
+                            </div>
+                            <div>
+                                <span class="text-[#838383] text-base">Delivery window</span>
+                                <h4 class="text-black text-xl font-medium flex items-center gap-2">Mon, Nov 13th - 9AM
+                                    to 10 AM</h4>
+
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4 py-2.5 z-10 relative group">
+                            <div
+                                class=" size-8 rounded-full items-center justify-center inline-flex shrink-0 bg-[#EDEEF1] overflow-hidden">
+                                <span
+                                    class=" transform group-hover:translate-y-[-35px] group-hover:h-0 group-hover:w-0 gro transition-all duration-100 ease-linear">
+                                    <icon-choreless-delicates />
+                                </span>
+                                <nuxt-link to="/" class="invisible group-hover:visible size-0 group-hover:size-auto">
+                                    <icon-edit />
+                                </nuxt-link>
+                            </div>
+                            <div>
+                                <span class="text-[#838383] text-base">Selected Services</span>
+                                <h4 class="text-black text-xl font-medium flex items-center gap-2">Mixed Wash
+                                    <span class="text-[#F85A47] bg-[#f85a4719] rounded-[11px] px-2 text-xs">
+                                        +7 Add-ons
+                                    </span>
+                                </h4>
+                                <p class=" text-sm text-[#838383] flex items-center gap-2">
+                                    <icon-arrow-vector />
+                                    2-Day Delivery
+                                </p>
+                                <p class="text-black text-base font-medium flex items-center gap-2 mt-1">Home & Bedding
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4 py-2.5 z-10 relative group">
+                            <div
+                                class=" size-8 rounded-full items-center justify-center inline-flex shrink-0 bg-[#EDEEF1] overflow-hidden">
+                                <span
+                                    class=" transform group-hover:translate-y-[-35px] group-hover:h-0 group-hover:w-0 gro transition-all duration-100 ease-linear">
+                                    <icon-preferences />
+                                </span>
+                                <nuxt-link to="/" class="invisible group-hover:visible size-0 group-hover:size-auto">
+                                    <icon-edit />
+                                </nuxt-link>
+                            </div>
+                            <div>
+                                <span class="text-[#838383] text-base">Care Preferences </span>
+                                <h4 class="text-black text-xl font-medium flex items-center gap-2">
+                                    Water temp: <small class="text-[#838383] text-sm">Hot</small>
+                                    Dryer temp: <small class="text-[#838383] text-sm">High</small>
+                                </h4>
+                                <div class="text-black text-base   mt-1">
+                                    Preferences Notes <br>
+                                    <span class="block text-[#838383]">
+                                        The order need to be handle carefully
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" @click="showDetails = !showDetails"
+                        class="flex items-center gap-3 text-sm text-[#F85A47] hover:text-orange-700 transition duration-200 ease-linear">
+                        <icon-caret-up v-if="showDetails" />
+                        <icon-caret-down v-else />
+                        {{ showDetails ? 'Hide details' : 'Show details' }}
+                    </button>
                 </div>
             </div>
         </div>

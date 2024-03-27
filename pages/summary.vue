@@ -230,6 +230,18 @@ definePageMeta({
                         <icon-caret-down v-else />
                         {{ showDetails ? 'Hide details' : 'Show details' }}
                     </button>
+
+                    <div class="flex items-center gap-2 mt-2.5">
+                        <button type="button"
+                            class="size-[50px] rounded-[5px] inline-flex items-center justify-center bg-[#F3F3F6] text-black hover:bg-gray-200 transition duration-200 ease-linear shrink-0">
+                            <icon-caret-left />
+                        </button>
+                        <button
+                            class="flex items-center justify-center rounded-[5px] bg-[#F3F3F6] hover:bg-gray-200 w-full py-[13px] px-2 font-bold"
+                            type="button">
+                            Submit your order
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

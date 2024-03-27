@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import Multiselect from '@vueform/multiselect';
+import Vline from '../../icon/Vline.vue';
 import { toSplitted } from '~/lib/text_manipulation';
 import zips from '~/assets/data/zip_services.json';
 type PlaceOption = {value: string, label: string};
@@ -74,6 +75,7 @@ export interface Address {
 const props = defineProps<{
 	modelValue: Address
 	intent: 'pick'|'drop'
+	hasDrop?: Boolean
 }>();
 
 const emit = defineEmits<{
@@ -169,10 +171,13 @@ watch(id, async n=>{
 		<template #placeholder>
 			<div class="flex items-center h-full absolute left-0 top-0 pointer-events-none bg-transparent leading-snug pl-3.5 rtl:left-auto rtl:right-0 rtl:pl-0 rtl:pr-3.5">
 				<div class="grid justify-around items-center gap-x-2 grid-cols-[auto_1fr]">
-					<img src="https://ik.imagekit.io/choreless/v2/icons/FigmaArrow2.svg" alt="icon" loading="lazy">
+					<div class="flex items-center">
+						<Vline v-if="!hasDrop && intent != 'pick'" class="mr-[10px]" />
+						<img :class="!hasDrop && intent !='pick' ? 'rotate-180' : ''" src="https://ik.imagekit.io/choreless/v2/icons/FigmaArrow2.svg" alt="icon" loading="lazy">
+					</div>
 					<div>
-						<p class="text-xs text-[#808080]">{{ intent==='pick' ? 'Pickup' : 'Drop off' }}</p>
-						<p class="text-brand-black/40">Enter Address</p>
+						<p class="text-xs leading-6 text-[rgba(0,0,0,0.30)]">{{ intent==='pick' ? !hasDrop ? 'Pickup / Drop-off' : 'Pickup' : 'Drop off' }}</p>
+						<p class="text-[rgba(0,0,0,0.50)] text-base not-italic font-normal leading-6">Enter Address</p>
 					</div>
 				</div>
 			</div>

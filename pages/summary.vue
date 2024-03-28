@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 
-const promoCode = ref<String>('');
+const promoCode = ref<String>('any promocde');
 const tip = ref<String | Number | null>(null)
 const customTip = ref<String | Number | null>(null)
 const showPromocodeInput = ref<Boolean>(false);
@@ -33,7 +33,7 @@ definePageMeta({
                         </div>
                         <div>
                             <span class=" text-base text-[#838383]">Due today</span>
-                            <h4 class="text-black text-xl font-medium flex items-center gap-2">$35 minimum charge
+                            <h4 class="text-black text-lg font-medium flex items-center gap-2">$35 minimum charge
                                 <span v-tooltip="{
                                     content:
                                         `<ul class='space-y-2'>
@@ -75,7 +75,8 @@ definePageMeta({
                                         </span>
                                         Apply promo code
                                     </button>
-                                    <form-promocode-input v-model:promoCode="promoCode" v-if="showPromocodeInput" />
+                                    <form-promocode-input v-model:promoCode="promoCode" v-if="showPromocodeInput"
+                                        :is-valid-promocode="true" />
                                 </div>
                                 <div class="space-y-2">
                                     <button @click="showTipInput = !showTipInput"
@@ -106,7 +107,7 @@ definePageMeta({
                             </div>
                             <div>
                                 <span class="text-[#838383] text-base">Pickup</span>
-                                <h4 class="text-black text-xl font-medium flex items-center gap-2">720 seneca st
+                                <h4 class="text-black text-lg font-medium flex items-center gap-2">720 seneca st
                                     seattle, WA</h4>
                                 <p class=" text-sm text-[#838383]">
                                     Collect from me in person
@@ -126,7 +127,7 @@ definePageMeta({
                             </div>
                             <div>
                                 <span class="text-[#838383] text-base">Drop-off</span>
-                                <h4 class="text-black text-xl font-medium flex items-center gap-2">7800 st Seattle,
+                                <h4 class="text-black text-lg font-medium flex items-center gap-2">7800 st Seattle,
                                     WA </h4>
                                 <p class=" text-sm text-[#838383]">
                                     Collect from me in person
@@ -149,7 +150,7 @@ definePageMeta({
                             </div>
                             <div>
                                 <span class="text-[#838383] text-base">Arrival window</span>
-                                <h4 class="text-black text-xl font-medium flex items-center gap-2">Sun, Nov 12th - 9AM
+                                <h4 class="text-black text-[18px]  flex items-center gap-2">Sun, Nov 12th - 9AM
                                     to 10AM</h4>
 
                             </div>
@@ -167,7 +168,7 @@ definePageMeta({
                             </div>
                             <div>
                                 <span class="text-[#838383] text-base">Delivery window</span>
-                                <h4 class="text-black text-xl font-medium flex items-center gap-2">Mon, Nov 13th - 9AM
+                                <h4 class="text-black text-lg flex items-center gap-2">Mon, Nov 13th - 9AM
                                     to 10 AM</h4>
 
                             </div>
@@ -185,7 +186,7 @@ definePageMeta({
                             </div>
                             <div>
                                 <span class="text-[#838383] text-base">Selected Services</span>
-                                <h4 class="text-black text-xl font-medium flex items-center gap-2">Mixed Wash
+                                <h4 class="text-black text-lg flex items-center gap-2">Mixed Wash
                                     <span class="text-[#F85A47] bg-[#f85a4719] rounded-[11px] px-2 text-xs">
                                         +7 Add-ons
                                     </span>
@@ -194,7 +195,7 @@ definePageMeta({
                                     <icon-arrow-vector />
                                     2-Day Delivery
                                 </p>
-                                <p class="text-black text-base font-medium flex items-center gap-2 mt-1">Home & Bedding
+                                <p class="text-black text-lg flex items-center gap-2 mt-1">Home & Bedding
                                 </p>
                             </div>
                         </div>
@@ -211,16 +212,18 @@ definePageMeta({
                             </div>
                             <div>
                                 <span class="text-[#838383] text-base">Care Preferences </span>
-                                <h4 class="text-black text-xl font-medium flex items-center gap-2">
-                                    Water temp: <small class="text-[#838383] text-sm">Hot</small>
-                                    Dryer temp: <small class="text-[#838383] text-sm">High</small>
-                                </h4>
-                                <div class="text-black text-base   mt-1">
+                                <p class="text-black text-lg font-medium flex items-center gap-2">
+                                    Water temp: <span class=" font-normal">Hot</span>
+                                </p>
+                                <p class="text-black text-lg font-medium flex items-center gap-2">
+                                    Dryer temp: <span class="font-normal">High</span>
+                                </p>
+                                <!-- <div class="text-black text-base   mt-1">
                                     Preferences Notes <br>
                                     <span class="block text-[#838383]">
                                         The order need to be handle carefully
                                     </span>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>

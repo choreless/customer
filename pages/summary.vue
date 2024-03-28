@@ -6,7 +6,7 @@ const customTip = ref<String | Number | null>(null)
 const showPromocodeInput = ref<Boolean>(false);
 const showTipInput = ref<Boolean>(false);
 const showDetails = ref<Boolean>(false);
-
+const isLocationSame = ref<Boolean>(false)
 useHead({ title: 'Summary' });
 definePageMeta({
     layout: 'clean'
@@ -36,7 +36,7 @@ definePageMeta({
                             <h4 class="text-black text-lg font-medium flex items-center gap-2">$35 minimum charge
                                 <span v-tooltip="{
                                     content:
-                                        `<ul class='space-y-2'>
+                                        `<ul class='space-y-2.5 px-2'>
                                             <li class='flex items-center justify-between gap-20'>
                                                 <span class='text-base text-black'>Order min <small
                                                         class='text-xs text-[#838383]'>(mixed wash)</small></span>
@@ -75,8 +75,7 @@ definePageMeta({
                                         </span>
                                         Apply promo code
                                     </button>
-                                    <form-promocode-input v-model:promoCode="promoCode" v-if="showPromocodeInput"
-                                        :is-valid-promocode="true" />
+                                    <form-promocode-input v-model:promoCode="promoCode" v-if="showPromocodeInput" />
                                 </div>
                                 <div class="space-y-2">
                                     <button @click="showTipInput = !showTipInput"
@@ -92,8 +91,8 @@ definePageMeta({
                             </div>
                         </div>
                     </div>
-                    <div
-                        class="py-4 relative space-y-8 before:absolute before:top-12 before:bottom-[calc(50%-30px)] before:left-[15px] before:z-0 before:w-0.5 before:bg-gray-200 before:content-['']">
+                    <div class="py-4 relative space-y-8 "
+                        :class="isLocationSame ? 'before:absolute before:top-12 before:bottom-[calc(50%-30px)] before:left-[15px] before:z-0 before:w-0.5 before:bg-gray-200 before:content' : ''">
                         <div class="flex items-start gap-4 py-2.5 z-10 relative group">
                             <div
                                 class=" size-8 rounded-full items-center justify-center inline-flex shrink-0 bg-[#EDEEF1] overflow-hidden">
@@ -114,7 +113,7 @@ definePageMeta({
                                 </p>
                             </div>
                         </div>
-                        <div class="flex items-start gap-4 py-2.5 z-10 relative group">
+                        <div class="flex items-start gap-4 py-2.5 z-10 relative group" v-if="isLocationSame">
                             <div
                                 class=" size-8 rounded-full items-center justify-center inline-flex shrink-0 bg-[#EDEEF1] overflow-hidden">
                                 <span

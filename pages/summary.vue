@@ -6,7 +6,7 @@ const customTip = ref<String | Number | null>(null)
 const showPromocodeInput = ref<Boolean>(false);
 const showTipInput = ref<Boolean>(false);
 const showDetails = ref<Boolean>(false);
-const isLocationSame = ref<Boolean>(false)
+const isLocationSame = ref<Boolean>(true)
 useHead({ title: 'Summary' });
 definePageMeta({
     layout: 'clean'
@@ -92,7 +92,7 @@ definePageMeta({
                         </div>
                     </div>
                     <div class="py-4 relative space-y-8 "
-                        :class="isLocationSame ? 'before:absolute before:top-12 before:bottom-[calc(50%-30px)] before:left-[15px] before:z-0 before:w-0.5 before:bg-gray-200 before:content' : ''">
+                        :class="!isLocationSame ? 'before:absolute before:top-12 before:bottom-[calc(50%-30px)] before:left-[15px] before:z-0 before:w-0.5 before:bg-gray-200 before:content' : ''">
                         <div class="flex items-start gap-4 py-2.5 z-10 relative group">
                             <div
                                 class=" size-8 rounded-full items-center justify-center inline-flex shrink-0 bg-[#EDEEF1] overflow-hidden">
@@ -105,7 +105,8 @@ definePageMeta({
                                 </nuxt-link>
                             </div>
                             <div>
-                                <span class="text-[#838383] text-base">Pickup</span>
+                                <span class="text-[#838383] text-base"
+                                    v-text="isLocationSame ? 'Pickup & Drop-off' : 'Pickup'" />
                                 <h4 class="text-black text-lg font-medium flex items-center gap-2">720 seneca st
                                     seattle, WA</h4>
                                 <p class=" text-sm text-[#838383]">
@@ -113,7 +114,7 @@ definePageMeta({
                                 </p>
                             </div>
                         </div>
-                        <div class="flex items-start gap-4 py-2.5 z-10 relative group" v-if="isLocationSame">
+                        <div class="flex items-start gap-4 py-2.5 z-10 relative group" v-if="!isLocationSame">
                             <div
                                 class=" size-8 rounded-full items-center justify-center inline-flex shrink-0 bg-[#EDEEF1] overflow-hidden">
                                 <span

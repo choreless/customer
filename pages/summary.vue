@@ -14,7 +14,7 @@ definePageMeta({
 </script>
 
 <template>
-    <div class="flex items-center gap-10 min-h-screen">
+    <div class="flex items-center gap-4 min-h-screen">
         <div class="h-full basis-[50%]" id="summary_map">
             <img src="/map.png" alt="map img" loading="lazy" class="w-full h-full" />
         </div>
@@ -69,7 +69,8 @@ definePageMeta({
                             <div class="mt-1 space-y-2">
                                 <div class="space-y-2">
                                     <button @click="showPromocodeInput = !showPromocodeInput"
-                                        class="flex items-center text-sm gap-3 text-[#838383] hover:text-gray-800 transition duration-200 ease-linear">
+                                        class="flex items-center text-sm gap-3  hover:text-gray-800 transition duration-200 ease-linear"
+                                        :class="showPromocodeInput ? 'text-gray-800' : 'text-[#838383]'">
                                         <span>
                                             <icon-plus-circle />
                                         </span>
@@ -79,7 +80,8 @@ definePageMeta({
                                 </div>
                                 <div class="space-y-2">
                                     <button @click="showTipInput = !showTipInput"
-                                        class="flex items-center text-sm gap-3 text-[#838383] hover:text-gray-800 transition duration-200 ease-linear">
+                                        class="flex items-center text-sm gap-3  hover:text-gray-800 transition duration-200 ease-linear"
+                                        :class="showTipInput ? 'text-gray-800' : 'text-[#838383]'">
                                         <span>
                                             <icon-plus-circle />
                                         </span>

@@ -20,14 +20,14 @@ definePageMeta({
         </div>
         <div class="p-[164px] space-y-5">
             <img src="https://ik.imagekit.io/choreless/v2/icons/choreless.svg" />
-            <div class="space-y-8">
+            <div class="">
                 <div class="space-y-[10px]">
                     <h4 class="text-black text-[2rem] font-bold leading-[38px]">Summary</h4>
                     <small class=" text-sm text-[#838383] max-w-[322px]">Please double check all the information to
                         ensure it is <br> correct before booking</small>
                 </div>
-                <div class="">
-                    <div class="flex items-start gap-4">
+                <div class="mt-5">
+                    <div class="flex items-start gap-4 py-2.5">
                         <div class=" size-8 rounded-full items-center justify-center inline-flex shrink-0 bg-[#EDEEF1]">
                             <icon-coin fill="black" width="16" height="16" />
                         </div>
@@ -91,6 +91,15 @@ definePageMeta({
                                         v-model:customTip="customTip" />
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4 py-2.5">
+                        <div class=" size-8 rounded-full items-center justify-center inline-flex shrink-0 bg-[#EDEEF1]">
+                            <icon-card />
+                        </div>
+                        <div class="space-y-2">
+                            <span class=" text-base text-[#838383]">Payment method</span>
+                            <form-stripe-card />
                         </div>
                     </div>
                     <div class="py-4 relative space-y-8 "

@@ -5,7 +5,9 @@ const customTip = ref<String | Number | null>(null)
 const showPromocodeInput = ref<Boolean>(false);
 const showTipInput = ref<Boolean>(false);
 const showDetails = ref<Boolean>(false);
-const isLocationSame = ref<Boolean>(true)
+const isLocationSame = ref<Boolean>(true);
+const existingCards = ref<Array<{ icon: String, number: String }>>();
+const cardInfo = ref<{ icon: String, number: String }>()
 useHead({ title: 'Summary' });
 definePageMeta({
     layout: 'clean'
@@ -98,10 +100,10 @@ definePageMeta({
                         </div>
                         <div class="space-y-2 w-[316px]">
                             <span class=" text-base text-[#838383]">Payment method</span>
-                            <form-stripe-card />
+                            <form-stripe-card :existing-cards="existingCards" @card-input="(card) => cardInfo = card" />
                         </div>
                     </div>
-                    <div class="py-4 relative space-y-8 "
+                    <div class="py-4 relative space-y-8 -z-10"
                         :class="!isLocationSame ? 'before:absolute before:top-12 before:bottom-[calc(50%-30px)] before:left-[15px] before:z-0 before:w-0.5 before:bg-gray-200 before:content' : ''">
                         <div class="flex items-start gap-4 py-2.5 z-10 relative group">
                             <div

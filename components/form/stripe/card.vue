@@ -4,7 +4,8 @@ const cardEl = ref('')
 const stripe = await useStripe()
 const card = stripe?.elements({ loader: 'always' })?.create('card', {
     classes: {
-        base: 'border border-[#00000033] rounded-[5px] focus-within:border-brand-black hover:border-brand-black p-4'
+        base: 'border border-[#00000033] rounded-[5px]  hover:border-brand-black p-4',
+        focus: 'border-brand-black'
     }
 });
 

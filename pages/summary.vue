@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-
 const promoCode = ref<String>('any promocde');
 const tip = ref<String | Number | null>(null)
 const customTip = ref<String | Number | null>(null)
@@ -97,7 +96,7 @@ definePageMeta({
                         <div class=" size-8 rounded-full items-center justify-center inline-flex shrink-0 bg-[#EDEEF1]">
                             <icon-card />
                         </div>
-                        <div class="space-y-2">
+                        <div class="space-y-2 w-[316px]">
                             <span class=" text-base text-[#838383]">Payment method</span>
                             <form-stripe-card />
                         </div>

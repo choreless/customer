@@ -1,4 +1,11 @@
 <script setup lang="ts">
+import PickDrop from '../../icon/PickDrop.vue'
+import Home from '../../icon/Home.vue'
+import Office from '../../icon/Office.vue'
+import Hotel from '../../icon/Hotel.vue'
+import Alarm from '../../icon/Alarm.vue'
+import Book from '../../icon/Book.vue'
+import PersonDeliver from '../../icon/PersonDeliver.vue'
 import type { Address } from '~/components/form/place/Google.vue';
 import type { AddressType, CollectionType } from '~/types/address';
 import type { Error } from '~/components/entry/Address.vue';
@@ -16,7 +23,7 @@ const props = defineProps<{
 	leave_it_at_my_door_if_i_am_not_home: boolean
 	error: Error
 }>();
-
+const openType= ref(false)
 const emit = defineEmits<{
 	(e: 'update:address_type', address_type: AddressType): void
 	(e: 'update:suite', pick_suite: string): void
@@ -68,32 +75,67 @@ watch(collection_type_computed, ()=>{
 
 <template>
 <div>
-	<div>
-		<h1 class="text-xl sm:text-2xl font-bold">
+	<div class="mt-5">
+		<!-- <h1 class="text-xl sm:text-2xl font-bold">
 			Confirm your address for
 			<template v-if="has_drop">{{ intent==='pick' ? 'pickup' : 'delivery' }}</template>
 			<template v-else>pickup & delivery</template>
-		</h1>
-		<p class="text-base sm:text-lg mt-2.5 text-brand-black/50">
-			{{ address.label }}
-		</p>
+		</h1> -->
+		<div class="flex">
+			<div class="relative">
+				<PickDrop />
+				<p class="absolute text-white text-[15px] not-italic font-bold leading-5 top-[2px] left-[6.8px]">A</p>
+			</div>
+			<div class="ml-[10px]">
+				<p class="text-black text-2xl not-italic font-medium leading-[30px]">
+					{{ address.label.split(',')[0].trim() }}
+				</p>
+				<p class="text-[rgba(0,0,0,0.50)] text-lg not-italic font-normal leading-5">{{ address.label.split(',').slice(1).join(',').trim() }}</p>
+			</div>
+		</div>
 	</div>
-	<div class="mt-6">
-		<h2 class="text-xl sm:text-2xl font-bold">Choose address type*</h2>
+	<div class="mt-5">
+		<h2 class="text-black text-2xl not-italic font-bold leading-8">Choose address type</h2>
 		<div class="grid sm:grid-cols-3 gap-x-6 gap-y-2 mt-2.5">
-			<button class="btn flex items-center gap-x-3 bg-transparent rounded-md border-brand-black hover:border-2 hover:border-brand-blue hover:bg-[#f5f9fd]" :class="address_type_computed==='home' && 'border-2 border-brand-blue bg-[#f5f9fd]'" @click="address_type_computed='home'">
-				<img src="https://ik.imagekit.io/choreless/v2/icons/FigmaHome.svg" alt="icon" loading="lazy">
-				<p class="text-base sm:text-xl font-normal">Home</p>
+			<button class="flex h-[60px] justify-center items-center gap-x-2 flex-[1_0_0] px-2.5 py-2.5 rounded-[5px] border-2 border-solid hover:border-[#F85A47]" :class="address_type_computed==='home' && 'border-2 border-[#F85A47] bg-[#F85A47] !text-[white]'" @click="address_type_computed='home'">
+				<Home :class="address_type_computed==='home' && 'fill-white'" :color="address_type_computed === 'home' ? 'white' : 'black'" />
+				<p class="text-black text-2xl not-italic font-medium leading-[30px]" :class="address_type_computed==='home' && 'text-[white]'">Home</p>
 			</button>
-			<button class="btn flex items-center gap-x-3 bg-transparent rounded-md border-brand-black hover:border-2 hover:border-brand-blue hover:bg-[#f5f9fd]" :class="address_type_computed==='office' && 'border-2 border-brand-blue bg-[#f5f9fd]'" @click="address_type_computed='office'">
-				<img src="https://ik.imagekit.io/choreless/v2/icons/FigmaShop.svg" alt="icon" loading="lazy">
-				<p class="text-base sm:text-xl font-normal">Office</p>
+			<button class="flex h-[60px] justify-center items-center gap-x-2 flex-[1_0_0] px-2.5 py-2.5 rounded-[5px] border-2 border-solid hover:border-[#F85A47]" :class="address_type_computed==='office' && 'border-2 border-[#F85A47] bg-[#F85A47] text-[white]'" @click="address_type_computed='office'">
+				<Office :color="address_type_computed === 'office' ? 'white' : 'black'" />
+				<p class="text-black text-2xl not-italic font-medium leading-[30px]" :class="address_type_computed==='office' && 'text-[white]'">Office</p>
 			</button>
-			<button class="btn flex items-center gap-x-3 bg-transparent rounded-md border-brand-black hover:border-2 hover:border-brand-blue hover:bg-[#f5f9fd]" :class="address_type_computed==='hotel' && 'border-2 border-brand-blue bg-[#f5f9fd]'" @click="address_type_computed='hotel'">
-				<img src="https://ik.imagekit.io/choreless/v2/icons/FigmaGirl.svg" alt="icon" loading="lazy">
-				<p class="text-base sm:text-xl font-normal">Hotel</p>
+			<button class="flex h-[60px] justify-center items-center gap-x-2 flex-[1_0_0] px-2.5 py-2.5 rounded-[5px] border-2 border-solid hover:border-[#F85A47]" :class="address_type_computed==='hotel' && 'border-2 border-[#F85A47] bg-[#F85A47] text-[white]'" @click="address_type_computed='hotel'">
+				<Hotel :color="address_type_computed === 'hotel' ? 'white' : 'black'" />
+				<p class="text-black text-2xl not-italic font-medium leading-[30px]" :class="address_type_computed==='hotel' && 'text-[white]'">Hotel</p>
 			</button>
 		</div>
+		<div class=" mt-5 bg-white border border-gray-400 rounded-md" @click="openType = !openType">
+			<div class=" py-[18px] px-5 min-h-[60px] text-base uppercase  flex justify-between items-center pe-4 font-bold">
+				<div class="flex gap-x-3 items-center"><Alarm class="w-5 h-5 gap-x-2" v-if="collection_type_computed === 'Use Reception'" /> <Book class="w-5 h-5 gap-x-2" v-if="collection_type_computed === 'From Outside'" /> <PersonDeliver class="w-5 h-5 gap-x-2" v-if="collection_type_computed === 'Meet Driver'" /> {{ collection_type_computed ?? 'Select collection type' }}</div>
+				<Icon :name="!openType ? 'material-symbols:add-rounded' : 'ic:sharp-minus'" />
+			</div>
+		</div>
+		<ul v-if="openType" class="menu bg-white z-30 shadow-[rgba(0,0,0,0.35)_0px_5px_15px] w-56 rounded-box absolute">
+			<li  @click="collection_type_computed='Use Reception'">
+				<a>
+					<Alarm class="w-5" />
+					Use reception
+				</a>
+			</li>
+			<li @click="collection_type_computed='From Outside'">
+				<a>
+					<Book class="w-5" />
+					From outside
+				</a>
+			</li>
+			<li @click="collection_type_computed='Meet Driver'">
+				<a>
+					<PersonDeliver class="w-5" />
+					Meet driver
+				</a>
+			</li>
+		</ul>
 		<div>
 			<label v-if="address_type_computed!=='hotel'" class="input-float mt-5">
 				<input v-model="suite_computed" type="text" placeholder="">
@@ -106,7 +148,7 @@ watch(collection_type_computed, ()=>{
 			<textarea v-model="instruction_computed" class="textarea w-full textarea-bordered mt-3" :placeholder="`${intent==='pick' ? 'Pickup' : 'Drop off'} instruction`" />
 		</div>
 	</div>
-	<div class="mt-2.5">
+	<!-- <div class="mt-2.5">
 		<h2 class="text-brand-black text-xl sm:text-2xl font-bold">Select collection type*</h2>
 		<div class="grid gap-x-6 gap-y-3 mt-2.5 min-h-32" :class="address_type_computed==='home' ? 'sm:grid-cols-3' : 'sm:grid-cols-2'">
 			<button class="btn h-auto flex flex-col items-center gap-x-3 bg-transparent rounded-md py-2 border-brand-black hover:border-2 hover:border-brand-blue hover:bg-[#f5f9fd]" :class="collection_type_computed==='use_reception' && 'border-2 border-brand-blue bg-[#f5f9fd]'" @click="collection_type_computed='use_reception'">
@@ -123,7 +165,7 @@ watch(collection_type_computed, ()=>{
 			</button>
 		</div>
 		<p v-if="error.collection_type" class="text-error mt-1">* Collection type is required</p>
-	</div>
+	</div> -->
 	<div class="mt-3">
 		<label class="cursor-pointer flex items-center gap-x-3">
 			<input v-model="message_me_on_arrival_computed" type="checkbox" class="checkbox checkbox-primary w-5 h-5">

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import ChoreLessLocation from '../icon/ChorelessLocation.vue';
+import Close from '../icon/Close.vue';
 import GooglePlace from '~/components/form/place/Google.vue';
 import MetaPlace from '~/components/form/place/Meta.vue';
 import type { Address } from '~/components/form/place/Google.vue';
@@ -193,7 +194,7 @@ onMounted(async ()=>{
 	</div>
 
 	<dialog class="modal" :class="dialog && 'modal-open'">
-		<div class="modal-box max-w-[37.5rem] rounded-2xl shadow-[0px_0px_15px_0px_#00000015] bg-white">
+		<div class="modal-box max-w-[467px] rounded-2xl shadow-[0px_0px_15px_0px_#00000015] bg-white p-5">
 			<div v-if="(['invalid_address_pick', 'invalid_address_drop'] as Dialog[]).includes(dialog)">
 				<p class="text-center text-error"><Icon name="ph:smiley-sad" class="text-6xl" /></p>
 				<p class="text-center text-4xl text-error">Invalid address</p>
@@ -211,6 +212,7 @@ onMounted(async ()=>{
 			</div>
 			<div v-else-if="dialog && ['meta_pick', 'meta_drop'].includes(dialog)">
 				<template v-if="dialog==='meta_pick'">
+					<div class="flex justify-between items-center"><p class="text-black text-base not-italic font-bold leading-[15px]">Tell us more</p> <Close @click="dialog = false" class="w-5 h-5"/></div>
 					<MetaPlace
 						v-model:address_type="address_type_pick"
 						v-model:suite="suite_pick"
@@ -225,7 +227,7 @@ onMounted(async ()=>{
 						:address="address_pick"
 					/>
 				</template>
-				<template v-else>
+				<!-- <template v-else>
 					<MetaPlace
 						v-model:address_type="address_type_drop"
 						v-model:suite="suite_drop"
@@ -239,7 +241,7 @@ onMounted(async ()=>{
 						:has_drop="has_drop"
 						:address="address_drop"
 					/>
-				</template>
+				</template> -->
 				<button class="btn w-full h-[3.75rem] rounded-[0.3125rem] text-lg mt-[1.6875rem] px-5 py-[0.9375rem] text-white bg-brand-orange border-brand-orange hover:text-brand-orange hover:bg-transparent hover:border-brand-orange" @click="saveMeta()">Save and Continue</button>
 			</div>
 		</div>

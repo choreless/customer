@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import PickDrop from "../../icon/PickDrop.vue";
-import Home from "../../icon/Home.vue";
-import Office from "../../icon/Office.vue";
-import Hotel from "../../icon/Hotel.vue";
-import Alarm from "../../icon/Alarm.vue";
-import Book from "../../icon/Book.vue";
-import PersonDeliver from "../../icon/PersonDeliver.vue";
-import type { Address } from "~/components/form/place/Google.vue";
-import type { AddressType, CollectionType } from "~/types/address";
-import type { Error } from "~/components/entry/Address.vue";
+import PickDrop from '../../icon/PickDrop.vue';
+import Home from '../../icon/Home.vue';
+import Office from '../../icon/Office.vue';
+import Hotel from '../../icon/Hotel.vue';
+import Alarm from '../../icon/Alarm.vue';
+import Book from '../../icon/Book.vue';
+import PersonDeliver from '../../icon/PersonDeliver.vue';
+import type { Address } from '~/components/form/place/Google.vue';
+import type { AddressType, CollectionType } from '~/types/address';
+import type { Error } from '~/components/entry/Address.vue';
 
 const props = defineProps<{
-  intent: "pick" | "drop";
+  intent: 'pick' | 'drop';
   has_drop: boolean;
   address: Address;
   address_type: AddressType;
@@ -25,220 +25,220 @@ const props = defineProps<{
 }>();
 const openType = ref(false);
 const emit = defineEmits<{
-  (e: "update:address_type", address_type: AddressType): void;
-  (e: "update:suite", pick_suite: string): void;
-  (e: "update:room_number", room_number: string): void;
-  (e: "update:instruction", instruction: string): void;
+  (e: 'update:address_type', address_type: AddressType): void;
+  (e: 'update:suite', pick_suite: string): void;
+  (e: 'update:room_number', room_number: string): void;
+  (e: 'update:instruction', instruction: string): void;
   (
-    e: "update:collection_type",
+    e: 'update:collection_type',
     collection_type: CollectionType | undefined
   ): void;
-  (e: "update:message_me_on_arrival", message_me_on_arrival: boolean): void;
+  (e: 'update:message_me_on_arrival', message_me_on_arrival: boolean): void;
   (
-    e: "update:leave_it_at_my_door_if_i_am_not_home",
+    e: 'update:leave_it_at_my_door_if_i_am_not_home',
     leave_it_at_my_door_if_i_am_not_home: boolean
   ): void;
-  (e: "update:error", error: Error): void;
+  (e: 'update:error', error: Error): void;
 }>();
 
 const address_type_computed = computed({
-  get: () => props.address_type,
-  set(v: AddressType) {
-    emit("update:address_type", v);
-  },
+	get: () => props.address_type,
+	set(v: AddressType) {
+		emit('update:address_type', v);
+	}
 });
 const suite_computed = computed({
-  get: () => props.suite,
-  set(v: string) {
-    emit("update:suite", v);
-  },
+	get: () => props.suite,
+	set(v: string) {
+		emit('update:suite', v);
+	}
 });
 const room_number_computed = computed({
-  get: () => props.room_number,
-  set(v: string) {
-    emit("update:room_number", v);
-  },
+	get: () => props.room_number,
+	set(v: string) {
+		emit('update:room_number', v);
+	}
 });
 const instruction_computed = computed({
-  get: () => props.instruction,
-  set(v: string) {
-    emit("update:instruction", v);
-  },
+	get: () => props.instruction,
+	set(v: string) {
+		emit('update:instruction', v);
+	}
 });
 const collection_type_computed = computed({
-  get: () => props.collection_type,
-  set(v: CollectionType | undefined) {
-    emit("update:collection_type", v);
-  },
+	get: () => props.collection_type,
+	set(v: CollectionType | undefined) {
+		emit('update:collection_type', v);
+	}
 });
 const message_me_on_arrival_computed = computed({
-  get: () => props.message_me_on_arrival,
-  set(v: boolean) {
-    emit("update:message_me_on_arrival", v);
-  },
+	get: () => props.message_me_on_arrival,
+	set(v: boolean) {
+		emit('update:message_me_on_arrival', v);
+	}
 });
 const leave_it_at_my_door_if_i_am_not_home_computed = computed({
-  get: () => props.leave_it_at_my_door_if_i_am_not_home,
-  set(v: boolean) {
-    emit("update:leave_it_at_my_door_if_i_am_not_home", v);
-  },
+	get: () => props.leave_it_at_my_door_if_i_am_not_home,
+	set(v: boolean) {
+		emit('update:leave_it_at_my_door_if_i_am_not_home', v);
+	}
 });
 const error_computed = computed({
-  get: () => props.error,
-  set(v: Error) {
-    emit("update:error", v);
-  },
+	get: () => props.error,
+	set(v: Error) {
+		emit('update:error', v);
+	}
 });
 
 watch(collection_type_computed, () => {
-  error_computed.value.collection_type = false;
+	error_computed.value.collection_type = false;
 });
 </script>
 
 <template>
-  <div>
-    <div class="mt-5">
-      <!-- <h1 class="text-xl sm:text-2xl font-bold">
+<div class="">
+	<div class="mt-5">
+		<!-- <h1 class="text-xl sm:text-2xl font-bold">
 			Confirm your address for
 			<template v-if="has_drop">{{ intent==='pick' ? 'pickup' : 'delivery' }}</template>
 			<template v-else>pickup & delivery</template>
 		</h1> -->
-      <div class="flex">
-        <div class="relative">
-          <PickDrop />
-          <p
-            class="absolute text-white text-[15px] not-italic font-bold leading-5 top-[2px] left-[6.8px]"
-          >
-            A
-          </p>
-        </div>
-        <div class="ml-[10px]">
-          <p class="text-black text-2xl not-italic font-medium leading-[30px]">
-            {{ address.label.split(",")[0].trim() }}
-          </p>
-          <p
-            class="text-[rgba(0,0,0,0.50)] text-lg not-italic font-normal leading-5"
-          >
-            {{ address.label.split(",").slice(1).join(",").trim() }}
-          </p>
-        </div>
-      </div>
-    </div>
-    <div class="mt-5">
-      <h2 class="text-black text-2xl not-italic font-bold leading-8">
-        Choose address type
-      </h2>
-      <div class="grid sm:grid-cols-3 gap-x-6 gap-y-2 mt-2.5">
-        <button
-          class="flex h-[60px] justify-center items-center gap-x-2 flex-[1_0_0] px-2.5 py-2.5 rounded-[5px] border-2 border-solid hover:border-[#F85A47]"
-          :class="
-            address_type_computed === 'home' &&
-            'border-2 border-[#F85A47] bg-[#F85A47] !text-[white]'
-          "
-          @click="address_type_computed = 'home'"
-        >
-          <Home
-            :class="address_type_computed === 'home' && 'fill-white'"
-            :color="address_type_computed === 'home' ? 'white' : 'black'"
-          />
-          <p
-            class="text-black text-2xl not-italic font-medium leading-[30px]"
-            :class="address_type_computed === 'home' && 'text-[white]'"
-          >
-            Home
-          </p>
-        </button>
-        <button
-          class="flex h-[60px] justify-center items-center gap-x-2 flex-[1_0_0] px-2.5 py-2.5 rounded-[5px] border-2 border-solid hover:border-[#F85A47]"
-          :class="
-            address_type_computed === 'office' &&
-            'border-2 border-[#F85A47] bg-[#F85A47] text-[white]'
-          "
-          @click="address_type_computed = 'office'"
-        >
-          <Office
-            :color="address_type_computed === 'office' ? 'white' : 'black'"
-          />
-          <p
-            class="text-black text-2xl not-italic font-medium leading-[30px]"
-            :class="address_type_computed === 'office' && 'text-[white]'"
-          >
-            Office
-          </p>
-        </button>
-        <button
-          class="flex h-[60px] justify-center items-center gap-x-2 flex-[1_0_0] px-2.5 py-2.5 rounded-[5px] border-2 border-solid hover:border-[#F85A47]"
-          :class="
-            address_type_computed === 'hotel' &&
-            'border-2 border-[#F85A47] bg-[#F85A47] text-[white]'
-          "
-          @click="address_type_computed = 'hotel'"
-        >
-          <Hotel
-            :color="address_type_computed === 'hotel' ? 'white' : 'black'"
-          />
-          <p
-            class="text-black text-2xl not-italic font-medium leading-[30px]"
-            :class="address_type_computed === 'hotel' && 'text-[white]'"
-          >
-            Hotel
-          </p>
-        </button>
-      </div>
-      <div
-        class="mt-5 bg-white border border-gray-400 rounded-md"
-        @click="openType = !openType"
-      >
-        <div
-          class="py-[18px] px-5 min-h-[60px] text-base uppercase flex justify-between items-center pe-4 font-bold"
-        >
-          <div class="flex gap-x-3 items-center">
-            <Alarm
-              class="w-5 h-5 gap-x-2"
-              v-if="collection_type_computed === 'Use Reception'"
-            />
-            <Book
-              class="w-5 h-5 gap-x-2"
-              v-if="collection_type_computed === 'From Outside'"
-            />
-            <PersonDeliver
-              class="w-5 h-5 gap-x-2"
-              v-if="collection_type_computed === 'Meet Driver'"
-            />
-            {{ collection_type_computed ?? "Select collection type" }}
-          </div>
-          <Icon
-            :name="
-              !openType ? 'material-symbols:add-rounded' : 'ic:sharp-minus'
-            "
-          />
-        </div>
-      </div>
-      <ul
-        v-if="openType"
-        class="menu bg-white z-30 shadow-[rgba(0,0,0,0.35)_0px_5px_15px] w-56 rounded-box absolute"
-      >
-        <li @click="collection_type_computed = 'Use Reception'">
-          <a>
-            <Alarm class="w-5" />
-            Use reception
-          </a>
-        </li>
-        <li @click="collection_type_computed = 'From Outside'">
-          <a>
-            <Book class="w-5" />
-            From outside
-          </a>
-        </li>
-        <li @click="collection_type_computed = 'Meet Driver'">
-          <a>
-            <PersonDeliver class="w-5" />
-            Meet driver
-          </a>
-        </li>
-      </ul>
-      <div>
-        <!-- <label v-if="address_type_computed!=='hotel'" class="input-float mt-5">
+		<div class="flex">
+			<div class="relative">
+				<PickDrop />
+				<p
+					class="absolute text-white text-[15px] not-italic font-bold leading-5 top-[2px] left-[6.8px]"
+				>
+					A
+				</p>
+			</div>
+			<div class="ml-[10px]">
+				<p class="text-black text-2xl not-italic font-medium leading-[30px]">
+					{{ address.label.split(",")[0].trim() }}
+				</p>
+				<p
+					class="text-[rgba(0,0,0,0.50)] text-lg not-italic font-normal leading-5"
+				>
+					{{ address.label.split(",").slice(1).join(",").trim() }}
+				</p>
+			</div>
+		</div>
+	</div>
+	<div class="mt-5">
+		<h2 class="text-black text-2xl not-italic font-bold leading-8">
+			Choose address type
+		</h2>
+		<div class="grid sm:grid-cols-3 gap-x-6 gap-y-2 mt-2.5">
+			<button
+				class="flex h-[60px] justify-center items-center gap-x-2 flex-[1_0_0] px-2.5 py-2.5 rounded-[5px] border-2 border-solid hover:border-[#F85A47]"
+				:class="
+					address_type_computed === 'home' &&
+						'border-2 border-[#F85A47] bg-[#F85A47] !text-[white]'
+				"
+				@click="address_type_computed = 'home'"
+			>
+				<Home
+					:class="address_type_computed === 'home' && 'fill-white'"
+					:color="address_type_computed === 'home' ? 'white' : 'black'"
+				/>
+				<p
+					class="text-black text-2xl not-italic font-medium leading-[30px]"
+					:class="address_type_computed === 'home' && 'text-white'"
+				>
+					Home
+				</p>
+			</button>
+			<button
+				class="flex h-[60px] justify-center items-center gap-x-2 flex-[1_0_0] px-2.5 py-2.5 rounded-[5px] border-2 border-solid hover:border-[#F85A47]"
+				:class="
+					address_type_computed === 'office' &&
+						'border-2 border-[#F85A47] bg-[#F85A47] text-white'
+				"
+				@click="address_type_computed = 'office'"
+			>
+				<Office
+					:color="address_type_computed === 'office' ? 'white' : 'black'"
+				/>
+				<p
+					class="text-black text-2xl not-italic font-medium leading-[30px]"
+					:class="address_type_computed === 'office' && 'text-white'"
+				>
+					Office
+				</p>
+			</button>
+			<button
+				class="flex h-[60px] justify-center items-center gap-x-2 flex-[1_0_0] px-2.5 py-2.5 rounded-[5px] border-2 border-solid hover:border-[#F85A47]"
+				:class="
+					address_type_computed === 'hotel' &&
+						'border-2 border-[#F85A47] bg-[#F85A47] text-white'
+				"
+				@click="address_type_computed = 'hotel'"
+			>
+				<Hotel
+					:color="address_type_computed === 'hotel' ? 'white' : 'black'"
+				/>
+				<p
+					class="text-black text-2xl not-italic font-medium leading-[30px]"
+					:class="address_type_computed === 'hotel' && 'text-white'"
+				>
+					Hotel
+				</p>
+			</button>
+		</div>
+		<div
+			class="mt-5 bg-white border border-gray-400 rounded-md"
+			@click="openType = !openType"
+		>
+			<div
+				class="py-[18px] px-5 min-h-[60px] text-base uppercase flex justify-between items-center pe-4 font-bold"
+			>
+				<div class="flex gap-x-3 items-center">
+					<Alarm
+						v-if="collection_type_computed === 'Use Reception'"
+						class="w-5 h-5 gap-x-2"
+					/>
+					<Book
+						v-if="collection_type_computed === 'From Outside'"
+						class="w-5 h-5 gap-x-2"
+					/>
+					<PersonDeliver
+						v-if="collection_type_computed === 'Meet Driver'"
+						class="w-5 h-5 gap-x-2"
+					/>
+					{{ collection_type_computed ?? "Select collection type" }}
+				</div>
+				<Icon
+					:name="
+						!openType ? 'material-symbols:add-rounded' : 'ic:sharp-minus'
+					"
+				/>
+			</div>
+		</div>
+		<ul
+			v-if="openType"
+			class="menu bg-white z-30 shadow-[rgba(0,0,0,0.35)_0px_5px_15px] w-56 rounded-box absolute"
+		>
+			<li @click="collection_type_computed = 'Use Reception'">
+				<a>
+					<Alarm class="w-5" />
+					Use reception
+				</a>
+			</li>
+			<li @click="collection_type_computed = 'From Outside'">
+				<a>
+					<Book class="w-5" />
+					From outside
+				</a>
+			</li>
+			<li @click="collection_type_computed = 'Meet Driver'">
+				<a>
+					<PersonDeliver class="w-5" />
+					Meet driver
+				</a>
+			</li>
+		</ul>
+		<div>
+			<!-- <label v-if="address_type_computed!=='hotel'" class="input-float mt-5">
 				<input v-model="suite_computed" type="text" placeholder="">
 				<p>Apt / Suite / Unit*</p>
 			</label>
@@ -247,9 +247,9 @@ watch(collection_type_computed, () => {
 				<p>Enter your room number*</p>
 			</label>
 			<textarea v-model="instruction_computed" class="textarea w-full textarea-bordered mt-3" :placeholder="`${intent==='pick' ? 'Pickup' : 'Drop off'} instruction`" /> -->
-      </div>
-    </div>
-    <!-- <div class="mt-2.5">
+		</div>
+	</div>
+	<!-- <div class="mt-2.5">
 		<h2 class="text-brand-black text-xl sm:text-2xl font-bold">Select collection type*</h2>
 		<div class="grid gap-x-6 gap-y-3 mt-2.5 min-h-32" :class="address_type_computed==='home' ? 'sm:grid-cols-3' : 'sm:grid-cols-2'">
 			<button class="btn h-auto flex flex-col items-center gap-x-3 bg-transparent rounded-md py-2 border-brand-black hover:border-2 hover:border-brand-blue hover:bg-[#f5f9fd]" :class="collection_type_computed==='use_reception' && 'border-2 border-brand-blue bg-[#f5f9fd]'" @click="collection_type_computed='use_reception'">
@@ -267,46 +267,46 @@ watch(collection_type_computed, () => {
 		</div>
 		<p v-if="error.collection_type" class="text-error mt-1">* Collection type is required</p>
 	</div> -->
-    <div class="mt-3 flex flex-col items-start">
-      <label
-        class="cursor-pointer w-full flex items-center justify-between border-b-[1px] border-[#0000001a] py-5"
-      >
-        <div class="text-black text-xl leading-6">Unit/Apt</div>
-        <div class="text-base font-medium text-[#F85A47]">Add</div>
-      </label>
-      <label
-        class="cursor-pointer w-full flex items-center justify-between border-b-[1px] border-[#0000001a] py-5"
-      >
-        <div class="text-black text-xl leading-6">Message me on arrival</div>
-        <input
-          v-model="message_me_on_arrival_computed"
-          type="checkbox"
-          class="checkbox border-[#838383] w-5 h-5 rounded-[4px]"
-        />
-      </label>
-      <label
-        v-if="address_type_computed === 'home'"
-        class="cursor-pointer flex items-center w-full gap-x-3 justify-between border-b-[1px] border-[#0000001a] py-5"
-      >
-        <div class="text-black text-xl leading-6">
-          Leave it at my door if i’m not home
-        </div>
-        <input
-          v-model="leave_it_at_my_door_if_i_am_not_home_computed"
-          type="checkbox"
-          class="checkbox w-5 h-5 border-[#838383] rounded-[4px]"
-        />
-      </label>
-      <label
-        class="cursor-pointer flex items-center w-full gap-x-3 justify-between pt-5"
-      >
-        <div class="text-black text-xl leading-6">Add address details</div>
-        <div class="text-base font-medium">Clear</div>
-      </label>
-      <textarea
-        v-model="instruction_computed"
-        class="textarea w-full mt-3 h-[90px] py-[15px] px-5 rounded-[5px] border-[0.5px] border-[#00000080]"
-      />
-    </div>
-  </div>
+	<div class="mt-3 flex flex-col items-start">
+		<label
+			class="cursor-pointer w-full flex items-center justify-between border-b-[1px] border-[#0000001a] py-5"
+		>
+			<div class="text-black text-xl leading-6">Unit/Apt</div>
+			<div class="text-base font-medium text-[#F85A47]">Add</div>
+		</label>
+		<label
+			class="cursor-pointer w-full flex items-center justify-between border-b-[1px] border-[#0000001a] py-5"
+		>
+			<div class="text-black text-xl leading-6">Message me on arrival</div>
+			<input
+				v-model="message_me_on_arrival_computed"
+				type="checkbox"
+				class="checkbox border-[#838383] w-5 h-5 rounded-[4px]"
+			>
+		</label>
+		<label
+			v-if="address_type_computed === 'home'"
+			class="cursor-pointer flex items-center w-full gap-x-3 justify-between border-b-[1px] border-[#0000001a] py-5"
+		>
+			<div class="text-black text-xl leading-6">
+				Leave it at my door if i’m not home
+			</div>
+			<input
+				v-model="leave_it_at_my_door_if_i_am_not_home_computed"
+				type="checkbox"
+				class="checkbox w-5 h-5 border-[#838383] rounded-[4px]"
+			>
+		</label>
+		<label
+			class="cursor-pointer flex items-center w-full gap-x-3 justify-between pt-5"
+		>
+			<div class="text-black text-xl leading-6">Add address details</div>
+			<div class="text-base font-medium">Clear</div>
+		</label>
+		<textarea
+			v-model="instruction_computed"
+			class="textarea w-full mt-3 h-[90px] py-[15px] px-5 rounded-[5px] border-[0.5px] border-[#00000080]"
+		/>
+	</div>
+</div>
 </template>

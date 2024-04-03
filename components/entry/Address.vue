@@ -193,8 +193,8 @@ onMounted(async ()=>{
 		</div>
 	</div>
 
-	<dialog class="modal" :class="dialog && 'modal-open'">
-		<div class="modal-box max-w-[467px] rounded-2xl shadow-[0px_0px_15px_0px_#00000015] bg-white p-5">
+	<dialog class="modal " :class="dialog && 'modal-open'">
+		<div class="modal-box max-w-[467px] h-full rounded-2xl shadow-[0px_0px_15px_0px_#00000015] bg-white p-5 no-scrollbar overflow-y-auto">
 			<div v-if="(['invalid_address_pick', 'invalid_address_drop'] as Dialog[]).includes(dialog)">
 				<p class="text-center text-error"><Icon name="ph:smiley-sad" class="text-6xl" /></p>
 				<p class="text-center text-4xl text-error">Invalid address</p>

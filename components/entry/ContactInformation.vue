@@ -328,8 +328,7 @@ watch(customer_type, (n) => {
           </p>
         </label>
       </div>
-      {{ error.company_name !== undefined }}
-      {{ error.company_name }}
+
       <button
         :disabled="!isFormValid()"
         class="btn w-full h-[3.75rem] rounded-[0.3125rem] text-2xl px-5 py-[0.9375rem] mt-5 text-white bg-brand-orange border-brand-orange hover:text-brand-orange hover:bg-transparent hover:border-brand-orange"

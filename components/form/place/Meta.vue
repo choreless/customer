@@ -96,7 +96,7 @@ watch(collection_type_computed, () => {
 </script>
 
 <template>
-  <div>
+  <div class="">
     <div class="mt-5">
       <!-- <h1 class="text-xl sm:text-2xl font-bold">
 			Confirm your address for
@@ -143,7 +143,7 @@ watch(collection_type_computed, () => {
           />
           <p
             class="text-black text-2xl not-italic font-medium leading-[30px]"
-            :class="address_type_computed === 'home' && 'text-[white]'"
+            :class="address_type_computed === 'home' && 'text-white'"
           >
             Home
           </p>
@@ -152,7 +152,7 @@ watch(collection_type_computed, () => {
           class="flex h-[60px] justify-center items-center gap-x-2 flex-[1_0_0] px-2.5 py-2.5 rounded-[5px] border-2 border-solid hover:border-[#F85A47]"
           :class="
             address_type_computed === 'office' &&
-            'border-2 border-[#F85A47] bg-[#F85A47] text-[white]'
+            'border-2 border-[#F85A47] bg-[#F85A47] text-white'
           "
           @click="address_type_computed = 'office'"
         >
@@ -161,7 +161,7 @@ watch(collection_type_computed, () => {
           />
           <p
             class="text-black text-2xl not-italic font-medium leading-[30px]"
-            :class="address_type_computed === 'office' && 'text-[white]'"
+            :class="address_type_computed === 'office' && 'text-white'"
           >
             Office
           </p>
@@ -170,7 +170,7 @@ watch(collection_type_computed, () => {
           class="flex h-[60px] justify-center items-center gap-x-2 flex-[1_0_0] px-2.5 py-2.5 rounded-[5px] border-2 border-solid hover:border-[#F85A47]"
           :class="
             address_type_computed === 'hotel' &&
-            'border-2 border-[#F85A47] bg-[#F85A47] text-[white]'
+            'border-2 border-[#F85A47] bg-[#F85A47] text-white'
           "
           @click="address_type_computed = 'hotel'"
         >
@@ -179,7 +179,7 @@ watch(collection_type_computed, () => {
           />
           <p
             class="text-black text-2xl not-italic font-medium leading-[30px]"
-            :class="address_type_computed === 'hotel' && 'text-[white]'"
+            :class="address_type_computed === 'hotel' && 'text-white'"
           >
             Hotel
           </p>

@@ -23,12 +23,12 @@ const error = reactive({
 
 const isFormValid = () => {
 	if (customer_type.value === 'retail') {
-		return error.first_name === false && error.last_name === false;
+		return error.first_name === false && error.last_name === false && error.email === false;
 	} else {
 		return (
 			error.first_name === false &&
       error.last_name === false &&
-      error.company_name === false
+      error.company_name === false && error.email === false
 		);
 	}
 };
@@ -38,6 +38,7 @@ async function next() {
 		error.company_name = !company_name.value;
 	error.first_name = !first_name.value;
 	error.last_name = !last_name.value;
+	error.email = !email.value
 	if (email.value) {
 		error.email = !z.string().email().safeParse(email.value).success;
 		if (!isFormValid()) return;
@@ -281,7 +282,7 @@ watch(customer_type, n => {
 						alt="icon"
 						loading="lazy"
 					>
-					<!-- <img v-else v-tooltip="{content: 'Email is required', theme: 'tooltip-primary', triggers: ['hover', 'click']}" src="https://ik.imagekit.io/choreless/v2/icons/FigmaInfo.svg" alt="icon" loading="lazy"> -->
+					<img v-else v-tooltip="{content: 'Email is required', theme: 'tooltip-primary', triggers: ['hover', 'click']}" src="https://ik.imagekit.io/choreless/v2/icons/FigmaInfo.svg" alt="icon" loading="lazy">
 				</div>
 			</div>
 			<p v-if="error.email" class="text-error">

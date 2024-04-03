@@ -68,6 +68,6 @@
 		}
 	}
 	.multiselect-dropdown {
-		@apply rounded-md border-t-0 rounded-t-none rounded-b-lg;
+		@apply rounded-md border-t-0 rounded-t-none rounded-b-lg !max-h-min overflow-y-hidden;
 	}
 }

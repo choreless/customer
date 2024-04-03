@@ -186,7 +186,7 @@ watch(id, async n=>{
 			<p class="py-2 px-3 text-gray-600 bg-white text-left rtl:text-right">{{ place_input ? 'No results found' : 'Type address' }}</p>
 		</template>
 		<template #option="{option}: {option: PlaceOption}">
-			<p v-if="place_input"><span v-for="group, i of toSplitted(option.label, place_regexp)" :key="i" :class="group.is_match && 'text-primary font-medium'">{{ group.text }}</span></p>
+			<p v-if="place_input"><span v-for="group, i of toSplitted(option.label, place_regexp)" :key="i" :class="group.is_match && ' font-medium'">{{ group.text }}</span></p>
 			<p v-else :class="option.value===id && 'text-primary font-medium'">{{ option.label }}</p>
 		</template>
 	</Multiselect>

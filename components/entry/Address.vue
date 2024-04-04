@@ -63,6 +63,7 @@ const marker_pick = ref<google.maps.marker.AdvancedMarkerElement>();
 const marker_drop = ref<google.maps.marker.AdvancedMarkerElement>();
 const has_drop = ref(false);
 const dialog = ref<Dialog>(false);
+const validAddress=ref(false);
 export type Error = {
 	collection_type: boolean
 }
@@ -77,7 +78,7 @@ const handleCheckboxChange = () => {
 	has_drop.value = !has_drop.value
 }
 function next(){
-
+	validAddress.value = true;
 }
 
 function saveMeta(){
@@ -155,6 +156,24 @@ onMounted(async ()=>{
 	marker_pick.value = new AdvancedMarkerElement();
 	marker_drop.value = new AdvancedMarkerElement({content: marker_drop_ref.value});
 })
+const closeMeta = () => {
+	validAddress.value = false
+	const initialAddress : Omit<Address, 'validity'> & { validity: any }= {
+		components: [],
+		street_number: '',
+		route: '',
+		locality: '',
+		administrative_area_level_1: '',
+		postal_code: '',
+		postal_code_suffix: '',
+		lat: 0,
+		lng: 0,
+		label: '',
+		validity: false
+	};
+	address_pick.value = initialAddress
+	dialog.value = false
+}
 </script>
 
 <template>
@@ -166,7 +185,7 @@ onMounted(async ()=>{
 	<div class="h-full flex flex-col gap-y-12 mt-[24px]">
 		<div class=" px-2 mx-auto w-full max-w-[59.063rem]">
 			<div class="cursor-pointer flex items-center gap-x-[1.86rem] justify-end pe-6">
-				<span @click="handleCheckboxChange" class="label-text text-xs">Different drop-off</span>
+				<span class="label-text text-xs" @click="handleCheckboxChange">Different drop-off</span>
 				<label class="flex items-center cursor-pointer select-none text-dark dark:text-white">
 					<div class="relative">
 						<input type="checkbox" class="sr-only" @change="handleCheckboxChange">
@@ -179,11 +198,10 @@ onMounted(async ()=>{
 				</label>
 				<!-- <input v-model="has_drop" type="checkbox" class="toggle bg-black checked:bg-brand-orange"> -->
 			</div>
-
 			<div class="grid gap-x-2 mt-5 h-20 shadow-[0px_0px_15px_0px_rgba(0,0,0,0.10)] pr-[10px] rounded" :class="has_drop ? 'grid-cols-[1fr_1fr_auto]' : 'grid-cols-[1fr_auto]'">
-				<GooglePlace v-model="address_pick" intent="pick" :hasDrop="has_drop" />
+				<GooglePlace :key="validAddress" v-model="address_pick" intent="pick" :hasDrop="has_drop" />
 				<GooglePlace v-model="address_drop" intent="drop" :class="!has_drop && 'hidden'" />
-				<button class="my-auto btn w-full rounded-[0.3125rem] text-white bg-brand-orange border-brand-orange hover:text-brand-orange hover:bg-transparent hover:border-brand-orange px-[45px] py-[13px]" @click="next()">Continue</button>
+				<button :disabled="(dialog === false || ((['invalid_address_pick', 'invalid_address_drop'] as Dialog[]).includes(dialog) || (['out_of_range_address_pick', 'out_of_range_address_drop'] as Dialog[]).includes(dialog) )) || address_pick.validity !== 'valid'" class="my-auto btn w-full rounded-[0.3125rem] text-white bg-brand-orange border-brand-orange hover:text-brand-orange hover:bg-transparent hover:border-brand-orange px-[45px] py-[13px]" @click="next()">Continue</button>
 			</div>
 			<div class="flex items-center mt-5 gap-x-[10px]"><ChoreLessLocation class="w-4 h-[18px]" /><p class="text-[#3063FF] text-base not-italic font-bold leading-[normal]">Show hotels near me</p></div>
 		</div>
@@ -193,7 +211,7 @@ onMounted(async ()=>{
 		</div>
 	</div>
 
-	<dialog class="modal " :class="dialog && 'modal-open'">
+	<dialog class="modal " :class="(dialog && ((['invalid_address_pick', 'invalid_address_drop'] as Dialog[]).includes(dialog) || (['out_of_range_address_pick', 'out_of_range_address_drop'] as Dialog[]).includes(dialog) ) || validAddress ) && 'modal-open'">
 		<div class="modal-box max-w-[467px] h-fit rounded-2xl shadow-[0px_0px_15px_0px_#00000015] bg-white p-5 no-scrollbar overflow-y-auto">
 			<div v-if="(['invalid_address_pick', 'invalid_address_drop'] as Dialog[]).includes(dialog)">
 				<p class="text-center text-error"><Icon name="ph:smiley-sad" class="text-6xl" /></p>
@@ -212,7 +230,7 @@ onMounted(async ()=>{
 			</div>
 			<div v-else-if="dialog && ['meta_pick', 'meta_drop'].includes(dialog)">
 				<template v-if="dialog==='meta_pick'">
-					<div class="flex justify-between items-center"><p class="text-black text-base not-italic font-bold leading-[15px]">Tell us more</p> <Close @click="dialog = false" class="w-5 h-5"/></div>
+					<div class="flex justify-between items-center"><p class="text-black text-base not-italic font-bold leading-[15px]">Tell us more</p> <Close class="w-5 h-5" @click=" closeMeta" /></div>
 					<MetaPlace
 						v-model:address_type="address_type_pick"
 						v-model:suite="suite_pick"

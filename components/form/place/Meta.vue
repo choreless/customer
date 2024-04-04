@@ -218,24 +218,30 @@ watch(collection_type_computed, () => {
 			v-if="openType"
 			class="menu bg-white z-30 shadow-[rgba(0,0,0,0.35)_0px_5px_15px] w-56 rounded-box absolute"
 		>
-			<li @click="collection_type_computed = 'Use Reception'">
-				<a>
-					<Alarm class="w-5" />
-					Use reception
-				</a>
-			</li>
-			<li @click="collection_type_computed = 'From Outside'">
-				<a>
-					<Book class="w-5" />
-					From outside
-				</a>
-			</li>
-			<li @click="collection_type_computed = 'Meet Driver'">
-				<a>
-					<PersonDeliver class="w-5" />
-					Meet driver
-				</a>
-			</li>
+			<div @click="openType = !openType">
+				<li @click="collection_type_computed = 'Use Reception' ">
+					<a>
+						<Alarm class="w-5" />
+						Use reception
+					</a>
+				</li>
+			</div>
+			<div @click="openType = !openType">
+				<li @click="collection_type_computed = 'From Outside'">
+					<a>
+						<Book class="w-5" />
+						From outside
+					</a>
+				</li>
+			</div>
+			<div @click="openType = !openType">
+				<li @click="collection_type_computed = 'Meet Driver'">
+					<a>
+						<PersonDeliver class="w-5" />
+						Meet driver
+					</a>
+				</li>
+			</div>
 		</ul>
 		<div>
 			<!-- <label v-if="address_type_computed!=='hotel'" class="input-float mt-5">
@@ -271,8 +277,11 @@ watch(collection_type_computed, () => {
 		<label
 			class="cursor-pointer w-full flex items-center justify-between border-b-[1px] border-[#0000001a] py-5"
 		>
-			<div class="text-black text-xl leading-6">Unit/Apt</div>
-			<div class="text-base font-medium text-[#F85A47]">Add</div>
+			<div>
+				<div v-if="address_type_computed ==='hotel'" class="text-black text-xl leading-6">Room number <span class="text-[#838383] leading-6 text-xs font-normal">(Required)</span></div>
+				<div v-else class="text-black text-xl leading-6">Unit/Apt</div>
+			</div>
+			<div class="text-base font-medium text-[#F85A47]">Add </div>
 		</label>
 		<label
 			class="cursor-pointer w-full flex items-center justify-between border-b-[1px] border-[#0000001a] py-5"
@@ -300,7 +309,7 @@ watch(collection_type_computed, () => {
 		<label
 			class="cursor-pointer flex items-center w-full gap-x-3 justify-between pt-5"
 		>
-			<div class="text-black text-xl leading-6">Add address details</div>
+			<div class="text-black text-xl leading-6">Add {{address_type_computed =='home' ? 'address' : address_type_computed}} details</div>
 			<div class="text-base font-medium">Clear</div>
 		</label>
 		<textarea

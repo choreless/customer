@@ -30,7 +30,10 @@ function dialogSave(){
 <template>
 <div>
 	<div class="max-w-xl mx-auto my-6 px-2">
-		<h1 class="text-xl sm:text-2xl font-bold leading-loose">Laundry</h1>
+		<div class="flex justify-end mr-6">
+			<IconLaundary class="stroke-inherit" />
+		</div>
+		<h1 class="text-xl sm:text-2xl font-bold leading-8">Laundry</h1>
 		<div class="text-2xl flex justify-between">
 			<p>How many bags?</p>
 			<div class="flex items-center gap-x-2.5">
@@ -40,11 +43,12 @@ function dialogSave(){
 			</div>
 		</div>
 		<h1 class="text-xl sm:text-2xl font-bold leading-loose mt-5">What services do you need?</h1>
-		<button v-for="v of book.wash_types" :key="v" class="w-full mt-2.5 p-2.5 border-2 rounded-md text-start group border-brand-black/10 [&:is(:hover,.active)]:border-brand-blue [&:is(:hover,.active)]:bg-[#f5f9fd]" :class="book.wash_type===v && 'active'" @click="book.wash_type=v; is_dialog_open=true;">
+		<button v-for="v of book.wash_types" :key="v" class="w-full mt-2.5 p-2.5 border-2 rounded-md text-start group border-brand-black/10 [&:is(:hover,.active)]:border-[#F85A47] [&:is(:hover,.active)]:bg-[#f5f9fd]" :class="book.wash_type===v && 'active'" @click="book.wash_type=v; is_dialog_open=true;">
 			<div class="w-full flex items-center justify-between">
 				<div class="flex flex-col sm:flex-row sm:items-center gap-x-2.5 gap-y-2">
 					<div class="flex items-center gap-x-2.5">
-						<img :src="`https://ik.imagekit.io/choreless/v2/icons/${v==='mixed' ? 'mixed_wash%203' : 'separate_wash%202'}.svg`" alt="icon" loading="lazy" class="w-12">
+						<div v-if="v=== 'mixed'"><IconSeperate class="w-12" /></div>
+						<div v-else><IconMixed class="w-12" /></div>
 						<p class="text-xl sm:text-2xl font-bold capitalize">{{ v }} Wash</p>
 					</div>
 					<div class="flex items-center gap-x-1">
@@ -52,7 +56,7 @@ function dialogSave(){
 						<p class="text-sm font-medium">24-48h Service</p>
 					</div>
 				</div>
-				<div class="btn btn-sm btn-outline text-base px-2 sm:px-3 text-brand-blue border-brand-blue [&:is(.active,:hover)]:bg-brand-blue [&:is(.active,:hover)]:border-brand-blue [&:is(.active,:hover)]:text-white" :class="book.wash_type===v && book.detergent && 'active'"><span class="text-2xl">+</span> {{ book.wash_type===v && book.detergent ? 'Added' : 'Add' }}</div>
+				<div class="btn btn-sm btn-outline text-base px-2 sm:px-3 text-[#F85A47] border-[#F85A47] [&:is(.active,:hover)]:bg-[#F85A47] [&:is(.active,:hover)]:border-[#F85A47] [&:is(.active,:hover)]:text-white" :class="book.wash_type===v && book.detergent && 'active'"><span class="text-2xl">+</span> {{ book.wash_type===v && book.detergent ? 'Added' : 'Add' }}</div>
 			</div>
 			<p class="mt-2.5">A <span class="font-bold">{{ v==='mixed' ? '$30' : '$40' }} minimum</span> order value applies.</p>
 			<div class="flex gap-x-1.5 mt-2.5">
@@ -62,20 +66,27 @@ function dialogSave(){
 			</div>
 			<p class="mt-2.5">{{ v==='mixed' ? 'Convenient wash & fold laundry service for individuals couples.' : 'Twice weekly wash & fold pickup & delivery handles extra loads.' }}</p>
 		</button>
-		<p v-if="book.error.wash_type" class="text-error">* Wash type is required</p>
-		<h1 class="text-xl sm:text-2xl font-bold leading-loose mt-2.5">Extra services</h1>
-		<p class="mt-2.5">Do you have any large items, like a blanket, that will require their own load? <NuxtLink class="border-b border-brand-black">See pricing</NuxtLink></p>
-		<div class="flex gap-x-5 mt-5">
+		<div class="flex items-center justify-between self-stretch py-[10px]">
+			<div class="flex flex-col gap-[10px]">
+				<p v-if="book.error.wash_type" class="text-error">* Wash type is required</p>
+				<h1 class="text-xl sm:text-2xl font-bold leading-loose mt-2.5">Extra services</h1>
+				<p class="">Do you have any large items, like a blanket, <br> that will require their own load? <NuxtLink class="border-b border-brand-black">See pricing</NuxtLink></p>
+			</div>
+			<!-- <div class="w-[57px]">dsasdasd</div> -->
+		</div>
+		<!-- <div class="flex gap-x-5 mt-5">
 			<button class="btn btn-outline text-xl grow border-brand-black/20 [&:is(:hover,.active)]:bg-brand-blue [&:is(:hover,.active)]:border-brand-blue [&:is(:hover,.active)]:text-white" :class="book.extra_service && 'active'" @click="book.extra_service=true">Yes</button>
 			<button class="btn btn-outline text-xl grow border-brand-black/20 [&:is(:hover,.active)]:bg-brand-blue [&:is(:hover,.active)]:border-brand-blue [&:is(:hover,.active)]:text-white" :class="book.extra_service===false && 'active'" @click="book.extra_service=false">No</button>
-		</div>
+		</div> -->
 		<div v-if="book.extra_service" class="text-center border rounded-md mt-2.5 px-2 sm:px-16 py-2.5 border-brand-black/20">
 			<p class="text-lg sm:text-2xl font-bold">$8 per large item (+ per pound rate)</p>
 			<p class="text-sm sm:text-base mt-1 leading-[1.125rem]">Please note: We cannot accommodate extra large items, like king comforters. Extra large items will be returned without laundry at no charge.</p>
 		</div>
-		<div class="mt-2.5 rounded-md bg-[linear-gradient(177deg,#3063ff_2.82%,#678dff_97.18%)] text-white">
-			<div class="flex gap-x-5 p-2.5">
-				<img src="https://ik.imagekit.io/choreless/v2/icons/need_list_every_item%201.svg" alt="icon" loading="lazy" class="w-16">
+		<div class="mt-2.5 rounded-md bg-[#F85A47] text-white">
+			<div class="flex gap-x-5 p-2.5 items-center">
+				<div class="w-16">
+					<IconList class="w-16" />
+				</div>
 				<div>
 					<p class="text-lg sm:text-2xl font-bold">Do I need to list each item?</p>
 					<p class="text-sm sm:text-base leading-4 mt-1">Item listing is not required. Simply book your choice of services, then pack one bag per service.</p>
@@ -85,7 +96,7 @@ function dialogSave(){
 		<h2 class="text-lg sm:text-xl font-bold leading-loose mt-2.5 text-brand-black">Any specific notes about this order?</h2>
 		<textarea rows="2" class="textarea textarea-bordered w-full mt-2.5" placeholder="Add specific notes about this order? " />
 		<div class="flex flex-wrap gap-2.5 mb-2.5">
-			<label v-for="v,index of customer.care_services" :key="v" class="badge !p-4 cursor-pointer bg-black/5 hover:scale-105 hover:bg-primary hover:text-white [&.active]:bg-primary [&.active]:text-white" :class="book.care_services.includes(v) && 'active'">
+			<label v-for="v,index of customer.care_services" :key="v" class="badge !p-4 cursor-pointer bg-black/5 hover:scale-105 hover:bg-[#F85A47] hover:text-white [&.active]:bg-[#F85A47] [&.active]:text-white" :class="book.care_services.includes(v) && 'active'">
 				<input v-model="book.care_services" type="checkbox" :value="v" hidden>
 				<p class="flex items-center gap-x-2"><Delicates v-if="index === 0" /><Hangdry v-if="index === 1" /> <Icon v-if="index === 2" name="ph:coat-hanger" class="text-base" /> <Seperate-wash v-if="index === 3" /> {{ v }}</p>
 			</label>
@@ -105,21 +116,26 @@ function dialogSave(){
 			</div>
 			<div class="grid sm:grid-cols-2 gap-2.5 mt-2.5">
 				<button v-for="v of book.service_speeds" :key="v" class="relative text-center px-3 sm:px-6 py-5 border-2 rounded-md border-brand-black/20 [&:is(:hover,.active)]:border-[#F85A47]" :class="v===book.service_speed && 'active'" @click="book.service_speed=v">
-					<img :src="`https://ik.imagekit.io/choreless/v2/icons/${v==='next_day' ? 'separate_wash%202' : 'mixed_wash%203'}.svg`" alt="icon" loading="lazy" class="w-12 mx-auto">
+					<div v-if="v==='next_day' " class="w-12 mx-auto">
+						<IconSeperate />
+					</div>
+					<div v-else class="w-12 mx-auto">
+						<IconMixed />
+					</div>
 					<p class="text-lg sm:text-xl font-bold leading-loose mt-2.5 mb-1.5">{{ v==='next_day' ? 'Next day delivery' : '2 day delivery' }}</p>
 					<p class="text-sm leading-4">{{ v==='next_day' ? 'Clothes will be separated & washed Differently but fold together.' : 'Clothes will washed and fold together.' }}</p>
 					<p class="mt-3">{{ v==='next_day' ? '$1.80/lb' : '$1.60/lb' }}</p>
-					<checkBadge v-if="v===book.service_speed" class="absolute top-[-1px] right-[-1px]"/>
+					<checkBadge v-if="v===book.service_speed" class="absolute top-[-1px] right-[-1px]" />
 				</button>
 			</div>
 			<h2 class="text-lg sm:text-xl font-bold leading-loose mt-2.5 text-brand-black">Detergent<sup>*</sup></h2>
-			<div class="collapse bg-base-200 border border-gray-400 rounded-md">
+			<div class="collapse  ">
 				<input v-model="collapsed" type="checkbox">
-				<div class="collapse-title text-base uppercase  flex justify-between items-center pe-4 font-bold">
+				<div :class="book.detergent ? 'bg-base-200' : 'bg-base-500'" class="collapse-title text-base uppercase  flex justify-between items-center pe-4 font-bold border border-gray-400 rounded-md">
 					{{ book.detergent ?? 'Choose Detergent' }}
 					<Icon :name="!collapsed ? 'material-symbols:add-rounded' : 'ic:sharp-minus'" />
 				</div>
-				<div class="collapse-content bg-white">
+				<div class="collapse-content bg-base-200 border border-gray-400 rounded-md mt-2">
 					<label v-for="v of customer.detergents" :key="v.value" class="detergent-label">
 
 						<input v-model="book.detergent" type="radio" :value="v.value" class="detergent-input">
@@ -141,7 +157,7 @@ function dialogSave(){
 			<p class="text-brand-black/50 mt-5">Add-ons</p>
 			<div class="flex flex-wrap gap-2.5 mt-2.5">
 				<template v-for="v of customer.addons2" :key="v.name">
-					<label v-if="v.wash_type==='both' || v.wash_type===book.wash_type" class="badge !p-4 cursor-pointer bg-black/5 hover:scale-105 hover:bg-primary hover:text-white [&.active]:bg-primary [&.active]:text-white" :class="book.addons.includes(v.name) && 'active'">
+					<label v-if="v.wash_type==='both' || v.wash_type===book.wash_type" class="badge !p-4 cursor-pointer bg-black/5 hover:scale-105 hover:bg-black hover:text-white [&.active]:bg-black [&.active]:text-white" :class="book.addons.includes(v.name) && 'active'">
 						<input v-model="book.addons" type="checkbox" :value="v.name" hidden>
 						<p>{{ v.name }} + {{ v.cost }}</p>
 					</label>

@@ -150,7 +150,7 @@ onMounted(()=>{
 		</div>
 		<h1 class="text-xl sm:text-2xl font-bold leading-loose mt-2.5">Frequency:</h1>
 		<div class="flex flex-wrap sm:grid sm:grid-cols-2 gap-2.5 mt-2.5">
-			<button v-for="f of book.frequencies" :key="f" class="btn btn-outline text-xl grow border-brand-black/20 [&:is(:hover,.active)]:bg-brand-blue [&:is(:hover,.active)]:border-brand-blue [&:is(:hover,.active)]:text-white" :class="f==book.frequency && 'active'" @click="book.frequency=f">{{ f }}</button>
+			<button v-for="f of book.frequencies" :key="f" class="btn btn-outline text-xl grow border-brand-black/20 [&:is(:hover,.active)]:bg-black [&:is(:hover,.active)]:border-black [&:is(:hover,.active)]:text-white" :class="f==book.frequency && 'active'" @click="book.frequency=f">{{ f }}</button>
 		</div>
 		<button class="btn w-full h-[3.75rem] mt-2.5 px-5 py-[0.9375rem] rounded-[0.3125rem] text-2xl text-white bg-brand-orange border-brand-orange hover:text-brand-orange hover:bg-transparent hover:border-brand-orange" @click="next()">Continue</button>
 	</div>

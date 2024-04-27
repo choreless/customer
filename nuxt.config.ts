@@ -9,6 +9,10 @@ const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY ?? '';
 const DEBUG = Boolean(process.env.DEBUG) ?? false;
 
 export default defineNuxtConfig({
+	build: {
+		transpile: ['@googlemaps/js-api-loader']
+	},
+
 	modules: ['@nuxtjs/tailwindcss', '@pinia/nuxt', 'nuxt-icon', '@vueuse/nuxt'],
 
 	tailwindcss: {

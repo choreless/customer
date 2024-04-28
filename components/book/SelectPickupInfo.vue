@@ -114,18 +114,21 @@ onMounted(()=>{
 
 <template>
 <div>
-	<div v-if="book.date" class="max-w-xl mx-auto my-6 px-2">
+	<div v-if="book.date" class="max-w-[467px] mx-auto my-[53px]">
 		<div class="mt-2.5">
-			<h1 class="text-xl sm:text-2xl font-bold leading-loose">Choose your pickup date:</h1>
-			<div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mt-2.5">
-				<button v-for="v of book.pinned_pickup_dates" :key="v.formatted" class="text-center px-3 sm:px-6 py-2 border-2 rounded-md border-brand-black/20 [&:is(:hover,.active)]:border-brand-blue" :class="book.date===v.formatted && 'active'" @click="book.date=v.formatted">
-					<p>{{ format(v.unformatted, 'MMM') }}</p>
-					<p class="text-3xl sm:text-5xl font-bold my-1">{{ format(v.unformatted, 'dd') }}</p>
-					<p>{{ format(v.unformatted, 'iii') }}</p>
+			<h1 class=" text-2xl font-bold ">Choose your pickup date:</h1>
+			<div class="grid grid-cols-2 sm:grid-cols-4 gap-[13px] mt-5">
+				<button v-for="v of book.pinned_pickup_dates" :key="v.formatted" class=" w-[107px] h-[126px] text-center px-5 py-1 border-2 rounded-[5px] border-brand-black/20 [&:is(:hover,.active)]:border-[#F85A47]" :class="book.date===v.formatted && 'active'" @click="book.date=v.formatted">
+					<p class="leading-10">{{ format(v.unformatted, 'MMM') }}</p>
+					<p class="text-5xl font-bold leading-10">{{ format(v.unformatted, 'dd') }}</p>
+					<p class="leading-10">{{ format(v.unformatted, 'iii') }}</p>
 				</button>
-				<button class="text-center px-3 sm:px-6 py-2 border-2 rounded-md border-brand-black/20 [&:is(:hover,.active)]:border-brand-blue" :class="!book.pinned_pickup_dates.map(v=>v.formatted).includes(book.date) && 'active'" @click="show_calendar=!show_calendar">
-					<IconCalendar class="w-9 mx-auto stroke-brand-orange" />
-					<p class="my-2 whitespace-nowrap">{{ book.pinned_pickup_dates.map(v=>v.formatted).includes(book.date) ? 'Other' : formatISO(parseISO(book.date), {representation: 'date'}) }}</p>
+				<button class="text-center px-3 sm:px-6 py-2 border-2 rounded-md border-brand-black/20 [&:is(:hover,.active)]:border-[#F85A47]" :class="!book.pinned_pickup_dates.map(v=>v.formatted).includes(book.date) && 'active'" @click="show_calendar=!show_calendar">
+					<!-- <IconCalendar class="w-9 mx-auto stroke-brand-orange" /> -->
+					<div class="flex flex-col justify-center items-center">
+						<IconMixed2 />
+					</div>
+					<p :class="book.pinned_pickup_dates.map(v=>v.formatted).includes(book.date) ? '' : 'text-xs'" class="my-2 leading-3 pt-2.5 ">{{ book.pinned_pickup_dates.map(v=>v.formatted).includes(book.date) ? 'Other' : formatISO(parseISO(book.date), {representation: 'date'}) }}</p>
 					<Icon name="material-symbols:keyboard-arrow-down-rounded" class="text-2xl" />
 				</button>
 			</div>
@@ -134,25 +137,26 @@ onMounted(()=>{
 					<VCalendar borderless expanded class="mt-8" title-position="left" :first-day-of-week="2" :columns="app.breakpoints.sm ? 2 : 1" :min-date="book.pinned_pickup_dates[0].unformatted" :attributes="[{highlight: true, dates: parseISO(book.date)}]" @dayclick="selectDate" />
 				</ClientOnly>
 			</div>
-			<p class="text-brand-black/50">All deliveries are between 5pm and 10pm. Standard turnaround on all orders is 2-3 days. Rush turnaround is available for a small fee.</p>
+			<p class="text-brand-black/50 mt-5">All deliveries are between 5pm and 10pm. Standard turnaround on all orders is 2-3 days. Rush turnaround is available for a small fee.</p>
+			<div class="text-[20px] leading-6 font-medium text-[#F85A47] mt-5 flex items-center gap-2.5"> <IconInfo2 />Learn More</div>
 		</div>
-		<h1 class="text-xl sm:text-2xl font-bold leading-loose mt-2.5">Your delivery is schedule for:</h1>
-		<div class="flex border-brand-black/20">
-			<div class="px-3 sm:px-6 py-2 border-2 min-w-28 rounded-md rounded-e-none text-center border-inherit">
-				<p>{{ format(book.scheduled_delivery, 'MMM') }}</p>
-				<p class="text-3xl sm:text-5xl font-bold my-1">{{ format(book.scheduled_delivery, 'dd') }}</p>
-				<p>{{ format(book.scheduled_delivery, 'iii') }}</p>
+		<h1 class="text-2xl font-bold  mt-[30px]">Your delivery is schedule for:</h1>
+		<div class="flex border-brand-black/20 mt-5">
+			<div class="px-3 sm:px-6 py-2 border-2 min-w-28 rounded-[5px] rounded-e-none text-center border-inherit">
+				<p class="leading-10">{{ format(book.scheduled_delivery, 'MMM') }}</p>
+				<p class="text-5xl font-bold leading-10">{{ format(book.scheduled_delivery, 'dd') }}</p>
+				<p class="leading-10">{{ format(book.scheduled_delivery, 'iii') }}</p>
 			</div>
-			<div class="px-3 sm:px-6 py-2 border-2 border-s-0 rounded-md rounded-s-none grow flex flex-col justify-center border-inherit">
+			<div class=" px-[30px] py-[39px] border-2 border-s-0 rounded-md rounded-s-none grow flex flex-col justify-center border-inherit">
 				<p class="capitalize text-brand-black/50">{{ book.wash_type }} Wash</p>
 				<p>{{ book.service_speed==='next_day' ? 'Next day delivery' : '2 day delivery' }}</p>
 			</div>
 		</div>
-		<h1 class="text-xl sm:text-2xl font-bold leading-loose mt-2.5">Frequency:</h1>
-		<div class="flex flex-wrap sm:grid sm:grid-cols-2 gap-2.5 mt-2.5">
-			<button v-for="f of book.frequencies" :key="f" class="btn btn-outline text-xl grow border-brand-black/20 [&:is(:hover,.active)]:bg-brand-blue [&:is(:hover,.active)]:border-brand-blue [&:is(:hover,.active)]:text-white" :class="f==book.frequency && 'active'" @click="book.frequency=f">{{ f }}</button>
+		<h1 class=" text-2xl font-bold mt-[30px]">Frequency:</h1>
+		<div class="flex flex-wrap sm:grid sm:grid-cols-2 gap-2.5 mt-5">
+			<button v-for="f of book.frequencies" :key="f" class="btn btn-outline text-base py-2.5 px-5 leading-6 font-bold grow border-brand-black/20 [&:is(:hover,.active)]:bg-[#F85A47] [&:is(:hover,.active)]:border-[#F85A47] [&:is(:hover,.active)]:text-white" :class="f==book.frequency && 'active'" @click="book.frequency=f">{{ f }}</button>
 		</div>
-		<button class="btn w-full h-[3.75rem] mt-2.5 px-5 py-[0.9375rem] rounded-[0.3125rem] text-2xl text-white bg-brand-orange border-brand-orange hover:text-brand-orange hover:bg-transparent hover:border-brand-orange" @click="next()">Continue</button>
+		<button class="bg-[#F85A47] text-white w-full py-[18px] px-5  mt-5  rounded-[5px] text-2xl text-[16px] font-bold leading-6  cursor-pointer " @click="next()">Continue</button>
 	</div>
 </div>
 </template>

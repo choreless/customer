@@ -159,8 +159,8 @@ export const usePageBook = defineStore('page_book', ()=>{
 			}
 		})
 	);
-	const bookProgress = computed(()=> step.value / totalStep *100)
-	const scheduled_delivery = computed(()=>addDays(parseISO(date.value), service_speed.value==='next_day' ? 1 : 2));
+	const bookProgress = computed(function (){ return step.value / totalStep *100})
+	const scheduled_delivery = computed(function(){ return addDays(parseISO(date.value), service_speed.value==='next_day' ? 1 : 2)});
 
 	watch(wash_type, n=>{error.wash_type = !n;})
 	watch(detergent, n=>{error.detergent = !n;})

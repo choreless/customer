@@ -5,13 +5,8 @@ import add_note_modal from '../modals/AddNote.vue';
 
 const book = usePageBook();
 const is_toggle=ref(false)
-const is_selected=ref(null)
+const is_selected=ref<number | null>(null)
 const wash_is_required=ref(false)
-const select_service=(id: any)=>{
-	is_selected.value=id;
-	wash_is_required.value=false
-	
-}
 const wash_services_data=reactive([
 	{
 		wash_type:'Mixed Wash',
@@ -33,7 +28,15 @@ const wash_services_data=reactive([
 	},
 ])
 const big_item = book.optional_item
-const update_service_speed=(item:any)=>{
+
+function select_service(id: number){
+	is_selected.value=id;
+	wash_is_required.value=false
+	
+}
+function update_service_speed(item:any){
+	console.log(typeof item)
+	console.log( item)
 	is_toggle.value=!is_toggle.value
 	if(is_toggle.value){
 		item.service_speed='2_day'
@@ -42,7 +45,7 @@ const update_service_speed=(item:any)=>{
 	}
 }
 
-const next_step=()=>{
+function next_step(){
 	if(is_selected.value===null){
 		wash_is_required.value=true
 	}else{
@@ -87,7 +90,7 @@ const next_step=()=>{
 						<h1 class="text-sm leading-5 font-medium">Next Day Delivary</h1>
 						<label class="flex items-center cursor-pointer select-none text-dark ">
     <div class="relative">
-      <input type="checkbox" class="sr-only" @click="is_toggle=!is_toggle" />
+      <input type="checkbox" class="sr-only" @click="update_service_speed(item)" />
       <div :class="is_toggle ? 'bg-[#F85A47]' : 'bg-[#D9D9D9]'" class="block h-5 rounded-full  w-[50px]"></div>
       <div
         :class="{ 'translate-x-full ': is_toggle }"

@@ -1,11 +1,24 @@
 <script setup lang="ts">
 import customer from '~/lib/customer';
+
+ 	// Defining Interfaces
+
+interface Item {
+		is_active: boolean;
+		value: string; 
+	}
+
+	// Defining Constants
+
 const book = usePageBook();
 const collapsed= ref(false)
-const update_toggle=(item:any)=>{
+
+	// Defining Functions 
+
+function update_toggle(item:Item){
 	item.is_active=!item.is_active
 }
-const next=()=>{
+function next(){
 	book.error.water_temperature = !book.water_temperature;
 	book.error.dryer_temperature = !book.dryer_temperature;
 	if(book.error.water_temperature || book.error.dryer_temperature) return;

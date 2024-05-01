@@ -41,6 +41,7 @@ interface Service {
 	const add_note_modal=ref(false)
 	const info_modal=ref(false)
 	const pricing_modal=ref(false)
+	const learn_more_modal=ref(false)
 	const preference_note=ref('')
 	const error = reactive({
 		wash_type: false,
@@ -174,8 +175,8 @@ interface Service {
 			}
 		})
 	);
-	const bookProgress = computed(function (){ return step.value / totalStep *100})
-	const scheduled_delivery = computed(function(){ return addDays(parseISO(date.value), service_speed.value==='next_day' ? 1 : 2)});
+	const bookProgress = computed(()=> step.value / totalStep *100)
+	const scheduled_delivery = computed(()=>  addDays(parseISO(date.value), service_speed.value==='next_day' ? 1 : 2));
 
 	watch(wash_type, n=>{error.wash_type = !n;})
 	watch(detergent, n=>{error.detergent = !n;})
@@ -184,7 +185,7 @@ interface Service {
 	watch(dryer_temperature, n=>{error.dryer_temperature = !n;})
 
 	return {
-		wash_types, service_speeds, frequencies, now, note, add_note_modal, info_modal, pricing_modal, pricing_info, preference_note,
+		wash_types, service_speeds, frequencies, now, note, add_note_modal, info_modal, pricing_modal, pricing_info, preference_note,learn_more_modal,
 		step, totalStep, bookProgress, bags_count, wash_type, extra_service, do_not_show_page, zip, care_services, optional_item, addons, detergent, water_temperature, dryer_temperature, service_speed, frequency, date, error,
 		pinned_pickup_dates, scheduled_delivery
 	}

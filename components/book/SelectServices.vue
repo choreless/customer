@@ -88,7 +88,7 @@ function next_step(){
 		wash_is_required.value=true
 	}
 	else{
-		
+		// book.wash_type=wash_services_data[is_selected.value].wash_type
 		wash_is_required.value=false
 		book.step++
 	}

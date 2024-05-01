@@ -1,8 +1,19 @@
 <script setup lang="ts">
+import { defineProps, defineEmits } from 'vue';
 const book = usePageBook();
+const props = defineProps<{
+  note: string,
+}>();
+const emit=defineEmits(['update:note'])
 const clear_note = () => {
-  	book.note = "";
-};
+  book.note=''
+}
+
+const update_note = () => {
+  book.add_note_modal = false
+  emit('update:note', { note: book.note });
+}
+
 </script>
 
 <template>
@@ -23,8 +34,8 @@ const clear_note = () => {
           Add note
         </h1>
         <div
-          class="absolute w-[7px] h-[7px] right-0 top-3"
-          @click="(book.add_note_modal = false), (book.note = '')"
+          class="absolute w-[7px] h-[7px] right-0 top-3 cursor-pointer"
+          @click="(book.add_note_modal = false)"
         >
           <IconClose2 />
         </div>
@@ -32,7 +43,7 @@ const clear_note = () => {
       <div class="flex justify-between items-center self-stretch">
         <h1 class="text-base text-black">Add Special instructions</h1>
         <h1
-          class="text-base leading-[15px] font-medium text-black"
+          class="text-base leading-[15px] font-medium text-black cursor-pointer"
           @click="clear_note"
         >
           Clear
@@ -46,7 +57,7 @@ const clear_note = () => {
       <button
         :disabled="!book.note"
         class="flex justify-center items-center px-5 py-[18px] rounded-[5px] bg-[#f85a47] disabled:bg-[#F8F8F8] h-[48px] text-base font-bold disabled:text-[#011631] text-white"
-        @click="(book.add_note_modal = false), (book.note = '')"
+        @click="update_note()"
       >
         Save
       </button>

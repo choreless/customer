@@ -4,6 +4,20 @@ import parseISO from 'date-fns/parseISO';
 import customer from '~/lib/customer';
 
 export const usePageBook = defineStore('page_book', ()=>{
+
+
+	// Defining Interfaces 
+interface Service {
+	id:number;
+    wash_type: string;
+    from_price: number;
+    to_price: number;
+	bag_count: number;
+    service_speed: string;
+    note: string;
+	is_active: boolean;
+}
+
 	const wash_types = ['Mixed Wash', 'Seperate Wash'] as const;
 	const service_speeds = ['next_day', '2_day'] as const;
 	const frequencies = ['Just once', 'Weekly', 'Every two weeks', 'Every four weeks'] as const;
@@ -35,14 +49,15 @@ export const usePageBook = defineStore('page_book', ()=>{
 		water_temperature: false,
 		dryer_temperature: false
 	})
-	const optional_item=reactive({
-		id:1,
-		name:'Home & Bedding',
-		price:10,
-		delivery_time:'3 Day Service',
-		note:'',
-		quantity:1,
-		is_active:false
+	const optional_item=reactive<Service>({
+		id: 141232,
+		wash_type: 'Home & Bedding',
+		from_price: 10,
+		service_speed: '3 Day Service',
+		note: 'Testing',
+		bag_count: 1,
+		is_active: false,
+		to_price: 10
 	})
 
 	const pricing_info=ref([

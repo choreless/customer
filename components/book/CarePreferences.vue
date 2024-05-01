@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import customer from '~/lib/customer';
+import switch_button from '../buttons/switchBtn.vue';
 
  	// Defining Interfaces
 
@@ -15,7 +16,7 @@ const collapsed= ref(false)
 
 	// Defining Functions 
 
-function update_toggle(item:Item){
+function update_toggle_btn(item:Item){
 	item.is_active=!item.is_active
 }
 function next(){
@@ -24,6 +25,10 @@ function next(){
 	if(book.error.water_temperature || book.error.dryer_temperature) return;
 	book.step++;
 }
+
+const update_button_status = (item:Item) => {
+	item.is_active=!item.is_active
+};
 </script>
 
 <template>
@@ -74,23 +79,8 @@ function next(){
 			</div>
 		<div v-for="(item,index) in book.care_services" :key="index" class="  flex items-center w-full border-brand-black/20 border rounded-lg justify-between px-5 py-[14px]">
 			<p class="font-medium ">{{ item.value }}</p>
-			<label class="flex items-center cursor-pointer select-none text-dark ">
-    <div class="relative">
-      <input type="checkbox" class="sr-only" @click="update_toggle(item)" />
-      <div :class="item.is_active ? 'bg-[#F85A47]' : 'bg-[#D9D9D9]'" class="block h-5 rounded-full  w-[50px]"></div>
-      <div
-        :class="{ 'translate-x-full ': item.is_active }"
-        class="absolute flex items-center justify-center w-7 h-7 transition drop-shadow-md bg-[#FFFFFF] rounded-full dot dark:bg-dark-5 left-0 -top-1"
-      >
-        <span>
-			<p  v-if="item.is_active" class="text-[#F85A47]">
-				&#x2713;
-			</p>
-        </span>
-       
-      </div>
-    </div>
-  </label>
+			
+			<switch_button :is_toggle="item.is_active" @update:is_toggle="update_button_status(item)" />
 			
 		</div>
 		<div>

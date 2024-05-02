@@ -5,18 +5,20 @@ import customer from '~/lib/customer';
 
 export const usePageBook = defineStore('page_book', ()=>{
 
+// Defining Interfaces 
 
-	// Defining Interfaces 
 interface Service {
 	id:number;
     wash_type: string;
     from_price: number;
     to_price: number;
-	bag_count: number;
+	bags_count: number;
     service_speed: string;
     note: string;
 	is_active: boolean;
 }
+
+// Defining Constants 
 
 	const wash_types = ['Mixed Wash', 'Seperate Wash'] as const;
 	const service_speeds = ['next_day', '2_day'] as const;
@@ -26,11 +28,11 @@ interface Service {
 	const step = ref<-1|0|1|2|3|4>(0);
 	const bags_count = ref(1);
 	const wash_type = ref<typeof wash_types[number]>();
-	const extra_service = ref<boolean>();
+	const extra_service = ref<boolean>(false);
 	const do_not_show_page = ref<boolean>();
 	const zip = ref('');
 	const addons = ref<(typeof customer.addons2[number]['name'])[]>([]);
-	const detergent = ref<typeof customer.detergents[number]>(customer.detergents[1].value);
+	const detergent = ref<typeof customer.detergents[number]>(customer.detergents[1]);
 	const water_temperature = ref<typeof customer.water_temperatures[number]>('Cold');
 	const dryer_temperature = ref<typeof customer.dryer_temperatures[number]>('Medium');
 	const service_speed = ref<typeof service_speeds[number]>('next_day');
@@ -50,16 +52,21 @@ interface Service {
 		water_temperature: false,
 		dryer_temperature: false
 	})
+
+	// Optional Item Object
+
 	const optional_item=reactive<Service>({
 		id: 141232,
 		wash_type: 'Home & Bedding',
 		from_price: 10,
 		service_speed: '3 Day Service',
-		note: 'Testing',
-		bag_count: 1,
+		note: '',
+		bags_count: 1,
 		is_active: false,
 		to_price: 10
 	})
+
+	// Pricing object for pricing modal
 
 	const pricing_info=ref([
 		{
@@ -178,11 +185,7 @@ interface Service {
 	const bookProgress = computed(()=> step.value / totalStep *100)
 	const scheduled_delivery = computed(()=>  addDays(parseISO(date.value), service_speed.value==='next_day' ? 1 : 2));
 
-	watch(wash_type, n=>{error.wash_type = !n;})
-	watch(detergent, n=>{error.detergent = !n;})
 	watch(zip, n=>{error.zip = !n;})
-	watch(water_temperature, n=>{error.water_temperature = !n;})
-	watch(dryer_temperature, n=>{error.dryer_temperature = !n;})
 
 	return {
 		wash_types, service_speeds, frequencies, now, note, add_note_modal, info_modal, pricing_modal, pricing_info, preference_note,learn_more_modal,

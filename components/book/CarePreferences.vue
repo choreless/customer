@@ -16,9 +16,6 @@ const collapsed= ref(false)
 
 	// Defining Functions 
 
-function update_toggle_btn(item:Item){
-	item.is_active=!item.is_active
-}
 function next(){
 	book.error.water_temperature = !book.water_temperature;
 	book.error.dryer_temperature = !book.dryer_temperature;
@@ -66,14 +63,14 @@ const update_button_status = (item:Item) => {
 		<div class="collapse  rounded-[5px]  ">
 				<input v-model="collapsed" type="checkbox">
 				<div class="collapse-title text-base  flex justify-between items-center py-[12px] px-5 font-medium border !border-gray-300 rounded-[5px]">
-					{{ book.detergent ?? 'Choose Detergent' }}
+					{{ book.detergent.value ?? 'Choose Detergent' }}
 					<Icon class="text-[28px] leading-6 !font-normal" :name="!collapsed ? 'material-symbols:add-rounded' : 'ic:sharp-minus'" />
 				</div>
 				<div :class="collapsed? 'mt-2.5 pt-2.5' : ''" class="collapse-content bg-white border !border-gray-300 rounded-md  px-5">
 					<label v-for="v of customer.detergents" :key="v.value">
-						<input @click="collapsed=!collapsed" v-model="book.detergent" type="radio" :value="v.value" class="detergent-input">
+						<input @click="collapsed=!collapsed" v-model="book.detergent.value" type="radio" :value="v.value" class="detergent-input">
 						<div class="flex  cursor-pointer ">
-							<span :class="v.value == 'Customer Provided' ? 'border-0 pt-2.5': 'border-b-[0.5px]  border-[#01163126] py-2.5' " class="  w-full "><p>{{ v.value }} <span v-if="v.isPopular" class="pl-5 text-xs text-[#01163180]/50 items-center">(Most popular choice)</span></p><p class=" text-[#01163180]/50">{{ v.discription }}</p></span> </div>
+							<span :class="v.value == 'Customer Provided' ? 'border-0 pt-2.5': 'border-b-[0.5px]  border-[#01163126] py-2.5' " class="  w-full "><p>{{ v.value }} <span v-if="v.isPopular" class="pl-5 text-xs text-[#01163180]/50 items-center">(Most popular choice)</span></p><p class=" text-[#01163180]/50">{{ v.description }}</p></span> </div>
 					</label>
 				</div>
 			</div>

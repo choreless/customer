@@ -9,7 +9,7 @@ interface Service {
     wash_type: string;
     from_price: number;
     to_price: number;
-	bag_count: number;
+	bags_count: number;
     service_speed: string;
     note: string;
 }
@@ -17,7 +17,6 @@ interface Service {
 
 const is_toggle=ref(false)
 const book = usePageBook();
-const is_selected=ref<number | null>(null)
 const wash_is_required=ref(false)
 const clicked_service=ref<Service>({
 		id:0,
@@ -26,7 +25,7 @@ const clicked_service=ref<Service>({
 		to_price:0,
 		note:'',
 		service_speed:'',
-		bag_count:1
+		bags_count:1
 
 })
 const wash_services_data=reactive([
@@ -45,7 +44,7 @@ const wash_services_data=reactive([
 		wash_type:'Seperate Wash',
 		from_price:2.25,
 		to_price:2.50,
-		note:'das',
+		note:'Do not add any bleech on my clothes.',
 		service_speed:'next_day',
 		bags_count:1
 
@@ -55,24 +54,29 @@ const big_item = book.optional_item
 
 // Defining functions
 
-function select_service(id: number){
-	is_selected.value=id;
+function select_service(service:Service){
+	clicked_service.value=service
 	wash_is_required.value=false
 	
 }
 function update_toggle_val(){
 	is_toggle.value=!is_toggle.value
 if(is_toggle.value===true){
-	wash_services_data[is_selected.value].service_speed='2_day'
+	clicked_service.value.service_speed='2_day'
 	is_toggle.value=true
 }else if(is_toggle.value===false){
-	wash_services_data[is_selected.value].service_speed='next_day'
+	clicked_service.value.service_speed='next_day'
 	  is_toggle.value=false
 
 }
 	
 }
 
+function add_optional_item(){
+	big_item.is_active =!big_item.is_active
+	book.extra_service=!book.extra_service
+	
+}
 
 function open_add_note(service: Service){
 	clicked_service.value=service
@@ -84,11 +88,11 @@ function update_note({ note }:{ note: string } ){
 	clicked_service.value.note=note;
 }
 function next_step(){
-	if(is_selected.value===null){
+	if(clicked_service.value.id===0){
 		wash_is_required.value=true
 	}
 	else{
-		// book.wash_type=wash_services_data[is_selected.value].wash_type
+		
 		wash_is_required.value=false
 		book.step++
 	}
@@ -100,7 +104,7 @@ function next_step(){
 <div class="">
 	<div class="my-8 max-w-[467px] mx-auto flex flex-col items-start gap-5">
 		<h1 class="text-2xl leading-7 font-bold">How can we help you? </h1>
-		<div v-for="(item,index) of wash_services_data" :key="index" class=" relative px-[15px] py-2.5 cursor-pointer rounded-[10px] border-[0.5px] border-b-[5px] border-[#e5e5e5] w-full [&:is(.active)]:border-[#f85a47]  transition-all duration-100 ease-linear" :class="is_selected===index ? 'active' : ''" @click="select_service(index)">
+		<div v-for="(item,index) of wash_services_data" :key="index" class=" relative px-[15px] py-2.5 cursor-pointer rounded-[10px] border-[0.5px] border-b-[5px] border-[#e5e5e5] w-full [&:is(.active)]:border-[#f85a47]  transition-all duration-100 ease-linear" :class="clicked_service.id===item.id ? 'active' : ''" @click="select_service(item)">
 			<div class="flex  items-center self-stretch gap-5 justify-between">
 				<div class="max-w-[348px] w-full flex flex-col items-start gap-2.5">
 					<h1 class="text-2xl leading-6  font-bold text-[#f85a47]  capitalize">{{ item.wash_type }}</h1>
@@ -119,11 +123,11 @@ function next_step(){
 					<div class="text-[12px] leading-4 ">Convenient wash & fold laundry service for individuals couples. </div>
 				</div>
 				<div>
-					<div v-if="item.wash_type==='Mixed Wash'"><IconMixed :isActive="is_selected===index " /></div>
-					<div v-else><IconSeperate :isActive="is_selected===index " /></div>
+					<div v-if="item.wash_type==='Mixed Wash'"><IconMixed :isActive="clicked_service.id===item.id " /></div>
+					<div v-else><IconSeperate :isActive="clicked_service.id===item.id " /></div>
 				</div>
 			</div>
-			<div :class="is_selected == index ? 'block' : 'hidden' " class="bg-white w-full ">
+			<div :class="clicked_service.id===item.id ? 'block' : 'hidden' " class="bg-white w-full ">
 				<div class="flex justify-between items-center self-stretch mt-5">
 					<div class="max-w-[223.5px] w-full pr-5 flex items-start justify-between gap-2.5">
 						<h1 class="text-sm leading-5 font-medium">Next Day Delivary</h1>
@@ -147,7 +151,7 @@ function next_step(){
 			Do you have any Big Item ?
 		</h1>
 		<div  :class="big_item.is_active ? 'active' : ''" class=" relative px-[15px] py-2.5 cursor-pointer rounded-[10px] border-[0.5px] border-b-[5px] border-[#e5e5e5] w-full [&:is(.active)]:border-[#f85a47]  transition-all duration-100 ease-linear" >
-			<div @click="big_item.is_active =!big_item.is_active"  class="flex  self-stretch gap-5 justify-between ">
+			<div @click="add_optional_item"  class="flex  self-stretch gap-5 justify-between ">
 				<div class="max-w-[348px] w-full flex flex-col items-start gap-2.5">
 					<h1 class="text-2xl leading-6  font-bold text-[#f85a47]  capitalize">{{big_item.wash_type}}</h1>
 					<div class="flex items-center  gap-[5px]">
@@ -180,9 +184,9 @@ function next_step(){
 				
 				<div class="my-2.5 h-[1px] bg-[#0000000d] w-full" />
 				<div class="flex h-5 justify-between items-center self-stretch px-2.5">
-					<button class="text[25px] leading-5 " :class="big_item.bag_count<2 ? ' text-[#838383]' : 'text-black'" :disabled="big_item.bag_count<2" @click="big_item.bag_count--"><Icon name="ic:outline-minus" class="text-2xl" /></button>
-					<p class="text-sm font-medium">{{ big_item.bag_count }} Bags</p>
-					<button class="text[25px] leading-5" @click="big_item.bag_count++"><Icon name="ic:outline-plus" class="text-2xl" /></button>
+					<button class="text[25px] leading-5 " :class="big_item.bags_count<2 ? ' text-[#838383]' : 'text-black'" :disabled="big_item.bags_count<2" @click="big_item.bags_count--"><Icon name="ic:outline-minus" class="text-2xl" /></button>
+					<p class="text-sm font-medium">{{ big_item.bags_count }} Bags</p>
+					<button class="text[25px] leading-5" @click="big_item.bags_count++"><Icon name="ic:outline-plus" class="text-2xl" /></button>
 				</div>
 			</div>
 		</div>	
@@ -225,7 +229,7 @@ function next_step(){
 			</div>
 			
 		</div>
-		<button @click="next_step" :class="is_selected !==null ? 'text-white bg-[#f85a47]' : 'text-black bg-[#f8f8f8]'"  class="font-bold    text-center w-full px-5 py-[18px] rounded-[5px] ">Continue</button>
+		<button @click="next_step" :class="clicked_service.id !==0 ? 'text-white bg-[#f85a47]' : 'text-black bg-[#f8f8f8]'"  class="font-bold    text-center w-full px-5 py-[18px] rounded-[5px] ">Continue</button>
 
 	</div>
 	<add_note_modal :note="clicked_service.note"  @update:note="update_note" />

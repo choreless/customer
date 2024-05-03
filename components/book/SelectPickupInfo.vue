@@ -2,14 +2,14 @@
 import format from 'date-fns/format';
 import formatISO from 'date-fns/formatISO';
 import parseISO from 'date-fns/parseISO';
-import learn_more_modal from '../modals/LearnMore.vue'
 import type { CalendarDay } from 'v-calendar/dist/types/src/utils/page.js';
+import learn_more_modal from '../modals/LearnMore.vue'
 
+// Defining Constants
 const book = usePageBook();
 const app = useApp();
-
 const show_calendar = ref(false);
-
+// Defining functions
 async function next(){
 	const usp = new URLSearchParams();
 	usp.append('redirect', 'none');
@@ -143,38 +143,34 @@ onMounted(()=>{
 		<div class="flex flex-col gap-5 ">
 			<h1 class="text-2xl font-bold  mt-[30px]">Your delivery is schedule for:</h1>
 			<div class="rounded-[5px] w-full h-[126px] border-[1px] border-[#E5E5E5] border-b-[5px] flex ">
-
-					<div class=" rounded-l-[5px] w-[107px] h-[126px] border-r-[1px] border-[#E5E5E5]  flex flex-col justify-center items-center">
+				<div class=" rounded-l-[5px] w-[107px] h-[126px] border-r-[1px] border-[#E5E5E5]  flex flex-col justify-center items-center">
 					<p class="leading-10">{{ format(book.scheduled_delivery, 'MMM') }}</p>
 					<p class="text-5xl font-bold leading-10">{{ format(book.scheduled_delivery, 'dd') }}</p>
 					<p class="leading-10">{{ format(book.scheduled_delivery, 'iii') }}</p>
+				</div>
+				<div class="px-[30px] flex w-[calc(100%-107px)] justify-between items-center ">
+					<div>
+						<h1 class="font-medium">{{ book.wash_type }}</h1>
+						<p class="text-[#00000080]">{{ book.service_speed==='next_day' ? 'Next day delivery' : '2 day delivery' }}</p>
 					</div>
-					<div class="px-[30px] flex w-[calc(100%-107px)] justify-between items-center ">
-						<div>
 
-							<h1 class="font-medium">{{ book.wash_type }}</h1>
-							<p class="text-[#00000080]">{{ book.service_speed==='next_day' ? 'Next day delivery' : '2 day delivery' }}</p>
-						</div>
-
-						<IconMixed />
-					</div>
+					<IconMixed />
+				</div>
 			</div>
 			<div v-if="book.extra_service" class="rounded-[5px] w-full h-[126px] border-[1px] border-[#E5E5E5] border-b-[5px] flex ">
-
-					<div class=" rounded-l-[5px] w-[107px] h-[126px] border-r-[1px] border-[#E5E5E5]  flex flex-col justify-center items-center">
-					<p class="leading-10">{{ format(book.scheduled_delivery, 'MMM') }}</p>
-					<p class="text-5xl font-bold leading-10">{{ format(book.scheduled_delivery, 'dd') }}</p>
-					<p class="leading-10">{{ format(book.scheduled_delivery, 'iii') }}</p>
+				<div class=" rounded-l-[5px] w-[107px] h-[126px] border-r-[1px] border-[#E5E5E5]  flex flex-col justify-center items-center">
+					<p class="leading-10">{{ format(book.extra_service_scheduled_delivery, 'MMM') }}</p>
+					<p class="text-5xl font-bold leading-10">{{ format(book.extra_service_scheduled_delivery, 'dd') }}</p>
+					<p class="leading-10">{{ format(book.extra_service_scheduled_delivery, 'iii') }}</p>
+				</div>
+				<div class="px-[30px] flex w-[calc(100%-107px)] justify-between items-center ">
+					<div>
+						<h1 class="font-medium">{{ book.optional_item.wash_type }}</h1>
+						<p class="text-[#00000080]">{{ book.optional_item.service_speed }}</p>
 					</div>
-					<div class="px-[30px] flex w-[calc(100%-107px)] justify-between items-center ">
-						<div>
 
-							<h1 class="font-medium">Seperate Wash</h1>
-							<p class="text-[#00000080]">Next day delivery</p>
-						</div>
-
-						<IconOptional />
-					</div>
+					<IconOptional />
+				</div>
 			</div>
 		</div>
 		<h1 class=" text-2xl leading-7 font-bold mt-[30px]">Frequency:</h1>
@@ -184,7 +180,5 @@ onMounted(()=>{
 		<button class="bg-[#F85A47] text-white w-full py-[18px] px-5  mt-5  rounded-[5px] text-2xl text-[16px] font-bold leading-6  cursor-pointer " @click="next()">Continue</button>
 	</div>
 	<learn_more_modal />
-
 </div>
-
 </template>

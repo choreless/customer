@@ -182,13 +182,14 @@ const pinned_pickup_dates = computed(()=>
 );
 const bookProgress = computed(()=> step.value / totalStep *100)
 const scheduled_delivery = computed(()=> addDays(parseISO(date.value), service_speed.value==='next_day' ? 1 : 2));
+const extra_service_scheduled_delivery = computed(()=> addDays(parseISO(date.value), 3));
 
 watch(zip, n=>{error.zip = !n;})
 
 return {
 	wash_types, service_speeds, frequencies, now, note, add_note_modal, info_modal, pricing_modal, pricing_info, preference_note, learn_more_modal,
 	step, totalStep, bookProgress, bags_count, wash_type, extra_service, do_not_show_page, zip, care_services, optional_item, addons, detergent, water_temperature, dryer_temperature, service_speed, frequency, date, error,
-	pinned_pickup_dates, scheduled_delivery
+	pinned_pickup_dates, scheduled_delivery, extra_service_scheduled_delivery
 }
 })
 

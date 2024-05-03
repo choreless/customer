@@ -1,6 +1,6 @@
 <script setup lang="ts">
+// Defining Constants
 const book = usePageBook();
-
 const step_names = ['Select Services', 'Care preferences', 'Select pickup info'];
 </script>
 

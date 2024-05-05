@@ -17,7 +17,6 @@ interface Service {
 
 const is_toggle=ref(false)
 const book = usePageBook();
-const wash_is_required=ref(false)
 const clicked_service=ref<Service>({
 	id: 0,
 	wash_type: '',
@@ -56,7 +55,9 @@ const big_item = book.optional_item
 
 function select_service(service:Service){
 	clicked_service.value=service
-	wash_is_required.value=false
+	book.wash_type=clicked_service.value.wash_type
+	book.service_speed=clicked_service.value.service_speed
+	book.wash_is_required=false
 }
 function update_toggle_val(){
 	is_toggle.value=!is_toggle.value
@@ -85,12 +86,10 @@ function update_note({ note }:{ note: string }){
 }
 function next_step(){
 	if(clicked_service.value.id===0){
-		wash_is_required.value=true
+		book.wash_is_required=true
 	}
 	else{
-		book.wash_type=clicked_service.value.wash_type
-		book.service_speed=clicked_service.value.service_speed
-		wash_is_required.value=false
+		book.wash_is_required=false
 		book.step++
 	}
 }
@@ -98,13 +97,13 @@ function next_step(){
 </script>
 
 <template>
-<div class="">
+<div class="px-2.5 sm:px-0">
 	<div class="my-8 max-w-[467px] mx-auto flex flex-col items-start gap-5">
-		<h1 class="text-2xl leading-7 font-bold">How can we help you? </h1>
+		<h1 class=" text-base leading-5 sm:text-2xl sm:leading-7 font-bold">How can we help you? </h1>
 		<div v-for="(item,index) of wash_services_data" :key="index" class=" relative px-[15px] py-2.5 cursor-pointer rounded-[10px] border-[0.5px] border-b-[5px] border-[#e5e5e5] w-full [&:is(.active)]:border-[#f85a47]  transition-all duration-100 ease-linear" :class="clicked_service.id===item.id ? 'active' : ''" @click="select_service(item)">
 			<div class="flex  items-center self-stretch gap-5 justify-between">
 				<div class="max-w-[348px] w-full flex flex-col items-start gap-2.5">
-					<h1 class="text-2xl leading-6  font-bold text-[#f85a47]  capitalize">{{ item.wash_type }}</h1>
+					<h1 class=" text-xl leading-6 sm:text-2xl sm:leading-6  font-bold text-[#f85a47] capitalize">{{ item.wash_type }}</h1>
 					<p v-if="item.service_speed==='next_day'" class="text-[10px] leading-4">From <span class=" font-medium">$ {{ item.from_price.toFixed(2) }}/lb</span></p>
 					<p v-else class="text-[10px] leading-4">From <span class=" font-medium">${{ item.to_price.toFixed(2) }}/lb</span></p>
 					<div class="flex items-center justify-start gap-[5px] self-stretch flex-wrap">
@@ -141,15 +140,15 @@ function next_step(){
 				</div>
 			</div>
 		</div>
-		<p v-if="wash_is_required" class="text-error mt-1">* Wash type is required</p>
+		<p v-if="book.wash_is_required" class="text-error mt-1">* Wash type is required</p>
 
-		<h1 class="text-2xl leading-7 font-bold">
+		<h1 class="text-base leading-5 sm:text-2xl sm:leading-7 font-bold">
 			Do you have any Big Item ?
 		</h1>
 		<div :class="big_item.is_active ? 'active' : ''" class=" relative px-[15px] py-2.5 cursor-pointer rounded-[10px] border-[0.5px] border-b-[5px] border-[#e5e5e5] w-full [&:is(.active)]:border-[#f85a47]  transition-all duration-100 ease-linear">
 			<div class="flex  self-stretch gap-5 justify-between " @click="add_optional_item">
 				<div class="max-w-[348px] w-full flex flex-col items-start gap-2.5">
-					<h1 class="text-2xl leading-6  font-bold text-[#f85a47]  capitalize">{{ big_item.wash_type }}</h1>
+					<h1 class="text-xl leading-6 sm:text-2xl sm:leading-6  font-bold text-[#f85a47]  capitalize">{{ big_item.wash_type }}</h1>
 					<div class="flex items-center  gap-[5px]">
 						<p class="text-[10px] leading-4 ">From <span class=" font-medium">${{ big_item.from_price }}.00 <span class="text-[8px] leading-4"> price per item</span></span></p>
 						<button class="text-[#f85a47] text-[8px] leading-3 font-medium" @click="book.pricing_modal=!book.pricing_modal">See pricing</button>
@@ -185,11 +184,11 @@ function next_step(){
 		<div class="p-[15px] w-full rounded-[5px] bg-gradient-to-t from-[#ff7565] via-[#ff7565] to-[#ff4e38] ">
 			<div class=" flex justify-between items-center">
 				<div>
-					<IconTag class="mr-[15px]" />
+					<IconTag color="white" class="mr-[15px]" />
 				</div>
 				<div class="flex flex-col gap-[6px] text-white max-w-[381px] w-full">
-					<p class="text-sm leading-[18px]">Write your name to avoid laundry mix-ups.</p>
-					<h1 class="text-lg leading-[18px] font-bold">Load label: <span class="font-normal"> Tillman + CF2A</span></h1>
+					<p class=" text-[10px] leading-4 sm:text-sm sm:leading-[18px]">Write your name to avoid laundry mix-ups.</p>
+					<h1 class="sm:text-lg leading-[18px] font-bold">Load label: <span class="font-normal"> Tillman + CF2A</span></h1>
 				</div>
 
 				<div class="cursor-pointer">
@@ -198,27 +197,27 @@ function next_step(){
 				</div>
 			</div>
 		</div>
-		<div>
-			<h1 class="text-base leading-6 font-bold mb-2.5">What happens next?</h1>
-			<div class="flex items-center gap-[15px] text-black">
-				<div class="p-2.5 rounded-[5px] bg-[#f8f8f8] min-h-[82px] h-full text-center max-w-[133px] w-full">
+		<div class="w-full">
+			<h1 class="text-base leading-5 sm:leading-6 font-bold mb-2.5">What happens next?</h1>
+			<div class="flex justify-center items-center gap-[15px] text-black">
+				<div class="p-2.5 rounded-[5px] bg-[#f8f8f8] min-h-[82px] h-full text-center max-w-[180px] sm:max-w-[133px] w-full">
 					<div class="mb-[5px] flex justify-center items-center"><IconBag /></div>
 					<p class="text-xs font-bold">Prepare your bags</p>
-					<h1 class="text-[10px] leading-[14px]">Pack 1 bag per service type.</h1>
+					<h1 class="text-[10px] leading-[14px]">Pack 1 bag per service <br> type.</h1>
 				</div>
-				<div class="p-2.5 rounded-[5px] bg-[#f8f8f8] min-h-[82px] h-full text-center max-w-[175px] w-full">
+				<div class="p-2.5 rounded-[5px] bg-[#f8f8f8] min-h-[82px] h-full text-center max-w-[180px] sm:max-w-[175px] w-full">
 					<div class="mb-[5px] flex justify-center items-center"><IconClean /></div>
 					<p class="text-xs font-bold text-nowrap">We collect and clean items</p>
 					<h1 class="text-[10px] leading-[14px]">After cleaning, you <br> will receive an </h1>
 				</div>
-				<div class="p-2.5 rounded-[5px] bg-[#f8f8f8] min-h-[82px] h-full text-center max-w-[133px] w-full">
+				<div class=" hidden sm:block p-2.5 rounded-[5px] bg-[#f8f8f8] min-h-[82px] h-full text-center max-w-[133px] w-full">
 					<div class="mb-[5px] flex justify-center items-center"><IconDeliver /></div>
 					<p class="text-xs font-bold">We deliver</p>
 					<h1 class="text-[10px] leading-[14px]">After cleaning, you will receive an </h1>
 				</div>
 			</div>
 		</div>
-		<button :class="clicked_service.id !==0 ? 'text-white bg-[#f85a47]' : 'text-black bg-[#f8f8f8]'" class="font-bold    text-center w-full px-5 py-[18px] rounded-[5px] " @click="next_step">Continue</button>
+		<button :class="clicked_service.id !==0 ? 'text-white bg-[#f85a47]' : 'text-black bg-[#f8f8f8]'" class=" hidden sm:block font-bold text-center w-full px-5 py-[18px] rounded-[5px] " @click="next_step">Continue</button>
 	</div>
 	<add_note_modal :note="clicked_service.note" @update:note="update_note" />
 </div>

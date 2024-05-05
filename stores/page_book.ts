@@ -39,6 +39,7 @@ const frequency = ref<typeof frequencies[number]>('Just once');
 const date = ref();
 const totalStep = 2;
 const note=ref('')
+const wash_is_required=ref(false)
 const add_note_modal=ref(false)
 const info_modal=ref(false)
 const pricing_modal=ref(false)
@@ -188,7 +189,7 @@ watch(zip, n=>{error.zip = !n;})
 
 return {
 	wash_types, service_speeds, frequencies, now, note, add_note_modal, info_modal, pricing_modal, pricing_info, preference_note, learn_more_modal,
-	step, totalStep, bookProgress, bags_count, wash_type, extra_service, do_not_show_page, zip, care_services, optional_item, addons, detergent, water_temperature, dryer_temperature, service_speed, frequency, date, error,
+	step, totalStep, bookProgress, wash_is_required, bags_count, wash_type, extra_service, do_not_show_page, zip, care_services, optional_item, addons, detergent, water_temperature, dryer_temperature, service_speed, frequency, date, error,
 	pinned_pickup_dates, scheduled_delivery, extra_service_scheduled_delivery
 }
 })

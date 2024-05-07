@@ -87,7 +87,7 @@ function update_note({ note }:{ note: string }){
 	}
 }
 function next_step(){
-	if(clicked_service.value.id===0){
+	if(book.wash_type ===undefined){
 		book.wash_is_required=true
 	}
 	else{
@@ -121,11 +121,11 @@ function next_step(){
 					<div class="text-[12px] leading-4 ">Convenient wash & fold laundry service for individuals couples. </div>
 				</div>
 				<div class=" pt-5 sm:pt-0">
-					<div v-if="item.wash_type==='Mixed Wash'"><IconMixed :isActive="clicked_service.id===item.id " /></div>
-					<div v-else><IconSeperate :isActive="clicked_service.id===item.id " /></div>
+					<div v-if="item.wash_type==='Mixed Wash'"><IconMixed :isActive="book.wash_type===item.wash_type " /></div>
+					<div v-else><IconSeperate :isActive="book.wash_type===item.wash_type " /></div>
 				</div>
 			</div>
-			<div :class="clicked_service.id===item.id ? 'block' : 'hidden' " class="bg-white w-full ">
+			<div :class="book.wash_type===item.wash_type ? 'block' : 'hidden' " class="bg-white w-full ">
 				<div class="flex justify-between items-center self-stretch mt-2.5 sm:mt-5">
 					<div class="max-w-[200px] sm:max-w-[223.5px] w-full pr-5 flex items-start justify-between gap-2.5">
 						<h1 class="text-xs sm:text-sm leading-5 font-medium">Next Day Delivary</h1>
@@ -153,7 +153,7 @@ function next_step(){
 					<h1 class="text-xl leading-6 sm:text-2xl sm:leading-6  font-bold text-[#f85a47]  capitalize">{{ big_item.wash_type }}</h1>
 					<div class="flex items-center  gap-[5px]">
 						<p class="text-[10px] leading-4 mt-2.5 sm:mt-0 ">From <span class=" font-medium">${{ big_item.from_price }}.00 <span class="text-[8px] leading-4"> price per item</span></span></p>
-						<button class="text-[#f85a47] text-[8px] leading-3 font-medium" @click="book.pricing_modal=!book.pricing_modal">See pricing</button>
+						<button class="text-[#f85a47] text-[8px] leading-3 mt-2 sm:mt-0 font-medium" @click="book.pricing_modal=!book.pricing_modal">See pricing</button>
 						<pricing_modal />
 					</div>
 					<div class="flex items-center justify-start gap-[5px] self-stretch flex-wrap mt-2.5 sm:mt-0">
@@ -219,7 +219,7 @@ function next_step(){
 				</div>
 			</div>
 		</div>
-		<button :class="clicked_service.id !==0 ? 'text-white bg-[#f85a47]' : 'text-black bg-[#f8f8f8]'" class=" hidden sm:block font-bold text-center w-full px-5 py-[18px] rounded-[5px] " @click="next_step">Continue</button>
+		<button :class="book.wash_type != undefined ? 'text-white bg-[#f85a47]' : 'text-black bg-[#f8f8f8]'" class=" hidden sm:block font-bold text-center w-full px-5 py-[18px] rounded-[5px] " @click="next_step">Continue</button>
 	</div>
 	<add_note_modal :note="clicked_service.note" @update:note="update_note" />
 </div>

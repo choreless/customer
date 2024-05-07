@@ -119,7 +119,7 @@ async function next(){
 		<NuxtLink to="https://chorelesslaundry.bookingkoala.com/dashboard" class=" hidden sm:block btn btn-sm btn-ghost justify-self-end w-8 p-1.5 stroke-2 stroke-brand-orange hover:stroke-white hover:bg-transparent">
 			<IconClose class="stroke-inherit" />
 		</NuxtLink>
-		<button :class="book.wash_type ? 'text-white bg-[#f85a47]' : 'text-black bg-[#f8f8f8]'" class="px-5 py-4 rounded-[5px] bg-[#F8F8F8] font-medium block sm:hidden" @click="next">Next</button>
+		<button :class="book.wash_type ? 'text-white bg-[#f85a47]' : 'text-black bg-[#f8f8f8]'" class="px-6 py-3 rounded-[5px] bg-[#F8F8F8] font-medium block sm:hidden" @click="next">Next</button>
 	</section>
 	<div class="w-full hidden sm:block border-gray-100 h-[8px] bg-[#DBDBDB]">
 		<div class="  h-[8px] bg-brand-orange transition-width duration-500" :style="{width: `${book.bookProgress}%`}" />

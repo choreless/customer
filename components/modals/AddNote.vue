@@ -14,6 +14,10 @@ const update_note = () => {
 	emit('update:note', { note: book.note });
 }
 
+const close_modal = () => {
+	book.add_note_modal = false
+}
+
 </script>
 
 <template>
@@ -35,7 +39,7 @@ const update_note = () => {
 			</h1>
 			<div
 				class="absolute w-[7px] h-[7px] right-0 top-3 cursor-pointer"
-				@click="(book.add_note_modal = false)"
+				@click="close_modal"
 			>
 				<IconClose2 />
 			</div>

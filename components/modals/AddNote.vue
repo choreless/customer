@@ -23,7 +23,7 @@ const update_note = () => {
 	class="modal  sm:py-3 overflow-scroll sm:overflow-hidden"
 >
 	<div
-		class=" text-center  absolute top-0 sm:relative sm:modal-box sm:max-w-[501px] w-full flex flex-col gap-2.5 sm:gap-[30px] px-5 !p-0 sm:!px-5 !pb-2.5  !rounded-[5px] no-scrollbar"
+		class=" text-center  absolute top-0  sm:relative sm:modal-box sm:max-w-[501px] w-full flex flex-col gap-2.5 sm:gap-[30px] !px-5 !p-0 sm:!px-5 !pb-2.5  !rounded-[5px] no-scrollbar"
 	>
 		<div
 			class="px-5 py-2.5 flex justify-between items-center relative text-black"
@@ -56,7 +56,16 @@ const update_note = () => {
 		/>
 		<button
 			:disabled="!book.note"
-			class=" mt-3 flex justify-center items-center px-5 py-[18px] rounded-[5px] bg-[#f85a47] disabled:bg-[#F8F8F8] h-[48px] text-base font-bold disabled:text-[#011631] text-white"
+			class="  mt-3 hidden sm:flex justify-center items-center px-5 py-[18px] rounded-[5px] bg-[#f85a47] disabled:bg-[#F8F8F8] h-[48px] text-base font-bold disabled:text-[#011631] text-white"
+			@click="update_note()"
+		>
+			Save
+		</button>
+	</div>
+	<div class=" absolute bottom-2.5 w-full px-5">
+		<button
+			:disabled="!book.note"
+			class=" w-full  mt-3 flex sm:hidden justify-center items-center px-5 py-[18px] rounded-[5px] bg-[#f85a47] disabled:bg-[#F8F8F8] h-[48px] text-base font-bold disabled:text-[#011631] text-white"
 			@click="update_note()"
 		>
 			Save

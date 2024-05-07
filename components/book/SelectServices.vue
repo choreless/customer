@@ -97,11 +97,11 @@ function next_step(){
 </script>
 
 <template>
-<div class="px-2.5 sm:px-0">
+<div class="px-[15px] sm:px-0">
 	<div class="my-8 max-w-[467px] mx-auto flex flex-col items-start gap-5">
 		<h1 class=" text-base leading-5 sm:text-2xl sm:leading-7 font-bold">How can we help you? </h1>
-		<div v-for="(item,index) of wash_services_data" :key="index" class=" relative px-[15px] py-2.5 cursor-pointer rounded-[10px] border-[0.5px] border-b-[5px] border-[#e5e5e5] w-full [&:is(.active)]:border-[#f85a47]  transition-all duration-100 ease-linear" :class="clicked_service.id===item.id ? 'active' : ''" @click="select_service(item)">
-			<div class="flex  items-center self-stretch gap-5 justify-between">
+		<div v-for="(item,index) of wash_services_data" :key="index" class=" relative px-[15px] py-2.5 cursor-pointer rounded-[10px] border-[0.5px] border-b-[5px] border-[#e5e5e5] w-full [&:is(.active)]:border-[#f85a47]  transition-all duration-100 ease-linear shadow-card" :class="clicked_service.id===item.id ? 'active' : ''" @click="select_service(item)">
+			<div class="flex items-start  sm:items-center self-stretch gap-5 justify-between">
 				<div class="max-w-[348px] w-full flex flex-col items-start gap-2.5">
 					<h1 class=" text-xl leading-6 sm:text-2xl sm:leading-6  font-bold text-[#f85a47] capitalize">{{ item.wash_type }}</h1>
 					<p v-if="item.service_speed==='next_day'" class="text-[10px] leading-4">From <span class=" font-medium">$ {{ item.from_price.toFixed(2) }}/lb</span></p>
@@ -118,24 +118,24 @@ function next_step(){
 					</div>
 					<div class="text-[12px] leading-4 ">Convenient wash & fold laundry service for individuals couples. </div>
 				</div>
-				<div>
+				<div class=" pt-5 sm:pt-0">
 					<div v-if="item.wash_type==='Mixed Wash'"><IconMixed :isActive="clicked_service.id===item.id " /></div>
 					<div v-else><IconSeperate :isActive="clicked_service.id===item.id " /></div>
 				</div>
 			</div>
 			<div :class="clicked_service.id===item.id ? 'block' : 'hidden' " class="bg-white w-full ">
 				<div class="flex justify-between items-center self-stretch mt-5">
-					<div class="max-w-[223.5px] w-full pr-5 flex items-start justify-between gap-2.5">
-						<h1 class="text-sm leading-5 font-medium">Next Day Delivary</h1>
+					<div class="max-w-[200px] sm:max-w-[223.5px] w-full pr-5 flex items-start justify-between gap-2.5">
+						<h1 class="text-xs sm:text-sm leading-5 font-medium">Next Day Delivary</h1>
 						<switch_button :is_toggle="is_toggle" @update:is_toggle="update_toggle_val" />
 					</div>
 					<div class="w-[1px] h-5 bg-[#0000000d]" />
-					<div class=" cursor-pointer text-right text-sm font-medium " @click="open_add_note(item)">{{ item.note ? 'Edit Note' :'Add Note' }}</div>
+					<div class=" cursor-pointer text-right text-xs sm:text-sm font-medium " @click="open_add_note(item)">{{ item.note ? 'Edit Note' :'Add Note' }}</div>
 				</div>
 				<div class="my-2.5 h-[1px] bg-[#0000000d] w-full" />
 				<div class="flex h-5 justify-between items-center self-stretch px-2.5">
 					<button class="text[25px] leading-5 " :class="item.bags_count<2 ? ' text-[#838383]' : 'text-black'" :disabled="item.bags_count<2" @click="item.bags_count--"><Icon name="ic:outline-minus" class="text-2xl" /></button>
-					<p class="text-sm font-medium">{{ item.bags_count }} Bags</p>
+					<p class="text-xs sm:text-sm font-medium">{{ item.bags_count }} Bags</p>
 					<button class="text[25px] leading-5" @click="item.bags_count++"><Icon name="ic:outline-plus" class="text-2xl" /></button>
 				</div>
 			</div>
@@ -145,7 +145,7 @@ function next_step(){
 		<h1 class="text-base leading-5 sm:text-2xl sm:leading-7 font-bold">
 			Do you have any Big Item ?
 		</h1>
-		<div :class="big_item.is_active ? 'active' : ''" class=" relative px-[15px] py-2.5 cursor-pointer rounded-[10px] border-[0.5px] border-b-[5px] border-[#e5e5e5] w-full [&:is(.active)]:border-[#f85a47]  transition-all duration-100 ease-linear">
+		<div :class="big_item.is_active ? 'active' : ''" class=" shadow-card relative px-[15px] py-2.5 cursor-pointer rounded-[10px] border-[0.5px] border-b-[5px] border-[#e5e5e5] w-full [&:is(.active)]:border-[#f85a47]  transition-all duration-100 ease-linear">
 			<div class="flex  self-stretch gap-5 justify-between " @click="add_optional_item">
 				<div class="max-w-[348px] w-full flex flex-col items-start gap-2.5">
 					<h1 class="text-xl leading-6 sm:text-2xl sm:leading-6  font-bold text-[#f85a47]  capitalize">{{ big_item.wash_type }}</h1>
@@ -168,14 +168,14 @@ function next_step(){
 				</div>
 				<div class="flex flex-col justify-center items-center relative w-fit">
 					<div><IconOptional :isActive="big_item.is_active " /></div>
-					<div :class="big_item.is_active ? 'block' : 'hidden' " class=" cursor-pointer text-right text-sm font-medium absolute bottom-0 right-0  text-nowrap " @click="open_add_note(big_item)">{{ big_item.note ? 'Edit Note' :'Add Note' }}</div>
+					<div :class="big_item.is_active ? 'block' : 'hidden' " class=" cursor-pointer text-right text-xs sm:text-sm font-medium absolute bottom-0 right-0  text-nowrap " @click="open_add_note(big_item)">{{ big_item.note ? 'Edit Note' :'Add Note' }}</div>
 				</div>
 			</div>
 			<div :class="big_item.is_active ? 'block' : 'hidden' " class="bg-white w-full ">
 				<div class="my-2.5 h-[1px] bg-[#0000000d] w-full" />
 				<div class="flex h-5 justify-between items-center self-stretch px-2.5">
 					<button class="text[25px] leading-5 " :class="big_item.bags_count<2 ? ' text-[#838383]' : 'text-black'" :disabled="big_item.bags_count<2" @click="big_item.bags_count--"><Icon name="ic:outline-minus" class="text-2xl" /></button>
-					<p class="text-sm font-medium">{{ big_item.bags_count }} Bags</p>
+					<p class="text-xs sm:text-sm font-medium">{{ big_item.bags_count }} Bags</p>
 					<button class="text[25px] leading-5" @click="big_item.bags_count++"><Icon name="ic:outline-plus" class="text-2xl" /></button>
 				</div>
 			</div>
@@ -199,18 +199,18 @@ function next_step(){
 		</div>
 		<div class="w-full">
 			<h1 class="text-base leading-5 sm:leading-6 font-bold mb-2.5">What happens next?</h1>
-			<div class="flex justify-center items-center gap-[15px] text-black">
-				<div class="p-2.5 rounded-[5px] bg-[#f8f8f8] min-h-[82px] h-full text-center max-w-[180px] sm:max-w-[133px] w-full">
+			<div class="flex items-start justify-start overflow-scroll no-scrollbar gap-[15px]  text-black">
+				<div class="p-2.5 rounded-[5px] bg-[#f8f8f8] min-h-[82px] h-full text-center min-w-[133px] w-full">
 					<div class="mb-[5px] flex justify-center items-center"><IconBag /></div>
 					<p class="text-xs font-bold">Prepare your bags</p>
 					<h1 class="text-[10px] leading-[14px]">Pack 1 bag per service <br> type.</h1>
 				</div>
-				<div class="p-2.5 rounded-[5px] bg-[#f8f8f8] min-h-[82px] h-full text-center max-w-[180px] sm:max-w-[175px] w-full">
+				<div class="p-2.5 rounded-[5px] bg-[#f8f8f8] min-h-[82px] h-full text-center min-w-[175px] w-full">
 					<div class="mb-[5px] flex justify-center items-center"><IconClean /></div>
 					<p class="text-xs font-bold text-nowrap">We collect and clean items</p>
 					<h1 class="text-[10px] leading-[14px]">After cleaning, you <br> will receive an </h1>
 				</div>
-				<div class=" hidden sm:block p-2.5 rounded-[5px] bg-[#f8f8f8] min-h-[82px] h-full text-center max-w-[133px] w-full">
+				<div class=" block p-2.5 rounded-[5px] bg-[#f8f8f8] min-h-[82px] h-full text-center min-w-[133px] w-full">
 					<div class="mb-[5px] flex justify-center items-center"><IconDeliver /></div>
 					<p class="text-xs font-bold">We deliver</p>
 					<h1 class="text-[10px] leading-[14px]">After cleaning, you will receive an </h1>

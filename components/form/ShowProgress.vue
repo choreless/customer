@@ -1,9 +1,18 @@
 <script setup lang="ts">
-defineProps<{
-	complete: number
+const props = defineProps<{
+	/** min is 0 and max is 1 */
+	value: number
 }>();
+
+const progress = computed(()=>{
+	if(props.value<0) return 0;
+	if(props.value>1) return 1;
+	return props.value;
+});
 </script>
 
 <template>
-<div class="w-full h-2 transition-transform duration-500" :style="{transform: `translateX(min(0%, min(100%, ${complete-100}%)))`}" />
+<div class="overflow-hidden">
+	<div class="h-2 transition-transform duration-500 bg-zinc-300" :style="{transform: `translateX(${progress*100}%)`}" />
+</div>
 </template>

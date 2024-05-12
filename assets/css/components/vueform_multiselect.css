@@ -65,6 +65,13 @@
 		}
 	}
 	.multiselect-dropdown {
-		@apply rounded-md border-t-0 rounded-t-none rounded-b-lg;
+		@apply border-t-0 rounded-md rounded-t-none overflow-y-auto;
+	}
+}
+
+.multiselect.multiselect-dropdown-separate {
+	@apply rounded-md;
+	.multiselect-dropdown {
+		@apply border-t rounded-t-md -bottom-2;
 	}
 }

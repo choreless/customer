@@ -41,9 +41,13 @@
     }
 
     .no-scrollbar {
-      -ms-overflow-style: none; 
-      scrollbar-width: none; 
-    }
+		scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* Internet Explorer, Edge */
+        /* Hide scrollbar for Chrome and other browsers */
+        overflow: -moz-scrollbars-none; /* Firefox */
+        -ms-overflow-style: none; /* Internet Explorer, Edge */
+        scrollbar-width: none; /* Chrome, Safari */
+	}
 }
 
 .input-float {
@@ -90,25 +94,25 @@
 .input-float3{
 	@apply   overflow-hidden;
 	input{
-		@apply text-base text-black leading-5 w-full transition-all focus:outline-0 p-3 border border-[#E5E5E5] rounded-[5px] hover:border-brand-orange  duration-200 focus:border-b-[5px] focus:border-brand-orange pt-[20px]
+		@apply text-base text-black leading-5 w-full transition-all focus:outline-0 p-3 border border-[#e5e5e5] rounded-[5px] hover:border-brand-orange  duration-200 focus:border-b-[5px] focus:border-brand-orange pt-[20px]
 	}
 	input:not(:placeholder-shown)+label, input:focus+label{
 		@apply text-[10px] -translate-y-7 text-[#838383]
 	}
 	label{
-		@apply absolute top-1/2 left-3 text-base transform -translate-y-1/2 text-[#CCCCCC] transition-all duration-200 ease-linear
+		@apply absolute top-1/2 left-3 text-base transform -translate-y-1/2 text-[#cccccc] transition-all duration-200 ease-linear
 	}
 }
 .input-entry{
 	@apply   overflow-hidden;
 	input{
-		@apply text-base text-black leading-5 w-full transition-all focus:outline-0 p-3 border border-[#E5E5E5] rounded-[5px] hover:border-brand-orange  duration-200 focus:border-b-[5px] focus:border-brand-orange pt-[20px]
+		@apply text-base text-black leading-5 w-full transition-all focus:outline-0 p-3 border border-[#e5e5e5] rounded-[5px] hover:border-brand-orange  duration-200 focus:border-b-[5px] focus:border-brand-orange pt-[20px]
 	}
 	input:not(:placeholder-shown)+label, input:focus+label{
 		@apply text-[10px] -translate-y-7 text-[#838383]
 	}
 	label{
-		@apply absolute top-1/2 left-3 text-base transform -translate-y-1/2 text-[#CCCCCC] transition-all duration-200 ease-linear
+		@apply absolute top-1/2 left-3 text-base transform -translate-y-1/2 text-[#cccccc] transition-all duration-200 ease-linear
 	}
 }
 

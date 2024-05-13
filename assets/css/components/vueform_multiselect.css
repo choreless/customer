@@ -13,11 +13,11 @@
 	--ms-py: 0rem;
 	--ms-px: 0rem;
 	--ms-ring-width: 0px;
-	--ms-ring-color: #10B98130;
-	--ms-placeholder-color: #9CA3AF;
+	--ms-ring-color: #10b98130;
+	--ms-placeholder-color: #9ca3af;
 	--ms-max-height: 10rem;
 	
-	--ms-spinner-color: #10B981;
+	--ms-spinner-color: #10b981;
 	--ms-caret-color: #999999;
 	--ms-clear-color: #999999;
 	--ms-clear-color-hover: #000000;
@@ -33,12 +33,12 @@
 	--ms-option-bg-selected-pointed: var(--ms-option-bg-pointed);
 	--ms-option-color-selected-pointed: var(--ms-option-color-pointed);
 
-	--ms-empty-color: #4B5563;
+	--ms-empty-color: #4b5563;
 
-	--ms-tag-bg: #10B981;
-	--ms-tag-bg-disabled: #9CA3AF;
-	--ms-tag-color: #FFFFFF;
-	--ms-tag-color-disabled: #FFFFFF;
+	--ms-tag-bg: #10b981;
+	--ms-tag-bg-disabled: #9ca3af;
+	--ms-tag-color: #ffffff;
+	--ms-tag-color-disabled: #ffffff;
 }
 
 .multiselect {

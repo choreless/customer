@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { defineProps, defineEmits } from 'vue';
 const book = usePageBook();
 const props = defineProps<{
   note: string,
@@ -27,7 +26,7 @@ const close_modal = () => {
 	class="modal  sm:py-3 overflow-scroll sm:overflow-hidden"
 >
 	<div
-		class=" text-center  absolute top-0  sm:relative sm:modal-box sm:max-w-[501px] w-full flex flex-col gap-2.5 sm:gap-[30px] !px-5 !p-0 sm:!px-5 !pb-2.5  !rounded-[5px] no-scrollbar"
+		class=" text-center  absolute top-0  sm:relative sm:modal-box sm:max-w-[31.313rem] w-full flex flex-col gap-2.5  !px-5 !p-0 sm:!px-5 !py-2.5  !rounded-[0.313rem] no-scrollbar"
 	>
 		<div
 			class="px-5 py-2.5 flex justify-between items-center relative text-black"
@@ -38,7 +37,7 @@ const close_modal = () => {
 				Add note
 			</h1>
 			<div
-				class="absolute w-[7px] h-[7px] right-0 top-3 cursor-pointer"
+				class="absolute w-[0.438rem] h-[0.438rem] right-0 top-3 cursor-pointer"
 				@click="close_modal"
 			>
 				<IconClose2 />
@@ -47,7 +46,7 @@ const close_modal = () => {
 		<div class="flex justify-between items-center self-stretch">
 			<h1 class="text-base text-black">Add Special instructions</h1>
 			<h1
-				class="text-base leading-[15px] font-normal sm:font-medium text-black cursor-pointer"
+				class="text-base leading-[0.938rem] font-normal sm:font-medium text-black cursor-pointer"
 				@click="clear_note"
 			>
 				Clear
@@ -55,12 +54,12 @@ const close_modal = () => {
 		</div>
 		<textarea
 			v-model="book.note"
-			class="focus:outline-none focus:border-[1px] focus:border-b-[5px] focus:border-[#f85a47] px-5 pt-2.5 pb-[15px] placeholder:opacity-50 text-base placeholder:text-[#e5e5e5] !rounded-[5px] border-[1px] border-[#e5e5e5] w-full h-[90px] text-black"
+			class="focus:outline-none focus:border-[0.063rem] focus:border-b-[0.313rem] focus:border-brand-orange px-5 pt-2.5 pb-[0.938rem] placeholder:opacity-50 text-base placeholder:text-[#e5e5e5] !rounded-[0.313rem] border-[0.063rem] border-[#e5e5e5] w-full h-[5.625rem] text-black"
 			placeholder="Add note"
 		/>
 		<button
 			:disabled="!book.note"
-			class="  mt-3 hidden sm:flex justify-center items-center px-5 py-[18px] rounded-[5px] bg-[#f85a47] disabled:bg-[#F8F8F8] h-[48px] text-base font-bold disabled:text-[#011631] text-white"
+			class="  mt-0 hidden sm:flex justify-center items-center px-5 py-[1.125rem] rounded-[0.313rem] bg-brand-orange disabled:bg-[#f8f8f8] h-[3rem] text-base font-bold disabled:text-[#011631] text-white"
 			@click="update_note()"
 		>
 			Save
@@ -69,7 +68,7 @@ const close_modal = () => {
 	<div class=" absolute bottom-2.5 w-full px-5">
 		<button
 			:disabled="!book.note"
-			class=" w-full  mt-3 flex sm:hidden justify-center items-center px-5 py-[18px] rounded-[5px] bg-[#f85a47] disabled:bg-[#F8F8F8] h-[48px] text-base font-bold disabled:text-[#011631] text-white"
+			class=" w-full  mt-3 flex sm:hidden justify-center items-center px-5 py-[1.125rem] rounded-[0.313rem] bg-brand-orange disabled:bg-[#f8f8f8] h-[3rem] text-base font-bold disabled:text-[#011631] text-white"
 			@click="update_note()"
 		>
 			Save

@@ -105,24 +105,24 @@ async function next(){
 </script>
 
 <template>
-<div class="sticky top-[-1px]  mx-auto shadow-md sm:shadow-none bg-white z-50 max-w-[1920px]  ">
+<div class="sticky top-[-0.063rem]  mx-auto shadow-md sm:shadow-none bg-white z-50 max-w-[120rem]  ">
 	<!-- <NuxtLink class="block w-fit mx-auto md:hidden" to="https://chorelesslaundry.bookingkoala.com/dashboard"><img src="https://ik.imagekit.io/choreless/v2/icons/choreless.svg" alt="Choreless" loading="lazy" class="h-[1.95rem] [@media(min-width:350px)]:h-9 [@media(min-width:450px)]:h-12 xl:h-[3.75rem]"></NuxtLink> -->
-	<section class="py-2.5 px-2.5  sm:px-[50px] mx-auto mt-1.5 grid grid-cols-[1fr_auto] md:grid-cols-[1fr_1fr_1fr] items-center">
+	<section class="py-2.5 px-2.5  sm:px-[3.125rem] mx-auto mt-1.5 grid grid-cols-[1fr_auto] md:grid-cols-[1fr_1fr_1fr] items-center">
 		<div class="flex items-center gap-2.5">
 			<button v-if="book.step>0" class="btn btn-sm btn-ghost hover:bg-transparent hover:fill-brand-orange" @click="--book.step">
 				<IconArrow />
 			</button>
-			<p class="w-7 h-7 rounded-full font-bold leading-[15px] flex items-center justify-center bg-red-500 text-white">{{ book.step+1 }}</p>
-			<p class="font-bold leading-[15px] ms-2.5">{{ step_names[book.step] }}</p>
+			<p class="w-7 h-7 rounded-full font-bold leading-[0.875rem] flex items-center justify-center bg-red-500 text-white">{{ book.step+1 }}</p>
+			<p class="font-bold leading-[0.938rem] ms-2.5">{{ step_names[book.step] }}</p>
 		</div>
-		<NuxtLink class="  justify-self-center hidden md:block" to="https://chorelesslaundry.bookingkoala.com/dashboard"><img src="https://ik.imagekit.io/choreless/v2/icons/choreless.svg" alt="Choreless" loading="lazy" class="h-[1.95rem] [@media(min-width:350px)]:h-9 [@media(min-width:450px)]:h-12 xl:h-[3.75rem]"></NuxtLink>
+		<NuxtLink class="  justify-self-center hidden md:block" to="https://chorelesslaundry.bookingkoala.com/dashboard"><img src="https://ik.imagekit.io/choreless/v2/icons/choreless.svg" alt="Choreless" loading="lazy" class="h-[1.95rem] [@media(min-width:21.875rem)]:h-9 [@media(min-width:28.125rem)]:h-12 xl:h-[3.75rem]"></NuxtLink>
 		<NuxtLink to="https://chorelesslaundry.bookingkoala.com/dashboard" class=" hidden sm:block btn btn-sm btn-ghost justify-self-end w-8 p-1.5 stroke-2 stroke-brand-orange hover:stroke-white hover:bg-transparent">
 			<IconClose class="stroke-inherit" />
 		</NuxtLink>
-		<button :class="book.wash_type ? 'text-white bg-[#f85a47]' : 'text-black bg-[#f8f8f8]'" class="px-6 py-3 rounded-[5px] bg-[#F8F8F8] font-medium block sm:hidden" @click="next">Next</button>
+		<button :class="book.wash_type ? 'text-white bg-brand-orange' : 'text-black bg-[#f8f8f8]'" class="px-6 py-3 rounded-[0.313rem] bg-[#f8f8f8] font-medium block sm:hidden" @click="next">Next</button>
 	</section>
-	<div class="w-full hidden sm:block border-gray-100 h-[8px] bg-[#DBDBDB]">
-		<div class="  h-[8px] bg-brand-orange transition-width duration-500" :style="{width: `${book.bookProgress}%`}" />
+	<div class="w-full hidden sm:block border-gray-100 h-[0.5rem] bg-[#dbdbdb]">
+		<div class="  h-[0.5rem] bg-brand-orange transition-width duration-500" :style="{width: `${book.bookProgress}%`}" />
 	</div>
 </div>
 </template>

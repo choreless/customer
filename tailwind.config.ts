@@ -17,7 +17,8 @@ const config: Config = {
 				brand: {
 					black: '#011631',
 					blue: '#3063ff',
-					orange: '#f85a47'
+					orange: '#f85a47',
+					secondary: '#838383'
 				}
 			},
 			fontFamily: {

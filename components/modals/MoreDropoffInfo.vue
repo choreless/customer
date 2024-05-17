@@ -117,10 +117,10 @@ const morePickupInfoModalRef = ref<HTMLDialogElement | null>(null)
 				</h2>
 				<div class="flex items-center justify-between gap-x-[18px] gap-y-2 mt-[14px]">
 					<button
-						class="flex h-[50px] justify-center items-center gap-x-[6px] flex-[1_0_0] px-[14px] py-2.5 rounded-[5px] border-2 border-solid hover:border-[#F85A47]"
+						class="flex h-[50px] justify-center items-center gap-x-[6px] flex-[1_0_0] px-[14px] py-2.5 rounded-[5px] border-2 border-solid hover:border-brand-orange"
 						:class="
 							address_type_computed === 'home' &&
-								'border-2 border-[#F85A47] bg-[#F85A47] !text-[white]'
+								'border-2 border-brand-orange bg-brand-orange !text-[white]'
 						"
 						@click="address_type_computed = 'home'"
 					>
@@ -137,10 +137,10 @@ const morePickupInfoModalRef = ref<HTMLDialogElement | null>(null)
 						</p>
 					</button>
 					<button
-						class="flex h-[50px] justify-center items-center gap-x-[6px] flex-[1_0_0] px-[14px] py-2.5 rounded-[5px] border-2 border-solid hover:border-[#F85A47]"
+						class="flex h-[50px] justify-center items-center gap-x-[6px] flex-[1_0_0] px-[14px] py-2.5 rounded-[5px] border-2 border-solid hover:border-brand-orange"
 						:class="
 							address_type_computed === 'office' &&
-								'border-2 border-[#F85A47] bg-[#F85A47] text-white'
+								'border-2 border-brand-orange bg-brand-orange text-white'
 						"
 						@click="address_type_computed = 'office'"
 					>
@@ -155,10 +155,10 @@ const morePickupInfoModalRef = ref<HTMLDialogElement | null>(null)
 						</p>
 					</button>
 					<button
-						class="flex h-[50px] justify-center items-center gap-x-[6px] flex-[1_0_0] px-[14px] py-2.5 rounded-[5px] border-2 border-solid hover:border-[#F85A47]"
+						class="flex h-[50px] justify-center items-center gap-x-[6px] flex-[1_0_0] px-[14px] py-2.5 rounded-[5px] border-2 border-solid hover:border-brand-orange"
 						:class="
 							address_type_computed === 'hotel' &&
-								'border-2 border-[#F85A47] bg-[#F85A47] text-white'
+								'border-2 border-brand-orange bg-brand-orange text-white'
 						"
 						@click="address_type_computed = 'hotel'"
 					>
@@ -269,7 +269,7 @@ const morePickupInfoModalRef = ref<HTMLDialogElement | null>(null)
 						<div v-if="address_type_computed ==='hotel'" class="text-black text-xl leading-6">Room number <span class="text-[#838383] leading-6 text-xs font-normal">(Required)</span></div>
 						<div v-else class="text-black text-xl leading-6">Unit/Apt</div>
 					</div>
-					<div class="text-base font-medium text-[#F85A47]">Add </div>
+					<div class="text-base font-medium text-brand-orange">Add </div>
 				</label>
 				<label
 					class="cursor-pointer w-full flex items-center justify-between border-b-[1px] border-[#0000001a] py-5"
@@ -308,7 +308,7 @@ const morePickupInfoModalRef = ref<HTMLDialogElement | null>(null)
 			</div>
 			<button
 
-				class="disabled:bg-[#F3F3F6] disabled:text-black disabled:hover:bg-[#f3f3f6d0] btn w-full h-[3.75rem] rounded-[0.3125rem] text-base mt-[1.6875rem] px-5 py-[19px] text-white bg-[#F85A47] border-[#F85A47] hover:text-[#F85A47] hover:bg-transparent hover:border-[#F85A47]"
+				class="disabled:bg-[#F3F3F6] disabled:text-black disabled:hover:bg-[#f3f3f6d0] btn w-full h-[3.75rem] rounded-[0.3125rem] text-base mt-[1.6875rem] px-5 py-[19px] text-white bg-brand-orange border-brand-orange hover:text-brand-orange hover:bg-transparent hover:border-brand-orange"
 				@click="$emit('saveMoreDropoffInfo')"
 			>
 				Save and Continue

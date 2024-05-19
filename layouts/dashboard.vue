@@ -4,8 +4,6 @@ import DashboardHeader from '~/components/layouts/DashboardHeader.vue';
 <template>
 <main>
 	<DashboardHeader />
-	<slot>
-		<slot />
-	</slot>
+	<slot />
 </main>
 </template>

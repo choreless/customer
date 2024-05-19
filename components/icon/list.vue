@@ -20,7 +20,7 @@
 		<path d="M38.3069 38.8426C40.6878 38.8426 43.8624 38.4921 43.8624 33.7302C43.8624 29.8956 41.9432 28.5714 39.2851 28.5714" stroke="#F85A47" stroke-width="1.85185" />
 	</g>
 	<defs>
-		<clipPath id="clip0_1332_9378">
+		<clipPath>
 			<rect width="47.619" height="50" fill="white" transform="translate(0.5)" />
 		</clipPath>
 	</defs>

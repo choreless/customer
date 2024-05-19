@@ -2,7 +2,7 @@
 import InfoModal from '../modals/Info.vue';
 import PricingModal from '../modals/Pricing.vue';
 import AddNoteModal from '../modals/AddNote.vue';
-import SwitchButton from '../buttons/switchBtn.vue';
+import SwitchButton from '../buttons/SwitchBtn.vue';
 // Defining Interfaces
 interface Service {
 	id:number;
@@ -150,7 +150,6 @@ function next_step(){
 					<div class="flex items-center  gap-[0.313rem]">
 						<p class="text-[0.625rem] leading-4 mt-2.5 sm:mt-0 ">From <span class=" font-medium">${{ big_item.from_price }}.00 <span class="text-[0.5rem] leading-4"> price per item</span></span></p>
 						<button class="text-brand-orange text-[0.5rem] leading-3 mt-2 sm:mt-0 font-medium" @click="book.pricing_modal=!book.pricing_modal,book.extra_service=!book.extra_service">See pricing</button>
-						<PricingModal />
 					</div>
 					<div class="flex items-center justify-start gap-[0.313rem] self-stretch flex-wrap mt-2.5 sm:mt-0">
 						<p class=" flex justify-center items-center px-2.5 text-[0.5rem] leading-[0.875rem] rounded-[1.25rem] bg-[#f2f2f2]">WASH</p>
@@ -219,6 +218,7 @@ function next_step(){
 	</div>
 	<AddNoteModal :note="clicked_service.note" @update:note="update_note" />
 </div>
+<PricingModal />
 </template>
 <style scoped>
 

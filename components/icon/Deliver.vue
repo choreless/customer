@@ -11,7 +11,7 @@
 			<path fill-rule="evenodd" clip-rule="evenodd" d="M5.55644 7.15625C5.06387 7.15625 4.66455 7.55558 4.66455 8.04814V18.7509C4.66455 19.2434 5.06387 19.6427 5.55644 19.6427H16.2599L16.2585 19.6432C16.7044 20.9067 18.2653 23.4338 20.9409 23.4338C19.5966 21.845 19.0128 20.5144 18.8024 19.6427H19.8267C20.3193 19.6427 20.7186 19.2434 20.7186 18.7509V8.04814C20.7186 7.55558 20.3193 7.15625 19.8267 7.15625H5.55644Z" fill="white" />
 		</g>
 		<path d="M16.7273 12.5352H13.1624V15.5123H16.7273V12.5352Z" fill="white" />
-		<mask id="mask0_2354_7597" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="6" y="7" width="14" height="13">
+		<mask style="mask-type:luminance" maskUnits="userSpaceOnUse" x="6" y="7" width="14" height="13">
 			<path d="M19.2009 7.48047H6.68738V19.994H19.2009V7.48047Z" fill="white" />
 		</mask>
 		<g mask="url(#mask0_2354_7597)">
@@ -21,7 +21,7 @@
 		<path d="M15.9634 19.6808C16.3853 19.6808 16.7273 19.2809 16.7273 18.7877C16.7273 18.2944 16.3853 17.8945 15.9634 17.8945C15.5415 17.8945 15.1995 18.2944 15.1995 18.7877C15.1995 19.2809 15.5415 19.6808 15.9634 19.6808Z" fill="white" />
 	</g>
 	<defs>
-		<filter id="filter0_d_2354_7597" x="0.664551" y="4.15625" width="26.2764" height="26.2773" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+		<filter x="0.664551" y="4.15625" width="26.2764" height="26.2773" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
 			<feFlood flood-opacity="0" result="BackgroundImageFix" />
 			<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
 			<feOffset dx="1" dy="2" />
@@ -31,7 +31,7 @@
 			<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2354_7597" />
 			<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2354_7597" result="shape" />
 		</filter>
-		<clipPath id="clip0_2354_7597">
+		<clipPath>
 			<rect width="34.4444" height="30" fill="white" transform="translate(0.152832 0.914062)" />
 		</clipPath>
 	</defs>

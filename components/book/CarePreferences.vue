@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import SwitchButton from '../buttons/switchBtn.vue';
+import SwitchButton from '../buttons/SwitchBtn.vue';
 import customer from '~/lib/customer';
 
 // Defining Constants
@@ -57,7 +57,7 @@ function next(){
 		</div>
 		<div :class="collapsed? 'mt-2.5 pt-2.5' : ''" class="collapse-content bg-white border !border-gray-300 rounded-md  px-5">
 			<label v-for="v of customer.detergents" :key="v.value">
-				<input v-model="book.detergent.value" type="radio" :value="v.value" class="detergent-input" @click="collapsed=!collapsed">
+				<input v-model="book.detergent.value" type="radio" :value="v.value" class="hidden" @click="collapsed=!collapsed">
 				<div class="flex  cursor-pointer ">
 					<span :class="v.value == 'Customer Provided' ? 'border-0 pt-2.5': 'border-b-[0.032rem]  border-[#01163126] py-2.5' " class="  w-full "><p>{{ v.value }} <span v-if="v.isPopular" class="pl-5 text-xs text-[#01163180]/50 items-center">(Most popular choice)</span></p><p class=" text-[#01163180]/50">{{ v.description }}</p></span> </div>
 			</label>
@@ -96,9 +96,3 @@ function next(){
 	<button :class="!book.water_temperature || !book.dryer_temperature? 'bg-[#f3f3f6] text-black' : 'bg-brand-orange  text-white' " class=" hidden sm:block  w-full py-[1.124rem] px-5  rounded-[0.313rem] text-2xl text-[1rem] font-bold leading-6  cursor-pointer   " @click="next()">Continue</button>
 </div>
 </template>
-<style scoped>
-.detergent-input {
-  display: none;
-}
-
-</style>

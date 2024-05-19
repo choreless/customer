@@ -94,10 +94,10 @@
 .input-float3{
 	@apply   overflow-hidden;
 	input{
-		@apply text-base text-black leading-5 w-full transition-all focus:outline-0 p-3 border border-[#e5e5e5] rounded-[5px] hover:border-brand-orange  duration-200 focus:border-b-[5px] focus:border-brand-orange pt-[20px]
+		@apply text-base text-black leading-5 w-full transition-all focus:outline-0 p-3 border border-[#e5e5e5] rounded-[0.3125rem] hover:border-brand-orange  duration-200 focus:border-b-[0.3125rem] focus:border-brand-orange pt-5
 	}
 	input:not(:placeholder-shown)+label, input:focus+label{
-		@apply text-[10px] -translate-y-7 text-[#838383]
+		@apply text-[0.625rem] -translate-y-7 text-[#838383]
 	}
 	label{
 		@apply absolute top-1/2 left-3 text-base transform -translate-y-1/2 text-[#cccccc] transition-all duration-200 ease-linear
@@ -106,10 +106,10 @@
 .input-entry{
 	@apply   overflow-hidden;
 	input{
-		@apply text-base text-black leading-5 w-full transition-all focus:outline-0 p-3 border border-[#e5e5e5] rounded-[5px] hover:border-brand-orange  duration-200 focus:border-b-[5px] focus:border-brand-orange pt-[20px]
+		@apply text-base text-black leading-5 w-full transition-all focus:outline-0 p-3 border border-[#e5e5e5] rounded-[0.3125rem] hover:border-brand-orange  duration-200 focus:border-b-[0.3125rem] focus:border-brand-orange pt-5
 	}
 	input:not(:placeholder-shown)+label, input:focus+label{
-		@apply text-[10px] -translate-y-7 text-[#838383]
+		@apply text-[0.625rem] -translate-y-7 text-[#838383]
 	}
 	label{
 		@apply absolute top-1/2 left-3 text-base transform -translate-y-1/2 text-[#cccccc] transition-all duration-200 ease-linear

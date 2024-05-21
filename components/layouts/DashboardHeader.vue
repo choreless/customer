@@ -1,7 +1,6 @@
 <script setup lang="ts">
 const is_opened = ref(false)
 </script>
-
 <template>
 <main class="relative">
 	<div class="px-[3.125rem] py-5 ">

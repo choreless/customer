@@ -1,6 +1,34 @@
 <script setup lang="ts">
+import AddPromoCodeModal from './PromoModal'
+
+interface CardNumber{
+    card_number: string;
+    expiry_date: string;
+    csv: string;
+    zip: string;
+}
+
+const dashboard = usePageDashboard();
 const is_expanded=ref(false)
 const is_summary_expanded=ref(false)
+const added_promo_code=ref('')
+const add_card_payment=ref(false)
+const is_card_expanded=ref(false)
+const selected_card=ref<CardNumber>({
+	card_number: '****5468',
+	expiry_date: '08/25',
+	csv: '3421',
+	zip: '12213'
+})
+const update_promo_code=(e: { promo_code: any; })=>{
+	added_promo_code.value=e.promo_code
+}
+
+function selectCard(card:CardNumber){
+	selected_card.value=card
+	is_card_expanded.value=false
+}
+
 </script>
 <template>
 <div class="w-full shadow-md rounded-[0.625rem]">
@@ -49,7 +77,7 @@ const is_summary_expanded=ref(false)
 		<div class="my-[1.25rem] h-[0.063rem] bg-brand-black/20 w-full" />
 		<div class="flex flex-col gap-[1.25rem]">
 			<div v-if="is_summary_expanded" class="flex flex-col items-start gap-[0.625rem]">
-				<div class="px-[0.625rem] py-[0.313rem] rounded-[1.875rem] border-[0.063rem] border-brand-black leading-5 text-brand-black cursor-pointer">Apply promo</div>
+				<div class="px-[0.625rem] py-[0.313rem] rounded-[1.875rem] border-[0.063rem] border-brand-black leading-5 text-brand-black cursor-pointer" @click="dashboard.add_promo_modal=!dashboard.add_promo_modal">{{ added_promo_code ? 'Remove Promo' : 'Add Promo' }} </div>
 				<div class="flex justify-between items-start text-sm text-brand-black/50 w-full">
 					<p>Subtotal</p>
 					<p> TBD</p>
@@ -63,18 +91,38 @@ const is_summary_expanded=ref(false)
 					<p>Free</p>
 				</div>
 				<div class=" h-[0.063rem] bg-brand-black/20 w-full" />
-				<div class="flex items-center w-full">
+				<div v-if="!add_card_payment" class="flex items-center w-full relative">
 					<div class=" w-fit py-[0.625rem] text-sm text-brand-black">Payment</div>
 					<div class="px-[0.625rem] py-[0.313rem] flex justify-between  items-center w-full">
+						<div class="flex items-center gap-[0.625rem]">
+							<img src="/images/visa.svg" alt="">
+							<div class="text-[0.813rem] leading-8 text-brand-black">{{ selected_card.card_number }} </div>
+						</div>
+						<IconDropdownThin :class="is_card_expanded && 'rotate-180'" class="rotate-0 transition-all ease-linear duration-150 cursor-pointer" @click="is_card_expanded=!is_card_expanded" />
+					</div>
+					<div v-if="is_card_expanded" class="absolute top-9 w-full border-[0.063rem] border-brand-black/20 bg-white rounded-[0.313rem] py-[0.313rem] px-[0.625rem] shadow flex flex-col justify-center items-start">
+						<div v-for="(item,index) in dashboard.card_details" :key="index" class="flex items-center gap-[0.625rem] px-[0.625rem] hover:bg-[#F7FAFC] w-full rounded transition-all duration-100 cursor-pointer " @click="selectCard(item)">
+							<img src="/images/visa.svg" alt="">
+							<div class="text-[0.813rem] leading-8 text-brand-black">{{ item.card_number }} </div>
+						</div>
+					</div>
+				</div>
+				<div v-else class="flex items-center w-full">
+					<div class=" w-fit py-[0.625rem] text-sm text-brand-black">Payment</div>
+					<div v-for="(card, index) in dashboard.add_card_details" :key="index" class="px-[0.625rem] py-[0.313rem] flex justify-between  items-center w-full max-w-[19.625rem] overflow-hidden">
 						<div class="flex items-center gap-[0.624rem]">
 							<img src="/images/visa.svg" alt="">
-							<div class="text-[0.813rem] leading-8 text-brand-black">**** <span>5468</span> </div>
+							<input v-model="card.card_number" type="text" class="text-[0.813rem] leading-8 text-brand-black placeholder:text-[#0116314d] outline-none w-24" placeholder="Card Number">
 						</div>
-						<IconDropdownThin />
+						<div class="flex gap-5 text-[0.813rem] leading-8 text-[#0116314d] ">
+							<input v-model="card.expiry_date" type="text" class="text-[0.813rem] leading-8 text-brand-black placeholder:text-[#0116314d] outline-none w-12 " placeholder="MM/YY">
+							<input v-model="card.csv" type="text" class="text-[0.813rem] leading-8 text-brand-black placeholder:text-[#0116314d] outline-none w-9" placeholder="CSV">
+							<input v-model="card.zip" type="text" class="text-[0.813rem] leading-8 text-brand-black placeholder:text-[#0116314d] outline-none w-9" placeholder="ZIP">
+						</div>
 					</div>
 				</div>
 				<div class="flex justify-between items-start text-sm text-brand-black/50 w-full">
-					<div class="flex items-center gap-[0.625rem]">
+					<div class="flex cursor-pointer items-center gap-[0.625rem]" @click="add_card_payment=!add_card_payment">
 						<IconAddCard class="w-[0.813rem] h-[0.813rem]" />
 						<p class="text-xs leading-5 text-brand-secondary">Add New card</p>
 					</div>
@@ -97,6 +145,7 @@ const is_summary_expanded=ref(false)
 			</div>
 		</div>
 	</div>
+	<AddPromoCodeModal @update:promo_code="update_promo_code" />
 </div>
 </template>
 

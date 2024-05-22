@@ -1,6 +1,7 @@
 export const usePageDashboard=defineStore('page_dashboard', ()=>{
 	const promo_code=ref<string>('')
 	const add_promo_modal=ref<boolean>(false)
+	const status=ref(['Upcoming Pickup', 'Pickup Tomorrow', 'Pickup Today'])
 	const card_details=ref([
 		{
 			card_number: '****5468',
@@ -35,5 +36,5 @@ export const usePageDashboard=defineStore('page_dashboard', ()=>{
 			zip: ''
 		}
 	]);
-	return{promo_code, add_promo_modal, card_details, add_card_details}
+	return{promo_code, add_promo_modal, card_details, add_card_details, status}
 })

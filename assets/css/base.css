@@ -35,19 +35,14 @@
 	font-family: 'GTWalsheim';
 }
 @layer utilities {
-    
-    .no-scrollbar::-webkit-scrollbar {
-      display: none;
-    }
-
     .no-scrollbar {
-		scrollbar-width: none; /* Firefox */
-        -ms-overflow-style: none; /* Internet Explorer, Edge */
-        /* Hide scrollbar for Chrome and other browsers */
-        overflow: -moz-scrollbars-none; /* Firefox */
-        -ms-overflow-style: none; /* Internet Explorer, Edge */
-        scrollbar-width: none; /* Chrome, Safari */
-	}
+		overflow-y: scroll;
+		scrollbar-behavior: smooth; 
+	  }
+	  
+	  .no-scrollbar::-webkit-scrollbar {
+		display: none; 
+	  }
 }
 
 .input-float {

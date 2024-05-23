@@ -1,5 +1,11 @@
 <script setup lang="ts">
 import AddPromoCodeModal from '~/components/dashboard-2/PromoModal'
+const props = defineProps({
+	order_data: {
+		type: Object,
+		required: true
+	}
+})
 
 // Defining Interfaces
 
@@ -10,6 +16,13 @@ interface CardNumber{
     zip: string;
 }
 
+interface DateFormat{
+    day: number;
+    day_name: string;
+    month: number;
+    month_name: string;
+}
+
 // Defining Constants
 
 const dashboard = usePageDashboard();
@@ -18,6 +31,14 @@ const is_summary_expanded=ref(false)
 const added_promo_code=ref('')
 const add_card_payment=ref(false)
 const is_card_expanded=ref(false)
+const date_current_order=ref<DateFormat>(
+	{
+		day: 0,
+		day_name: '',
+		month: 0,
+		month_name: ''
+	}
+)
 const date_day= new Date().getDate()
 const pickup_date=ref(date_day)
 const indication_status=ref('Pickup Tomorrow')
@@ -36,7 +57,7 @@ const selected_card=ref<CardNumber>({
 
 // Defining Functions
 
-const update_promo_code=(e: { promo_code: any; })=>{
+const update_promo_code=(e: { promo_code: string; })=>{
 	added_promo_code.value=e.promo_code
 }
 
@@ -44,16 +65,36 @@ function selectCard(card:CardNumber){
 	selected_card.value=card
 	is_card_expanded.value=false
 }
-
-onMounted(() => {
-	pickup_date.value=date_day +1
-	if(pickup_date.value=== date_day){
+function seperateAndLabelDate(order_data){
+	const order_date = order_data.order_date
+	const parts = order_date.split('/')
+	const day=parseInt(parts[2])
+	const month=parseInt(parts[1])-1
+	const year=parseInt(parts[0])
+	const date=new Date(year, month, day)
+	const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+	const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+	const day_label=weekdays[date.getDay()];
+	const month_label=months[date.getMonth()]
+	date_current_order.value={
+		day,
+		day_name: day_label,
+		month,
+		month_name: month_label
+	}
+}
+function status_change(){
+	if(date_current_order.value.day===date_day){
 		indication_status.value=dashboard.status[2]
-	}else if(pickup_date.value===date_day + 1){
+	}else if(date_current_order.value.day===date_day + 1){
 		indication_status.value=dashboard.status[1]
-	}else if(pickup_date.value> date_day + 1){
+	}else if(date_current_order.value.day> date_day + 1){
 		indication_status.value=dashboard.status[0]
 	}
+}
+onMounted(() => {
+	seperateAndLabelDate(props.order_data)
+	status_change()
 })
 
 </script>
@@ -77,7 +118,7 @@ onMounted(() => {
 	<div v-if="is_expanded" class="w-[calc(100%-2.5rem)] mx-auto h-[0.063rem] bg-brand-black/20" />
 	<div v-if="is_expanded" class="p-5">
 		<div class="flex items-end gap-[0.624rem]">
-			<h1 class="text-brand-black text-2xl font-medium leading-normal">{{ in_progress ? `${pickup_from} - ${pickup_to}` : is_collected ? 'Collected' : pickup_failed ? 'Pickup failed' : 'ETA Pending'}}</h1>
+			<h1 class="text-brand-black text-2xl font-medium leading-normal">{{ in_progress ? `${pickup_from} - ${pickup_to}` : is_collected ? 'Collected' : pickup_failed ? 'Pickup failed' : 'ETA Pending' }}</h1>
 			<p class="text-brand-secondary text-sm leading-normal">{{ in_progress ? 'Estimate pickup window' : is_collected ? `Pickup complete at ${collected_at}` : pickup_failed ? `Pickup attempted at  at ${collected_at}` : 'We are working on it' }}</p>
 		</div>
 		<div class="my-[0.625rem] flex self-stretch gap-[1.063rem]">
@@ -86,7 +127,7 @@ onMounted(() => {
 			<IconProgressLine :class=" is_collected ? 'stroke-brand-orange' : pickup_failed ? 'stroke-[#A82975]' :'stroke-[#cacaca]' " />
 		</div>
 		<div class="mt-[0.625rem] leading-normal text-sm text-brand-black">
-			{{ in_progress ? 'Driver has been displaced ' : is_collected ? 'Your laundry has been collected, sit back and enjoy.' : pickup_failed ? 'Please re-schedule your pickup.' : 'We will update your drivers ETA Shortly'}}
+			{{ in_progress ? 'Driver has been displaced ' : is_collected ? 'Your laundry has been collected, sit back and enjoy.' : pickup_failed ? 'Please re-schedule your pickup.' : 'We will update your drivers ETA Shortly' }}
 		</div>
 		<div class="my-[1.25rem] h-[0.063rem] bg-brand-black/20" />
 		<div class="flex flex-col items-start gap-[0.313rem]">

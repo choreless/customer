@@ -1,4 +1,6 @@
 export const usePageDashboard=defineStore('page_dashboard', ()=>{
+	// Defining Constants
+
 	const promo_code=ref<string>('')
 	const add_promo_modal=ref<boolean>(false)
 	const status=ref(['Upcoming Pickup', 'Pickup Tomorrow', 'Pickup Today'])
@@ -36,5 +38,20 @@ export const usePageDashboard=defineStore('page_dashboard', ()=>{
 			zip: ''
 		}
 	]);
-	return{promo_code, add_promo_modal, card_details, add_card_details, status}
+	const order_data = ref([
+		{
+			status: 'In Progress',
+			order_id: '123456789',
+			order_date: '2024/05/23',
+			order_time: '10:30 am',
+			pickup_date: '2021-05-11',
+			wash_type: 'Mixed',
+			service_speed: 'Next day delivery',
+			time_from: '10:30 am',
+			time_to: '11:30 pm',
+			pickup_from: '10:30 am',
+			pickup_to: '11:30 pm'
+		}
+	]);
+	return{promo_code, add_promo_modal, card_details, add_card_details, status, order_data}
 })

@@ -23,6 +23,20 @@ interface DateFormat{
     month_name: string;
 }
 
+interface OrderData{
+			type: string;
+			price: number | string;
+			status:string;
+			order_id: number;
+			order_date: string;
+			order_time: string;
+			pickup_date: string;
+			wash_type: string;
+			service_speed: string;
+			pickup_from: string;
+			pickup_to: string;
+}
+
 // Defining Constants
 
 const dashboard = usePageDashboard();
@@ -31,6 +45,7 @@ const is_summary_expanded=ref(false)
 const added_promo_code=ref('')
 const add_card_payment=ref(false)
 const is_card_expanded=ref(false)
+const prefix=ref('')
 const date_current_order=ref<DateFormat>(
 	{
 		day: 0,
@@ -40,14 +55,7 @@ const date_current_order=ref<DateFormat>(
 	}
 )
 const date_day= new Date().getDate()
-const pickup_date=ref(date_day)
-const indication_status=ref('Pickup Tomorrow')
-const in_progress=ref(false)
-const is_collected=ref(false)
-const pickup_failed=ref(false)
-const pickup_from=ref('10:30 am')
-const collected_at=ref('11:30 pm')
-const pickup_to=ref('11:30 pm')
+const indication_status=ref('')
 const selected_card=ref<CardNumber>({
 	card_number: '****5468',
 	expiry_date: '08/25',
@@ -65,12 +73,12 @@ function selectCard(card:CardNumber){
 	selected_card.value=card
 	is_card_expanded.value=false
 }
-function seperateAndLabelDate(order_data){
+function seperateAndLabelDate(order_data: OrderData){
 	const order_date = order_data.order_date
 	const parts = order_date.split('/')
-	const day=parseInt(parts[2])
-	const month=parseInt(parts[1])-1
-	const year=parseInt(parts[0])
+	const day=parseInt(parts[1])
+	const month=parseInt(parts[0])-1
+	const year=parseInt(parts[2])
 	const date=new Date(year, month, day)
 	const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 	const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -84,50 +92,65 @@ function seperateAndLabelDate(order_data){
 	}
 }
 function status_change(){
-	if(date_current_order.value.day===date_day){
+	if(date_current_order.value.day===date_day && props.order_data.status ===''){
 		indication_status.value=dashboard.status[2]
-	}else if(date_current_order.value.day===date_day + 1){
+	}else if(date_current_order.value.day===date_day + 1 && props.order_data.status ===''){
 		indication_status.value=dashboard.status[1]
-	}else if(date_current_order.value.day> date_day + 1){
+	}else if(date_current_order.value.day> date_day + 1 && props.order_data.status ===''){
 		indication_status.value=dashboard.status[0]
+	}else{
+		indication_status.value=dashboard.status[1]
+	}
+}
+
+function date_prefix(date_day:number){
+	if(date_day===1 || date_day===21 || date_day===31){
+		prefix.value = 'st'
+	}else if(date_day===2 || date_day===22){
+		prefix.value = 'nd'
+	}else if(date_day===3 || date_day===23){
+		prefix.value = 'rd'
+	}else{
+		prefix.value = 'th'
 	}
 }
 onMounted(() => {
 	seperateAndLabelDate(props.order_data)
+	date_prefix(date_current_order.value.day)
 	status_change()
 })
 
 </script>
 <template>
-<div class="w-full shadow-md rounded-[0.625rem]">
+<div class=" sm:w-full shadow-orderCard rounded-[0.625rem]">
 	<div class=" p-5 flex justify-between items-center ">
 		<div class="flex items-center gap-5">
 			<div>Image</div>
 			<div>
-				<p class="text-xs">Pickup</p>
-				<h2 class="capitalize font-medium text-base leading-normal">Wednesday,</h2>
-				<h1 class="text-2xl leading-nromal font-medium">March 20th</h1>
-				<p class="text-xs">Mixed Wash - 9FPN</p>
+				<p class="text-xs">{{ order_data.type }}</p>
+				<h2 class="capitalize font-medium text-base leading-normal">{{ date_current_order.day_name }},</h2>
+				<h1 class="text-2xl leading-nromal font-medium">{{ date_current_order.month_name }} {{ date_current_order.day }}{{ prefix }} </h1>
+				<p class="text-xs">{{ order_data.wash_type }}- 9FPN</p>
 			</div>
 		</div>
 		<div class="flex justify-center items-center gap-[0.625rem]">
-			<div :class="is_collected ? 'text-white bg-brand-orange' : pickup_failed ? 'bg-[#FFEBF7] text-[#A82975]' : '' " class="px-[0.813rem] py-2 text-xs font-medium text-brand-orange bg-[#ffefed] rounded-[1.875rem]">{{ in_progress ? 'In Progress' : is_collected ? 'Collected' : pickup_failed ? 'Pickup failed' : indication_status }}</div>
+			<div :class="order_data.status.toLocaleLowerCase()==='collected' ? '!text-white bg-brand-orange' : order_data.status.toLocaleLowerCase()==='failed' ? '!bg-[#ffEbf7] !text-[#a82975]' : '' " class="px-[0.813rem] py-2 text-xs font-medium text-brand-orange bg-[#ffefed] rounded-[1.875rem]">{{ order_data.status.toLocaleLowerCase()==='in progress' ? 'In Progress' : order_data.status.toLocaleLowerCase()==='collected' ? 'Collected' : order_data.status.toLocaleLowerCase()==='failed' ? 'Pickup failed' : indication_status }}</div>
 			<div :class="is_expanded ? 'rotate-180': 'rotate-0'" class="transition-all ease-linear duration-150 cursor-pointer" @click="is_expanded=!is_expanded"><IconDropdown /></div>
 		</div>
 	</div>
 	<div v-if="is_expanded" class="w-[calc(100%-2.5rem)] mx-auto h-[0.063rem] bg-brand-black/20" />
 	<div v-if="is_expanded" class="p-5">
 		<div class="flex items-end gap-[0.624rem]">
-			<h1 class="text-brand-black text-2xl font-medium leading-normal">{{ in_progress ? `${pickup_from} - ${pickup_to}` : is_collected ? 'Collected' : pickup_failed ? 'Pickup failed' : 'ETA Pending' }}</h1>
-			<p class="text-brand-secondary text-sm leading-normal">{{ in_progress ? 'Estimate pickup window' : is_collected ? `Pickup complete at ${collected_at}` : pickup_failed ? `Pickup attempted at  at ${collected_at}` : 'We are working on it' }}</p>
+			<h1 class="text-brand-black text-2xl font-medium leading-normal">{{ order_data.status.toLocaleLowerCase()==='in progress' ? `${order_data.pickup_from} - ${order_data.pickup_to}` : order_data.status.toLocaleLowerCase()==='collected' ? 'Collected' : order_data.status.toLocaleLowerCase()==='failed' ? 'Pickup failed' : 'ETA Pending' }}</h1>
+			<p class="text-brand-secondary text-sm leading-normal">{{ order_data.status.toLocaleLowerCase()==='in progress' ? 'Estimate pickup window' : order_data.status.toLocaleLowerCase()==='collected' ? `Pickup complete at ${order_data.pickup_to}` : order_data.status.toLocaleLowerCase()==='failed' ? `Pickup attempted at  at ${order_data.pickup_to}` : 'We are working on it' }}</p>
 		</div>
 		<div class="my-[0.625rem] flex self-stretch gap-[1.063rem]">
 			<IconProgressLine class="stroke-brand-orange" />
-			<IconProgressLine :class="in_progress || is_collected || pickup_failed ? 'stroke-brand-orange' : 'stroke-[#cacaca]' " />
-			<IconProgressLine :class=" is_collected ? 'stroke-brand-orange' : pickup_failed ? 'stroke-[#A82975]' :'stroke-[#cacaca]' " />
+			<IconProgressLine :class="order_data.status !==''? 'stroke-brand-orange' : 'stroke-[#cacaca]' " />
+			<IconProgressLine :class=" order_data.status.toLocaleLowerCase()==='collected' ? 'stroke-brand-orange' : order_data.status.toLocaleLowerCase()==='failed' ? 'stroke-[#A82975]' :'stroke-[#cacaca]' " />
 		</div>
 		<div class="mt-[0.625rem] leading-normal text-sm text-brand-black">
-			{{ in_progress ? 'Driver has been displaced ' : is_collected ? 'Your laundry has been collected, sit back and enjoy.' : pickup_failed ? 'Please re-schedule your pickup.' : 'We will update your drivers ETA Shortly' }}
+			{{ order_data.status.toLocaleLowerCase()==='in progress' ? 'Driver has been displaced ' : order_data.status.toLocaleLowerCase()==='collected' ? 'Your laundry has been collected, sit back and enjoy.' : order_data.status.toLocaleLowerCase()==='failed' ? 'Please re-schedule your pickup.' : 'We will update your drivers ETA Shortly' }}
 		</div>
 		<div class="my-[1.25rem] h-[0.063rem] bg-brand-black/20" />
 		<div class="flex flex-col items-start gap-[0.313rem]">
@@ -136,10 +159,10 @@ onMounted(() => {
 				<p class=" text-sm text-brand-secondary leading-6">Order Details</p>
 			</div>
 			<div class="flex flex-col gap-[0.313rem]">
-				<div class="text-brand-black text-base leading-5">Order Date: 02/29/2024</div>
-				<div class="text-base leading-5 font-bold text-brand-black">Mixed Wash</div>
+				<div class="text-brand-black text-base leading-5">Order Date: {{ order_data.order_date }}</div>
+				<div class="text-base leading-5 font-bold text-brand-black">{{ order_data.wash_type }}</div>
 				<div class="text-base leading-5 text-brand-black font-medium">Next-day Delivery</div>
-				<div class="text-xs leading-5 text-[#7f7f7f] ">$1.80 / lb </div>
+				<div class="text-xs leading-5 text-[#7f7f7f] ">{{ order_data.price ==='TBD' ? 'TBD' : `$${order_data.price.toFixed(2)} / lb` }}  </div>
 			</div>
 		</div>
 		<div class="my-[1.25rem] h-[0.063rem] bg-brand-black/20 w-full" />

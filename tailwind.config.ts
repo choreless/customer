@@ -24,6 +24,9 @@ const config: Config = {
 			fontFamily: {
 				GTWalsheim: 'GTWalsheim',
 				CaveatBrush: 'CaveatBrush'
+			},
+			boxShadow: {
+				orderCard: '0px 0px 10px 0px rgba(0, 0, 0, 0.05)'
 			}
 		}
 	},

@@ -26,7 +26,8 @@ const config: Config = {
 				CaveatBrush: 'CaveatBrush'
 			},
 			boxShadow: {
-				orderCard: '0px 0px 10px 0px rgba(0, 0, 0, 0.05)'
+				orderCard: '0px 0px 10px 0px rgba(0, 0, 0, 0.05)',
+				addressHead: '0px 2px 6px 0px rgba(0, 0, 0, 0.05)'
 			}
 		}
 	},

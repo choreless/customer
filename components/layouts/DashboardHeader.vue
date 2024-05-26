@@ -3,8 +3,8 @@ const is_opened = ref(false)
 </script>
 <template>
 <main class="relative">
-	<div class="px-[3.125rem] py-5 ">
-		<IconMenu class="w-[2.344rem] h-[1.875rem] cursor-pointer" @click="is_opened=!is_opened" />
+	<div class=" px-4 flex flex-col justify-center  sm:px-[3.125rem] sm:py-5 h-[3.438rem] sm:h-auto shadow-addressHead ">
+		<IconMenu class=" w-[0.781rem] h-2.5 s:w-[2.344rem] sm:h-[1.875rem] cursor-pointer" @click=" is_opened=!is_opened " />
 	</div>
 	<div :class="is_opened ? 'left-0': '-left-[16.25em]'" class=" border-r-[0.063rem] border-brand-black/20 fixed top-0 max-w-[15.625rem] w-full bg-white min-h-screen transition-all duration-75 ease-linear flex flex-col	 justify-between items-start" @click="is_opened=false">
 		<div class="w-full">

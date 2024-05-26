@@ -51,7 +51,9 @@ export const usePageDashboard=defineStore('page_dashboard', ()=>{
 			wash_type: 'Mixed Wash',
 			service_speed: 'Next day delivery',
 			pickup_from: '09:30 am',
-			pickup_to: '10:30 pm'
+			pickup_to: '10:30 pm',
+			promo_code: ''
+
 		},
 		{
 			type: 'Pickup',
@@ -64,7 +66,9 @@ export const usePageDashboard=defineStore('page_dashboard', ()=>{
 			wash_type: 'Home & Bedding',
 			service_speed: 'Next day delivery',
 			pickup_from: '10:30 am',
-			pickup_to: '11:30 pm'
+			pickup_to: '11:30 pm',
+			promo_code: 'get it'
+
 		},
 		{
 			type: 'Pickup',
@@ -77,7 +81,8 @@ export const usePageDashboard=defineStore('page_dashboard', ()=>{
 			wash_type: 'Wash & Steam',
 			service_speed: 'Next day delivery',
 			pickup_from: '07:30 am',
-			pickup_to: '08:30 pm'
+			pickup_to: '08:30 pm',
+			promo_code: 'get promo'
 		}
 	]);
 	return{promo_code, add_promo_modal, card_details, add_card_details, status, order_data, addresses}

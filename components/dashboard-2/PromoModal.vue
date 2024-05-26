@@ -2,7 +2,7 @@
 const dashboard = usePageDashboard();
 const props = defineProps<{
 }>();
-const clear_note = () => {
+function clear_promo() {
 	dashboard.promo_code=''
 }
 const emit=defineEmits(['update:promo_code']);
@@ -11,7 +11,7 @@ const update_promo_code = () => {
 	dashboard.add_promo_modal = false
 }
 
-const close_modal = () => {
+function close_modal(){
 	dashboard.add_promo_modal = false
 }
 
@@ -45,7 +45,7 @@ const close_modal = () => {
 			<h1 class="text-base text-black">Apply promo code</h1>
 			<h1
 				class="text-base leading-[0.938rem] font-normal sm:font-medium text-black cursor-pointer"
-				@click="clear_note"
+				@click="clear_promo"
 			>
 				Clear
 			</h1>
@@ -64,7 +64,7 @@ const close_modal = () => {
 	</div>
 	<div class=" absolute bottom-2.5 w-full px-5">
 		<button
-			class=" w-full  mt-3 flex sm:hidden justify-center items-center px-5 py-[1.125rem] rounded-[0.313rem] bg-brand-orange disabled:bg-[#f8f8f8] h-[3rem] text-base font-bold disabled:text-[#011631] text-white"
+			class=" w-full  mt-3 flex sm:hidden justify-center items-center px-5 py-[1.125rem] rounded-[0.313rem] bg-brand-orange disabled:bg-[#f8f8f8] h-[3rem] text-base font-medium disabled:text-[#011631] text-white"
 			@click="update_promo_code()"
 		>
 			Apply

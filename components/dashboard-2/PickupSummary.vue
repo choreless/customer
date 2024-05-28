@@ -8,7 +8,7 @@ const dashboard=usePageDashboard()
 <div class="px-2.5 my-[3.125rem] max-w-[20rem] sm:max-w-[26.875rem] mx-auto w-full">
 	<div class="flex flex-col gap-2.5 sm:gap-[1.25rem]">
 		<SearchAddress class="w-full sm:w-[20.625rem] " />
-		<Card v-for="(order,index) in dashboard.order_data" :key="index" :order_data="order" />
+		<Card v-for="(order,index) in dashboard.order_data" :key="index" :index="index" :order_data="order" />
 		<button class="px-[1.25rem] py-[1.125rem] text-center rounded-[0.313rem] bg-brand-orange text-white text-base sm:text-2xl leading-6 font-medium sm:font-bold">New Order</button>
 	</div>
 </div>

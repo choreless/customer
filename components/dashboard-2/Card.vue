@@ -4,6 +4,10 @@ const props = defineProps({
 	order_data: {
 		type: Object,
 		required: true
+	},
+	index: {
+		type: Number,
+		required: true
 	}
 })
 
@@ -43,7 +47,6 @@ interface OrderData{
 const dashboard = usePageDashboard();
 const is_expanded=ref(false)
 const is_summary_expanded=ref(false)
-const added_promo_code=ref('')
 const add_card_payment=ref(false)
 const is_card_expanded=ref(false)
 const prefix=ref('')
@@ -67,14 +70,18 @@ const selected_card=ref<CardNumber>({
 // Defining Functions
 
 const update_promo_code=(e: { promo_code: string; })=>{
-	added_promo_code.value=e.promo_code
+	dashboard.order_data[dashboard.selected_order_id].promo_code=e.promo_code
 }
 
+function open_promo_modal(){
+	dashboard.add_promo_modal=!dashboard.add_promo_modal
+	dashboard.selected_order_id=props.index
+}
 function selectCard(card:CardNumber){
 	selected_card.value=card
 	is_card_expanded.value=false
 }
-function seperateAndLabelDate(order_data: OrderData){
+function seperateAndLabelDate(order_data:object){
 	const order_date = order_data.order_date
 	const parts = order_date.split('/')
 	const day=parseInt(parts[1])
@@ -169,7 +176,7 @@ onMounted(() => {
 		<div class="my-[1.25rem] h-[0.063rem] bg-brand-black/20 w-full" />
 		<div class="flex flex-col gap-[1.25rem]">
 			<div v-if="is_summary_expanded" class="flex flex-col items-start gap-[0.625rem]">
-				<div class=" text-xs sm:text-base px-[0.375rem] sm:px-[0.625rem] sm:py-[0.313rem] rounded-[1.875rem] border-[0.063rem] border-brand-black leading-5 text-brand-black cursor-pointer" @click="dashboard.add_promo_modal=!dashboard.add_promo_modal">{{ order_data.promo_code !='' ? 'Remove Promo' : 'Add Promo' }} </div>
+				<div class=" text-xs sm:text-base px-[0.375rem] sm:px-[0.625rem] sm:py-[0.313rem] rounded-[1.875rem] border-[0.063rem] border-brand-black leading-5 text-brand-black cursor-pointer" @click="open_promo_modal">{{ order_data.promo_code !='' ? 'Remove Promo' : 'Add Promo' }} </div>
 				<div class="flex justify-between items-start text-xs sm:text-sm text-brand-black/50 w-full">
 					<p>Subtotal</p>
 					<p> TBD</p>

@@ -10,9 +10,8 @@ export const addons2 = [
 	{name: 'Gain', cost: '$0.15 / lb', wash_type: 'both'},
 	{name: 'Softener Downy', cost: '$0.10 / lb', wash_type: 'both'}
 ] as const;
-export const care_services = ['Delicates', 'Hang-Dry', 'Hangers', "Don't mix bags"] as const;
-export const detergents = ['Premium Scented', 'Hypoallergenic', 'I will provide'] as const;
+export const detergents = [{value: 'Premium Scented', isPopular: false, description: 'Top-rated Premium brand scented detergent'}, {value: 'Hypoallergenic', isPopular: false, description: 'Detergent that is free from dyes, perfumes, scents, & optical brighteners'}, {value: 'Customer Provided', isPopular: false, description: 'Include detergent with your laungry and we`ll use it Whatever is not used will be returned to you.'}]as const;
 export const dryer_temperatures = ['High', 'Medium', 'Low'] as const;
-export const water_temperatures = ['Cold', 'Hot'] as const;
+export const water_temperatures = ['Hot', 'Cold'] as const;
 
-export default { addons, addons2, care_services, detergents, dryer_temperatures, water_temperatures };
+export default { addons, addons2, detergents, dryer_temperatures, water_temperatures };

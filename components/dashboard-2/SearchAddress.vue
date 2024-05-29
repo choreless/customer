@@ -22,7 +22,7 @@ function delete_address(index:number) {
 <div class="flex  flex-col mx-auto">
 	<h1 class="text-xl sm:text-2xl font-bold leading-[1.875rem] text-center ">Welcome back, Wallace </h1>
 	<div class="p-2.5 h-[2.813rem] flex gap-2.5 justify-between items-center border-b-[0.063rem] border-brand-secondary">
-		<IconLocation class="stroke-brand-secondary" />
+		<IconLocation2 class="stroke-brand-secondary" />
 		<p class=" text-sm sm:text-base line-clamp-1 overflow-hidden leading-5 text-brand-black sm:mr-4 ">
 			{{ selected_address }}
 		</p>
@@ -42,10 +42,10 @@ function delete_address(index:number) {
 		<ul v-for="(address,index) in filtered_address" :key="index">
 			<li class="flex gap-2.5 items-center justify-between p-2.5 border-b-[0.063rem] border-gray-200 cursor-pointer">
 				<div class="flex gap-2.5">
-					<IconLocation class="stroke-brand-black" />
+					<IconLocation2 class="stroke-brand-black" />
 					<p @click="selected_address=address"> {{ address }}  </p>
 				</div>
-				<div class="flex gap-2.5"><IconEdit class="!fill-brand-black cursor-pointer" /> <div class="cursor-pointer" @click="delete_address(index)">DLT</div></div>
+				<div class="flex gap-2.5"><IconEdit2 class="!fill-brand-black cursor-pointer" /> <div class="cursor-pointer" @click="delete_address(index)">DLT</div></div>
 			</li>
 		</ul>
 	</div>

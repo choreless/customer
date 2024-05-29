@@ -1,132 +1,225 @@
 <script setup lang="ts">
-import zips from '~/assets/data/zip_services.json';
-import customer from '~/lib/customer';
+import InfoModal from '../modals/Info.vue';
+import PricingModal from '../modals/Pricing.vue';
+import AddNoteModal from '../modals/AddNote.vue';
+import SwitchButton from '../buttons/SwitchBtn.vue';
+// Defining Interfaces
+interface Service {
+	id:number;
+    wash_type: string;
+    from_price: number;
+    to_price: number;
+	bags_count: number;
+    service_speed: string;
+    note: string;
+}
+// Defining Constants
 
+const is_toggle=ref(false)
 const book = usePageBook();
+const clicked_service=ref<Service>({
+	id: 0,
+	wash_type: '',
+	from_price: 0,
+	to_price: 0,
+	note: '',
+	service_speed: '',
+	bags_count: 1
 
-const is_dialog_open = ref(false);
+})
+const wash_services_data=reactive([
+	{
+		id: 1,
+		wash_type: 'Mixed Wash',
+		from_price: 1.80,
+		to_price: 2.00,
+		note: '',
+		service_speed: 'next_day',
+		bags_count: 1
 
-function next(){
-	book.error.wash_type = !book.wash_type;
-	book.error.detergent = !book.detergent;
-	book.error.zip = !book.zip;
-	if(!book.error.wash_type && book.error.detergent) is_dialog_open.value = true;
-	if(book.error.wash_type || book.error.detergent || book.error.zip) return;
-	zips.includes(book.zip) ? book.step++ : book.step=-1;
+	},
+	{
+		id: 2,
+		wash_type: 'Seperate Wash',
+		from_price: 2.25,
+		to_price: 2.50,
+		note: 'Do not add any bleech on my clothes.',
+		service_speed: 'next_day',
+		bags_count: 1
+
+	}
+])
+const big_item = book.optional_item
+
+// Defining functions
+
+function select_service(service:Service){
+	clicked_service.value=service
+	book.wash_type=clicked_service.value.wash_type
+	book.service_speed=clicked_service.value.service_speed
+	book.wash_is_required=false
+}
+function update_toggle_val(e:boolean){
+	is_toggle.value=e
+	if(is_toggle.value===true){
+		clicked_service.value.service_speed='2_day'
+		is_toggle.value=true
+	}else if(is_toggle.value===false){
+		clicked_service.value.service_speed='next_day'
+		is_toggle.value=false
+	}
 }
 
-function dialogSave(){
-	book.error.detergent = !book.detergent;
-	if(!book.error.detergent) is_dialog_open.value = false;
+function open_add_note(service: Service){
+	clicked_service.value=service
+	book.add_note_modal=!book.add_note_modal
+	book.note=service.note
 }
+
+function update_note({ note }:{ note: string }){
+	clicked_service.value.note=note;
+	if(clicked_service.value.id === big_item.id){
+		book.extra_service=true
+	}
+}
+function next_step(){
+	if(book.wash_type ===undefined){
+		book.wash_is_required=true
+	}
+	else{
+		book.wash_is_required=false
+		book.step++
+	}
+}
+
 </script>
 
 <template>
-<div>
-	<div class="max-w-xl mx-auto my-6 px-2">
-		<h1 class="text-xl sm:text-2xl font-bold leading-loose">Laundry</h1>
-		<div class="text-2xl flex justify-between">
-			<p>How many bags?</p>
-			<div class="flex items-center gap-x-2.5">
-				<button class="btn btn-sm btn-circle bg-transparent border-brand-black hover:bg-error hover:border-error" :disabled="book.bags_count<2" @click="book.bags_count--"><Icon name="ic:outline-minus" class="text-2xl" /></button>
-				<p>{{ book.bags_count }}</p>
-				<button class="btn btn-sm btn-circle bg-transparent border-brand-black hover:bg-success hover:border-success" @click="book.bags_count++"><Icon name="ic:outline-plus" class="text-2xl" /></button>
-			</div>
-		</div>
-		<h1 class="text-xl sm:text-2xl font-bold leading-loose mt-5">What services do you need?</h1>
-		<button v-for="v of book.wash_types" :key="v" class="w-full mt-2.5 p-2.5 border-2 rounded-md text-start group border-brand-black/10 [&:is(:hover,.active)]:border-brand-blue [&:is(:hover,.active)]:bg-[#f5f9fd]" :class="book.wash_type===v && 'active'" @click="book.wash_type=v; is_dialog_open=true;">
-			<div class="w-full flex items-center justify-between">
-				<div class="flex flex-col sm:flex-row sm:items-center gap-x-2.5 gap-y-2">
-					<div class="flex items-center gap-x-2.5">
-						<img :src="`https://ik.imagekit.io/choreless/v2/icons/${v==='mixed' ? 'mixed_wash%203' : 'separate_wash%202'}.svg`" alt="icon" loading="lazy" class="w-12">
-						<p class="text-xl sm:text-2xl font-bold capitalize">{{ v }} Wash</p>
+<div class="px-[0.938rem] sm:px-0">
+	<div class="my-8 max-w-[29.188rem] mx-auto flex flex-col items-start gap-3 sm:gap-5">
+		<h1 class=" text-base leading-5 sm:text-2xl sm:leading-7 font-bold">How can we help you? </h1>
+		<div v-for="(item,index) of wash_services_data" :key="index" class=" relative px-[0.938rem] py-2.5 cursor-pointer rounded-[0.625rem] border-[0.032rem] border-b-[0.313rem] border-[#e5e5e5] [&:is(.active)]:border-brand-orange w-full   transition-all duration-100 ease-linear shadow-card" :class="book.wash_type==item.wash_type ? 'active' : ''" @click="select_service(item)">
+			<div class="flex items-start  sm:items-center self-stretch gap-5 justify-between">
+				<div class="max-w-[22.375rem] w-full flex flex-col items-start gap-0 sm:gap-2.5">
+					<h1 class=" text-xl leading-6 sm:text-2xl sm:leading-6  font-bold text-brand-orange capitalize">{{ item.wash_type }}</h1>
+					<p v-if="item.service_speed==='next_day'" class="text-[0.625rem] leading-4 mt-2.5 sm:mt-0">From <span class=" font-medium">$ {{ item.from_price.toFixed(2) }}/lb</span></p>
+					<p v-else class="text-[0.625rem] leading-4  mt-2.5 sm:mt-0">From <span class=" font-medium">${{ item.to_price.toFixed(2) }}/lb</span></p>
+					<div class="flex items-center justify-start gap-[0.313rem] self-stretch flex-wrap  mt-2.5 sm:mt-0">
+						<p class=" flex justify-center items-center px-2.5 text-[0.5rem] leading-[0.875rem] rounded-[1.25rem] bg-[#f2f2f2]">WASH</p>
+						<p class="flex justify-center items-center px-2.5 text-[0.5rem] leading-[0.875rem] rounded-[1.25rem] bg-[#f2f2f2]">TUMBLE-DRY</p>
+						<p class="flex justify-center items-center px-2.5 text-[0.5rem] leading-[0.875rem] rounded-[1.25rem] bg-[#f2f2f2]">IN A BAG</p>
+						<div class="flex items-center gap-x-1">
+							<img src="https://ik.imagekit.io/choreless/v2/icons/time.svg" alt="icon" loading="lazy" class="w-[0.625rem] h-[0.625rem]">
+
+							<p class="text-xs  font-medium leading-6">{{ item.service_speed==='next_day' ? '24h Service' : '48h Service' }} </p>
+						</div>
 					</div>
-					<div class="flex items-center gap-x-1">
-						<img src="https://ik.imagekit.io/choreless/v2/icons/time.svg" alt="icon" loading="lazy" class="w-4">
-						<p class="text-sm font-medium">24-48h Service</p>
-					</div>
+					<div class="text-xs leading-4 ">Convenient wash & fold laundry service for individuals couples. </div>
 				</div>
-				<div class="btn btn-sm btn-outline text-base px-2 sm:px-3 text-brand-blue border-brand-blue [&:is(.active,:hover)]:bg-brand-blue [&:is(.active,:hover)]:border-brand-blue [&:is(.active,:hover)]:text-white" :class="book.wash_type===v && book.detergent && 'active'"><span class="text-2xl">+</span> {{ book.wash_type===v && book.detergent ? 'Added' : 'Add' }}</div>
+				<div class=" pt-5 sm:pt-0">
+					<div v-if="item.wash_type==='Mixed Wash'"><IconMixed :isActive="book.wash_type===item.wash_type " /></div>
+					<div v-else><IconSeperate :isActive="book.wash_type===item.wash_type " /></div>
+				</div>
 			</div>
-			<p class="mt-2.5">A <span class="font-bold">{{ v==='mixed' ? '$30' : '$40' }} minimum</span> order value applies.</p>
-			<div class="flex gap-x-1.5 mt-2.5">
-				<p class="text-xs px-3 py-0.5 rounded-full bg-zinc-200">WASH</p>
-				<p class="text-xs px-3 py-0.5 rounded-full bg-zinc-200">TUMBLE-DRY</p>
-				<p class="text-xs px-3 py-0.5 rounded-full bg-zinc-200">IN A BAG</p>
+			<div :class="book.wash_type===item.wash_type ? 'block' : 'hidden' " class="bg-white w-full ">
+				<div class="flex justify-between items-center self-stretch mt-2.5 sm:mt-5">
+					<div class="max-w-[12.5rem] sm:max-w-[13.969rem] w-full pr-5 flex items-start justify-between gap-2.5">
+						<h1 class="text-xs sm:text-sm leading-5 font-medium">Next Day Delivary</h1>
+						<SwitchButton @update:is_toggle="update_toggle_val" />
+					</div>
+					<div class="w-[0.063rem] h-5 bg-[#0000000d]" />
+					<div class=" cursor-pointer text-right text-xs sm:text-sm font-medium " @click="open_add_note(item)">{{ item.note ? 'Edit Note' :'Add Note' }}</div>
+				</div>
+				<div class="my-2.5 h-[0.063rem] bg-[#0000000d] w-full" />
+				<div class="flex h-5 justify-between items-center self-stretch px-2.5">
+					<button class="text[1.563rem] leading-5 " :class="item.bags_count<2 ? ' text-[#838383]' : 'text-black'" :disabled="item.bags_count<2" @click="item.bags_count--"><Icon name="ic:outline-minus" class="text-2xl" /></button>
+					<p class="text-xs sm:text-sm font-medium">{{ item.bags_count }} Bags</p>
+					<button class="text[1.563rem] leading-5" @click="item.bags_count++"><Icon name="ic:outline-plus" class="text-2xl" /></button>
+				</div>
 			</div>
-			<p class="mt-2.5">{{ v==='mixed' ? 'Convenient wash & fold laundry service for individuals couples.' : 'Twice weekly wash & fold pickup & delivery handles extra loads.' }}</p>
-		</button>
-		<p v-if="book.error.wash_type" class="text-error">* Wash type is required</p>
-		<h1 class="text-xl sm:text-2xl font-bold leading-loose mt-2.5">Extra services</h1>
-		<p class="mt-2.5">Do you have any large items, like a blanket, that will require their own load? <NuxtLink class="border-b border-brand-black">See pricing</NuxtLink></p>
-		<div class="flex gap-x-5 mt-5">
-			<button class="btn btn-outline text-xl grow border-brand-black/20 [&:is(:hover,.active)]:bg-brand-blue [&:is(:hover,.active)]:border-brand-blue [&:is(:hover,.active)]:text-white" :class="book.extra_service && 'active'" @click="book.extra_service=true">Yes</button>
-			<button class="btn btn-outline text-xl grow border-brand-black/20 [&:is(:hover,.active)]:bg-brand-blue [&:is(:hover,.active)]:border-brand-blue [&:is(:hover,.active)]:text-white" :class="book.extra_service===false && 'active'" @click="book.extra_service=false">No</button>
 		</div>
-		<div v-if="book.extra_service" class="text-center border rounded-md mt-2.5 px-2 sm:px-16 py-2.5 border-brand-black/20">
-			<p class="text-lg sm:text-2xl font-bold">$8 per large item (+ per pound rate)</p>
-			<p class="text-sm sm:text-base mt-1 leading-[1.125rem]">Please note: We cannot accommodate extra large items, like king comforters. Extra large items will be returned without laundry at no charge.</p>
+		<p v-if="book.wash_is_required" class="text-error mt-1">* Wash type is required</p>
+
+		<h1 class="text-base leading-5 sm:text-2xl sm:leading-7 font-bold">
+			Do you have any Big Item ?
+		</h1>
+		<div :class="book.extra_service ? 'active' : ''" class=" shadow-card relative px-[0.938rem] py-2.5 cursor-pointer rounded-[0.625rem] border-[0.031rem] border-b-[0.313rem] border-[#e5e5e5] w-full [&:is(.active)]:border-brand-orange  transition-all duration-100 ease-linear">
+			<div class="flex  self-stretch gap-5 justify-between " @click="book.extra_service=!book.extra_service">
+				<div class="max-w-[21.75rem] w-full flex flex-col items-start gap-0 sm:gap-2.5">
+					<h1 class="text-xl leading-6 sm:text-2xl sm:leading-6  font-bold text-brand-orange  capitalize">{{ big_item.wash_type }}</h1>
+					<div class="flex items-center  gap-[0.313rem]">
+						<p class="text-[0.625rem] leading-4 mt-2.5 sm:mt-0 ">From <span class=" font-medium">${{ big_item.from_price }}.00 <span class="text-[0.5rem] leading-4"> price per item</span></span></p>
+						<button class="text-brand-orange text-[0.5rem] leading-3 mt-2 sm:mt-0 font-medium" @click="book.pricing_modal=!book.pricing_modal,book.extra_service=!book.extra_service">See pricing</button>
+					</div>
+					<div class="flex items-center justify-start gap-[0.313rem] self-stretch flex-wrap mt-2.5 sm:mt-0">
+						<p class=" flex justify-center items-center px-2.5 text-[0.5rem] leading-[0.875rem] rounded-[1.25rem] bg-[#f2f2f2]">WASH</p>
+						<p class="flex justify-center items-center px-2.5 text-[0.5rem] leading-[0.875rem] rounded-[1.25rem] bg-[#f2f2f2]">TUMBLE-DRY</p>
+						<p class="flex justify-center items-center px-2.5 text-[0.5rem] leading-[0.875rem] rounded-[1.25rem] bg-[#f2f2f2]">IN A BAG</p>
+						<div class="flex items-center gap-x-1">
+							<img src="https://ik.imagekit.io/choreless/v2/icons/time.svg" alt="icon" loading="lazy" class="w-[0.625rem] h-[0.625rem]">
+							<p class="text-[0.75rem] font-medium leading-6">{{ big_item.service_speed }} </p>
+						</div>
+					</div>
+
+					<div class="text-[0.75rem] leading-4 ">Convenient wash & fold laundry service for individuals couples. </div>
+				</div>
+				<div class="flex flex-col justify-center items-center relative w-fit">
+					<div><IconOptional :isActive="book.extra_service " /></div>
+					<div :class="book.extra_service ? 'block' : 'hidden' " class=" cursor-pointer text-right text-xs sm:text-sm font-medium absolute bottom-0 right-0  text-nowrap " @click="open_add_note(big_item)">{{ big_item.note ? 'Edit Note' :'Add Note' }}</div>
+				</div>
+			</div>
+			<div :class="book.extra_service ? 'block' : 'hidden' " class="bg-white w-full ">
+				<div class="my-2.5 h-[0.063rem] bg-[#0000000d] w-full" />
+				<div class="flex h-5 justify-between items-center self-stretch px-2.5">
+					<button class="text[1.563rem] leading-5 " :class="big_item.bags_count<2 ? ' text-[#838383]' : 'text-black'" :disabled="big_item.bags_count<2" @click="big_item.bags_count--"><Icon name="ic:outline-minus" class="text-2xl" /></button>
+					<p class="text-xs sm:text-sm font-medium">{{ big_item.bags_count }} Bags</p>
+					<button class="text[1.563rem] leading-5" @click="big_item.bags_count++"><Icon name="ic:outline-plus" class="text-2xl" /></button>
+				</div>
+			</div>
 		</div>
-		<div class="mt-2.5 rounded-md bg-[linear-gradient(177deg,#3063ff_2.82%,#678dff_97.18%)] text-white">
-			<div class="flex gap-x-5 p-2.5">
-				<img src="https://ik.imagekit.io/choreless/v2/icons/need_list_every_item%201.svg" alt="icon" loading="lazy" class="w-16">
+
+		<div class=" p-[0.625rem] sm:p-[0.938rem] w-full rounded-[0.313rem] bg-gradient-to-t from-[#ff7565] via-[#ff7565] to-[#ff4e38] ">
+			<div class=" flex justify-between items-center">
 				<div>
-					<p class="text-lg sm:text-2xl font-bold">Do I need to list each item?</p>
-					<p class="text-sm sm:text-base leading-4 mt-1">Item listing is not required. Simply book your choice of services, then pack one bag per service.</p>
+					<IconTag class="mr-[0.938rem] fill-white stroke-white" />
+				</div>
+				<div class="flex flex-col gap-[0.375rem] text-white max-w-[23.813rem] w-full">
+					<p class=" text-[0.625rem] leading-4 sm:text-sm sm:leading-[1.125rem]">Write your name to avoid laundry mix-ups.</p>
+					<h1 class="sm:text-lg leading-[1.125rem] font-bold">Load label: <span class="font-normal"> Tillman + CF2A</span></h1>
+				</div>
+
+				<div class="cursor-pointer">
+					<IconInfo3 @click="book.info_modal=!book.info_modal" />
+					<InfoModal />
 				</div>
 			</div>
 		</div>
-		<h2 class="text-lg sm:text-xl font-bold leading-loose mt-2.5 text-brand-black">Any specific notes about this order?</h2>
-		<textarea rows="2" class="textarea textarea-bordered w-full mt-2.5" placeholder="Add specific notes about this order? " />
-		<div class="flex flex-wrap gap-2.5 mb-2.5">
-			<label v-for="v of customer.care_services" :key="v" class="badge !p-4 cursor-pointer bg-black/5 hover:scale-105 hover:bg-primary hover:text-white [&.active]:bg-primary [&.active]:text-white" :class="book.care_services.includes(v) && 'active'">
-				<input v-model="book.care_services" type="checkbox" :value="v" hidden>
-				<p>{{ v }}</p>
-			</label>
+		<div class="w-full">
+			<h1 class="text-base leading-5 sm:leading-6 font-bold mb-2.5">What happens next?</h1>
+			<div class="flex items-start justify-start overflow-scroll no-scrollbar gap-[0.938rem]  text-black">
+				<div class="p-2.5 rounded-[0.313rem] bg-[#f8f8f8] min-h-[5.125rem] h-full text-center min-w-[8.313rem] w-full">
+					<div class="mb-[0.313rem] flex justify-center items-center"><IconBag /></div>
+					<p class="text-xs font-bold">Prepare your bags</p>
+					<h1 class="text-[0.625rem] leading-[0.875rem]">Pack 1 bag per service <br> type.</h1>
+				</div>
+				<div class="p-2.5 rounded-[0.313rem] bg-[#f8f8f8] min-h-[5.125rem] h-full text-center min-w-[10.938rem] w-full">
+					<div class="mb-[0.313rem] flex justify-center items-center"><IconClean /></div>
+					<p class="text-xs font-bold text-nowrap">We collect and clean items</p>
+					<h1 class="text-[0.625rem] leading-[0.875rem]">After cleaning, you <br> will receive an </h1>
+				</div>
+				<div class=" block p-2.5 rounded-[0.313rem] bg-[#f8f8f8] min-h-[5.125rem] h-full text-center min-w-[8.313rem] w-full">
+					<div class="mb-[0.313rem] flex justify-center items-center"><IconDeliver /></div>
+					<p class="text-xs font-bold">We deliver</p>
+					<h1 class="text-[0.625rem] leading-[0.875rem]">After cleaning, you will receive an </h1>
+				</div>
+			</div>
 		</div>
-		<label class="input-float mt-5">
-			<input v-model="book.zip" type="text" placeholder="">
-			<p>Zip Code</p>
-		</label>
-		<p v-if="book.error.zip" class="text-error">* Zip is required</p>
-		<button class="btn w-full h-[3.75rem] mt-2.5 px-5 py-[0.9375rem] rounded-[0.3125rem] text-2xl text-white bg-brand-orange border-brand-orange hover:text-brand-orange hover:bg-transparent hover:border-brand-orange" @click="next()">Continue</button>
+		<button :class="book.wash_type != undefined ? 'text-white bg-brand-orange' : 'text-black bg-[#f8f8f8]'" class=" hidden sm:block font-bold text-center w-full px-5 py-[1.125rem] rounded-[0.313rem] " @click="next_step">Continue</button>
 	</div>
-	<dialog class="modal" :class="is_dialog_open && 'modal-open'">
-		<div class="modal-box max-w-[37.5rem] rounded-2xl shadow-[0px_0px_15px_0px_#00000015] bg-white">
-			<div class="flex items-center justify-between mt-2.5">
-				<h1 class="text-xl sm:text-2xl font-bold leading-loose">Service speed<sup>*</sup>:</h1>
-				<button class="btn btn-sm btn-square text-error hover:btn-error" @click="is_dialog_open=false"><Icon name="radix-icons:cross-1" class="text-2xl" /></button>
-			</div>
-			<div class="grid sm:grid-cols-2 gap-2.5 mt-2.5">
-				<button v-for="v of book.service_speeds" :key="v" class="text-center px-3 sm:px-6 py-5 border-2 rounded-md border-brand-black/20 [&:is(:hover,.active)]:border-brand-blue" :class="v===book.service_speed && 'active'" @click="book.service_speed=v">
-					<img :src="`https://ik.imagekit.io/choreless/v2/icons/${v==='next_day' ? 'separate_wash%202' : 'mixed_wash%203'}.svg`" alt="icon" loading="lazy" class="w-12 mx-auto">
-					<p class="text-lg sm:text-xl font-bold leading-loose mt-2.5 mb-1.5">{{ v==='next_day' ? 'Next day delivery' : '2 day delivery' }}</p>
-					<p class="text-sm leading-4">{{ v==='next_day' ? 'Clothes will be separated & washed Differently but fold together.' : 'Clothes will washed and fold together.' }}</p>
-					<p class="mt-3">{{ v==='next_day' ? '$1.80/lb' : '$1.60/lb' }}</p>
-				</button>
-			</div>
-			<h2 class="text-lg sm:text-xl font-bold leading-loose mt-2.5 text-brand-black">Detergent<sup>*</sup></h2>
-			<div class="sm:mt-2.5">
-				<div class="flex flex-wrap gap-2.5">
-					<label v-for="v of customer.detergents" :key="v" class="btn btn-outline font-normal grow border-brand-black/20 [&:is(:hover,.active)]:bg-brand-blue [&:is(:hover,.active)]:border-brand-blue [&:is(:hover,.active)]:text-white" :class="book.detergent===v && 'active'">
-						<input v-model="book.detergent" type="radio" :value="v" hidden>
-						<p>{{ v }}</p>
-					</label>
-				</div>
-				<p v-if="book.error.detergent" class="text-error">* Detergent is required</p>
-			</div>
-			<p class="text-brand-black/50 mt-5">Add-ons</p>
-			<div class="flex flex-wrap gap-2.5 mt-2.5">
-				<template v-for="v of customer.addons2" :key="v.name">
-					<label v-if="v.wash_type==='both' || v.wash_type===book.wash_type" class="badge !p-4 cursor-pointer bg-black/5 hover:scale-105 hover:bg-primary hover:text-white [&.active]:bg-primary [&.active]:text-white" :class="book.addons.includes(v.name) && 'active'">
-						<input v-model="book.addons" type="checkbox" :value="v.name" hidden>
-						<p>{{ v.name }} + {{ v.cost }}</p>
-					</label>
-				</template>
-			</div>
-			<button v-if="book.detergent" class="btn w-full h-[3.75rem] mt-5 px-5 py-[0.9375rem] rounded-[0.3125rem] text-2xl text-white bg-brand-orange border-brand-orange hover:text-brand-orange hover:bg-transparent hover:border-brand-orange" @click="dialogSave()">Save</button>
-		</div>
-		<div class="modal-backdrop bg-black/40" @click="is_dialog_open=false" />
-	</dialog>
+	<AddNoteModal :note="clicked_service.note" @update:note="update_note" />
 </div>
+<PricingModal />
 </template>
+<style scoped>
+
+</style>

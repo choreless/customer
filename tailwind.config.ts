@@ -13,6 +13,9 @@ const config: Config = {
 	],
 	theme: {
 		extend: {
+			boxShadow: {
+				card: '0 0px 15px 0px rgba(0, 0, 0, 0.10)'
+			},
 			colors: {
 				brand: {
 					black: '#011631',

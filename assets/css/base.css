@@ -34,6 +34,16 @@
 *, *::before, *::after {
 	font-family: 'GTWalsheim';
 }
+@layer utilities {
+    .no-scrollbar {
+		overflow-y: scroll;
+		scrollbar-behavior: smooth; 
+	  }
+	  
+	  .no-scrollbar::-webkit-scrollbar {
+		display: none; 
+	  }
+}
 
 .input-float {
 	@apply block relative h-[3.75rem];
@@ -73,5 +83,39 @@
 	}
 	input:focus+p {
 		@apply ms-3.5 text-brand-black;
+	}
+}
+ 
+.input-float3{
+	@apply   overflow-hidden;
+	input{
+		@apply text-base text-black leading-5 w-full transition-all focus:outline-0 p-3 border border-[#e5e5e5] rounded-[0.3125rem] hover:border-brand-orange  duration-200 focus:border-b-[0.3125rem] focus:border-brand-orange pt-5
+	}
+	input:not(:placeholder-shown)+label, input:focus+label{
+		@apply text-[0.625rem] -translate-y-7 text-[#838383]
+	}
+	label{
+		@apply absolute top-1/2 left-3 text-base transform -translate-y-1/2 text-[#cccccc] transition-all duration-200 ease-linear
+	}
+}
+.input-entry{
+	@apply   overflow-hidden;
+	input{
+		@apply text-base text-black leading-5 w-full transition-all focus:outline-0 p-3 border border-[#e5e5e5] rounded-[0.3125rem] hover:border-brand-orange  duration-200 focus:border-b-[0.3125rem] focus:border-brand-orange pt-5
+	}
+	input:not(:placeholder-shown)+label, input:focus+label{
+		@apply text-[0.625rem] -translate-y-7 text-[#838383]
+	}
+	label{
+		@apply absolute top-1/2 left-3 text-base transform -translate-y-1/2 text-[#cccccc] transition-all duration-200 ease-linear
+	}
+}
+
+.custom-scroll{
+	&::-webkit-scrollbar {
+		width: 4px;
+	}
+	&::-webkit-scrollbar-thumb {
+		@apply bg-gray-300 rounded-xl
 	}
 }

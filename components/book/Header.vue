@@ -105,9 +105,9 @@ async function next(){
 </script>
 
 <template>
-<div class="sticky top-[-0.063rem]  mx-auto shadow-md sm:shadow-none bg-white z-50 max-w-[120rem]  ">
+<div class="sticky top-[-0.063rem]  mx-auto shadow-md sm:shadow-none bg-white z-50 max-w-screen pt-1.5 ">
 	<!-- <NuxtLink class="block w-fit mx-auto md:hidden" to="https://chorelesslaundry.bookingkoala.com/dashboard"><img src="https://ik.imagekit.io/choreless/v2/icons/choreless.svg" alt="Choreless" loading="lazy" class="h-[1.95rem] [@media(min-width:350px)]:h-9 [@media(min-width:450px)]:h-12 xl:h-[3.75rem]"></NuxtLink> -->
-	<section class="py-2.5 px-2.5  sm:px-[3.125rem] mx-auto mt-1.5 grid grid-cols-[1fr_auto] md:grid-cols-[1fr_1fr_1fr] items-center">
+	<section class="py-2.5 px-2.5  sm:px-[3.125rem] max-w-[120rem] mx-auto mt-1.5 grid grid-cols-[1fr_auto] md:grid-cols-[1fr_1fr_1fr] items-center">
 		<div class="flex items-center gap-2.5">
 			<button v-if="book.step>0" class="btn btn-sm btn-ghost hover:bg-transparent hover:fill-brand-orange" @click="--book.step">
 				<IconArrow />

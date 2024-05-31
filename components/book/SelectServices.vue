@@ -12,6 +12,7 @@ interface Service {
 	bags_count: number;
     service_speed: string;
     note: string;
+	is_selected: boolean;
 }
 // Defining Constants
 
@@ -24,7 +25,8 @@ const clicked_service=ref<Service>({
 	to_price: 0,
 	note: '',
 	service_speed: '',
-	bags_count: 1
+	bags_count: 1,
+	is_selected: false
 
 })
 const wash_services_data=reactive([
@@ -60,11 +62,11 @@ function select_service(service:Service){
 	book.wash_is_required=false
 }
 function update_toggle_val(e:boolean){
-	is_toggle.value=e
-	if(is_toggle.value===true){
+	clicked_service.value.is_selected=e
+	if(clicked_service.value.is_selected===true){
 		clicked_service.value.service_speed='2_day'
 		is_toggle.value=true
-	}else if(is_toggle.value===false){
+	}else if(clicked_service.value.is_selected===false){
 		clicked_service.value.service_speed='next_day'
 		is_toggle.value=false
 	}
@@ -125,7 +127,7 @@ function next_step(){
 				<div class="flex justify-between items-center self-stretch mt-2.5 sm:mt-5">
 					<div class="max-w-[12.5rem] sm:max-w-[13.969rem] w-full pr-5 flex items-start justify-between gap-2.5">
 						<h1 class="text-xs sm:text-sm leading-5 font-medium">Next Day Delivary</h1>
-						<SwitchButton @update:is_toggle="update_toggle_val" />
+						<SwitchButton :toggle="clicked_service.is_selected" @update:is_toggle="update_toggle_val" />
 					</div>
 					<div class="w-[0.063rem] h-5 bg-[#0000000d]" />
 					<div class=" cursor-pointer text-right text-xs sm:text-sm font-medium " @click="open_add_note(item)">{{ item.note ? 'Edit Note' :'Add Note' }}</div>
@@ -189,7 +191,7 @@ function next_step(){
 				</div>
 
 				<div class="cursor-pointer">
-					<IconInfo3 @click="book.info_modal=!book.info_modal" />
+					<IconInfo3 @click="book.info_modal=!book.info_modal " />
 					<InfoModal />
 				</div>
 			</div>

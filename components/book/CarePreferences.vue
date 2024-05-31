@@ -63,9 +63,9 @@ function next(){
 			</label>
 		</div>
 	</div>
-	<div v-for="(item,index) in book.care_services" :key="index" class="  flex items-center w-full border-brand-black/20 border rounded-lg justify-between px-5 py-[14px]">
+	<div v-for="(item,index) in book.care_services" :key="index" class=" cursor-pointer flex items-center w-full border-brand-black/20 border rounded-lg justify-between px-5 py-[14px]" @click="item.is_active=!item.is_active">
 		<p class=" text-sm sm:text-base font-medium ">{{ item.value }}</p>
-		<SwitchButton @update:is_toggle="(active)=>item.is_active=active" />
+		<SwitchButton :toggle="item.is_active" @update:is_toggle="(active)=>item.is_active=active " />
 	</div>
 	<div>
 		<div class="mb-2.5 flex justify-between items-center">

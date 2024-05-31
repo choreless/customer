@@ -15,7 +15,7 @@ const user = useUser();
 const entry = usePageEntry();
 
 const otp = ref('');
-const step = ref<'phone'|'otp'>('otp');
+const step = ref<'phone'|'otp'>('phone');
 const error = reactive({
 	invalid_credential: false
 });

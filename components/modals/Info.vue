@@ -10,7 +10,7 @@ const book = usePageBook();
 			<div class=" w-[0.469rem] h-[0.469rem] mr-1 "><IconClose2 /></div>
 		</div>
 		<div class="!h-[12.5rem] sm:h-[15.063rem] w-full ">
-			<img class="h-full w-full object-cover" src="https://s3-alpha-sig.figma.com/img/5d0c/8835/c4009896d8db4b6c133bafa811e09e37?Expires=1714953600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=hzhRM2Gt15qyVathtbH6VL~Ob3VDNjcKHhn6xuvOvJkQ5mp-1YC64DmeO4HDP37WTY3fpNYdjwkjaX9PM3BjZ4gQ-sSlTjZ2Xc1cquzkeVb9VD7G1FkvtgRcJNWJydSoj2Fj~LQDE1mYb1b-6ywvh2utl1vvOprkmKC5qHBuRSEy1uZHUaZ1-gbFt0RaEL-xoAkiGjYsW16dTByToAwMNiBoZNZeatWedVQ5NefCoBpG9SPSMRf~yvBrsERPIBdfYNY7cXfSrf-gaK99q1Eweu2~o~0LJnEIJsSFnnUjGmvQyx4wr90aLCFJBdRIrJobaoAVQytOEK9~1pfPzJX3jw__" alt="Info Image">
+			<img class="h-full w-full object-cover" src="/info.png" alt="Info Image">
 		</div>
 		<div class="  flex justify-center items-center gap-2">
 			<div class="px-2 bg-[#f7f8fA] flex justify-center items-center rounded sm:hidden">

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import AddPromoCodeModal from '~/components/dashboard-2/PromoModal'
+import AddPromoCodeModal from '~/components/modals/PromoModal.vue'
 const props = defineProps({
 	order_data: {
 		type: Object,
@@ -27,20 +27,20 @@ interface DateFormat{
     month_name: string;
 }
 
-interface OrderData{
-			type: string;
-			price: number | string;
-			status:string;
-			order_id: number;
-			order_date: string;
-			order_time: string;
-			pickup_date: string;
-			wash_type: string;
-			service_speed: string;
-			pickup_from: string;
-			pickup_to: string;
-			promo_code: string;
-}
+// interface OrderData{
+// 			type: string;
+// 			price: number | string;
+// 			status:string;
+// 			order_id: number;
+// 			order_date: string;
+// 			order_time: string;
+// 			pickup_date: string;
+// 			wash_type: string;
+// 			service_speed: string;
+// 			pickup_from: string;
+// 			pickup_to: string;
+// 			promo_code: string;
+// }
 
 // Defining Constants
 
@@ -50,6 +50,7 @@ const is_summary_expanded=ref(false)
 const add_card_payment=ref(false)
 const is_card_expanded=ref(false)
 const prefix=ref('')
+const custom_class=ref('')
 const date_current_order=ref<DateFormat>(
 	{
 		day: 0,
@@ -70,7 +71,7 @@ const selected_card=ref<CardNumber>({
 // Defining Functions
 
 const update_promo_code=(e: { promo_code: string; })=>{
-	dashboard.order_data[dashboard.selected_order_id].promo_code=e.promo_code
+	dashboard.order_data_pickup[dashboard.selected_order_id].promo_code=e.promo_code
 }
 
 function open_promo_modal(){
@@ -122,10 +123,39 @@ function date_prefix(date_day:number){
 		prefix.value = 'th'
 	}
 }
+function set_order_status(status:string) {
+	switch(status.toLocaleLowerCase()) {
+	case 'Ready for intake'.toLocaleLowerCase():
+		indication_status.value='Ready for intake'
+		custom_class.value=''
+		break;
+	case 'Processing'.toLocaleLowerCase():
+		indication_status.value='Processing'
+		custom_class.value=''
+		break;
+	case 'Ready for delivery'.toLocaleLowerCase():
+		indication_status.value='Ready for delivery'
+		custom_class.value='!text-white bg-brand-orange'
+		break;
+	case 'Order Cancelled'.toLocaleLowerCase():
+		indication_status.value='Order Cancelled'
+		custom_class.value='!bg-[#ffebf7] !text-[#a82975]'
+		break;
+	case 'Failed'.toLocaleLowerCase():
+		indication_status.value='Pickup Failed'
+		custom_class.value='!bg-[#ffebf7] !text-[#a82975]'
+		break;
+	case 'Collected'.toLocaleLowerCase():
+		indication_status.value='Collected'
+		custom_class.value='!text-white bg-brand-orange'
+		break;
+	}
+}
 onMounted(() => {
 	seperateAndLabelDate(props.order_data)
 	date_prefix(date_current_order.value.day)
 	status_change()
+	set_order_status(props.order_data.status)
 })
 
 </script>
@@ -133,7 +163,11 @@ onMounted(() => {
 <div class=" sm:w-full shadow-orderCard rounded-[0.625rem]">
 	<div class=" px-2.5 py-[0.313rem] sm:p-5 flex justify-between items-center ">
 		<div class="flex items-center gap-2.5 sm:gap-5">
-			<div>Image</div>
+			<div>
+				<IconMixed v-if="order_data.wash_type.toLocaleLowerCase()==='Mixed Wash'.toLocaleLowerCase() " />
+				<IconOptional v-if="order_data.wash_type.toLocaleLowerCase()==='Home & Bedding'.toLocaleLowerCase() " />
+				<IconSteam v-if="order_data.wash_type.toLocaleLowerCase()==='Wash & Steam'.toLocaleLowerCase() " />
+			</div>
 			<div>
 				<p class=" text-[0.625rem] leading-4 sm:text-xs ">{{ order_data.type }}</p>
 				<h2 class="capitalize font-medium text-sm sm:text-base leading-normal">{{ date_current_order.day_name }},</h2>
@@ -142,7 +176,7 @@ onMounted(() => {
 			</div>
 		</div>
 		<div class="flex justify-center items-center gap-2.5">
-			<div :class="order_data.status.toLocaleLowerCase()==='collected' ? '!text-white bg-brand-orange' : order_data.status.toLocaleLowerCase()==='failed' ? '!bg-[#ffebf7] !text-[#a82975]' : '' " class="px-[0.438rem] sm:px-[0.813rem] py-[0.313rem] sm:py-2 text-[0.625rem] leading-[0.625rem] sm:text-xs font-medium text-brand-orange bg-[#ffefed] rounded-[1.875rem]">{{ order_data.status.toLocaleLowerCase()==='in progress' ? 'In Progress' : order_data.status.toLocaleLowerCase()==='collected' ? 'Collected' : order_data.status.toLocaleLowerCase()==='failed' ? 'Pickup failed' : indication_status }}</div>
+			<div :class="custom_class" class="px-[0.438rem] sm:px-[0.813rem] py-[0.313rem] sm:py-2 text-[0.625rem] leading-[0.625rem] sm:text-xs font-medium text-brand-orange bg-[#ffefed] rounded-[1.875rem]">{{ indication_status }}</div>
 			<div :class="is_expanded ? 'rotate-180': 'rotate-0'" class="transition-all ease-linear duration-150 cursor-pointer  " @click="is_expanded=!is_expanded"><IconDropdown class="w-[0.625rem] h-[0.313rem] sm:w-full sm:h-full " /></div>
 		</div>
 	</div>
@@ -255,7 +289,7 @@ onMounted(() => {
 			</div>
 			<div class="flex  items-start gap-[0.625rem] w-full">
 				<button class=" w-1/2 py-[0.625rem] px-[0.938rem] sm:px-[1.875rem] rounded-[0.313rem] border-[0.063rem] border-brand-black/20 flex gap-2 sm:gap-2.5 items-center justify-center ">
-					<IconEdit class="fill-brand-orange w-[0.75rem] h-[0.75rem] sm:w-[0.938rem] sm:h-[0.938rem]" />
+					<IconEdit2 class="fill-brand-orange w-[0.75rem] h-[0.75rem] sm:w-[0.938rem] sm:h-[0.938rem]" />
 					<div class="text-sm leading-6 font-medium sm:text-base sm:font-bold text-brand-orange ">Manage</div>
 				</button>
 				<button class=" w-1/2 py-[0.625rem] px-2 sm:px-5 rounded-[0.313rem] border-[0.063rem] border-brand-black/20 flex items-center sm:gap-2 justify-center " @click="is_summary_expanded=!is_summary_expanded">

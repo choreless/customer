@@ -12,7 +12,7 @@ const update_promo_code = () => {
 // Defining Functions
 function clear_promo() {
 	// dashboard.promo_code=''
-	dashboard.order_data[dashboard.selected_order_id].promo_code=''
+	dashboard.order_data_pickup[dashboard.selected_order_id].promo_code=''
 }
 
 function close_modal(){
@@ -39,7 +39,7 @@ function close_modal(){
 				Apply promo
 			</h1>
 			<div
-				class="absolute w-[0.438rem] h-[0.438rem] right-0 top-3 cursor-pointer bg-black"
+				class="absolute w-[0.438rem] h-[0.438rem] right-0 top-3 cursor-pointer"
 				@click="close_modal"
 			>
 				<IconClose2 />
@@ -55,7 +55,7 @@ function close_modal(){
 			</h1>
 		</div>
 		<textarea
-			v-model="dashboard.order_data[dashboard.selected_order_id].promo_code"
+			v-model="dashboard.order_data_pickup[dashboard.selected_order_id].promo_code"
 			class="focus:outline-none focus:border-[0.063rem] focus:border-b-[0.313rem] focus:border-brand-orange px-5 pt-2.5 pb-[0.938rem] placeholder:opacity-50 text-base placeholder:text-[#e5e5e5] !rounded-[0.313rem] border-[0.063rem] border-[#e5e5e5] w-full h-[3rem] text-black overflow-hidden"
 			placeholder="Apply promo code"
 		/>

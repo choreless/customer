@@ -39,7 +39,7 @@ export const usePageDashboard=defineStore('page_dashboard', ()=>{
 			zip: ''
 		}
 	]);
-	const order_data = ref([
+	const order_data_pickup = ref([
 		{
 			type: 'Pickup',
 			price: 1.80,
@@ -73,7 +73,7 @@ export const usePageDashboard=defineStore('page_dashboard', ()=>{
 		{
 			type: 'Pickup',
 			price: 'TBD',
-			status: 'failed',
+			status: 'Failed',
 			order_id: 3456789,
 			order_date: '05/23/2024',
 			order_time: '10:30 am',
@@ -85,5 +85,65 @@ export const usePageDashboard=defineStore('page_dashboard', ()=>{
 			promo_code: 'get promo'
 		}
 	]);
-	return{add_promo_modal, card_details, add_card_details, status, order_data, addresses, selected_order_id}
+	const order_data_dropoff = ref([
+		{
+			type: 'Dropoff',
+			price: 1.80,
+			status: 'Ready for intake',
+			order_id: 1232,
+			order_date: '05/30/2024',
+			order_time: '10:30 am',
+			pickup_date: '2021-05-11',
+			wash_type: 'Mixed Wash',
+			service_speed: 'Next day delivery',
+			pickup_from: '09:30 am',
+			pickup_to: '10:30 pm',
+			promo_code: ''
+
+		},
+		{
+			type: 'Dropoff',
+			price: 'TBD',
+			status: 'Processing',
+			order_id: 3453,
+			order_date: '05/21/2024',
+			order_time: '10:30 am',
+			pickup_date: '2021-05-11',
+			wash_type: 'Home & Bedding',
+			service_speed: 'Next day delivery',
+			pickup_from: '10:30 am',
+			pickup_to: '11:30 pm',
+			promo_code: 'get it'
+
+		},
+		{
+			type: 'Dropoff',
+			price: 'TBD',
+			status: 'Ready for delivery',
+			order_id: 23432,
+			order_date: '05/23/2024',
+			order_time: '10:30 am',
+			pickup_date: '2021-05-11',
+			wash_type: 'Wash & Steam',
+			service_speed: 'Next day delivery',
+			pickup_from: '07:30 am',
+			pickup_to: '08:30 pm',
+			promo_code: 'get promo'
+		},
+		{
+			type: 'Dropoff',
+			price: 'TBD',
+			status: 'Order cancelled',
+			order_id: 675643,
+			order_date: '05/23/2024',
+			order_time: '10:30 am',
+			pickup_date: '2021-05-11',
+			wash_type: 'Wash & Steam',
+			service_speed: 'Next day delivery',
+			pickup_from: '07:30 am',
+			pickup_to: '08:30 pm',
+			promo_code: 'get promo'
+		}
+	]);
+	return{add_promo_modal, card_details, add_card_details, status, order_data_pickup, order_data_dropoff, addresses, selected_order_id}
 })

@@ -6,7 +6,7 @@ const props = defineProps<{
 }>();
 const emit=defineEmits(['update:promo_code']);
 const update_promo_code = () => {
-	emit('update:promo_code', { promo_code: dashboard.order_data[dashboard.selected_order_id].promo_code });
+	emit('update:promo_code', { promo_code: dashboard.order_data_pickup[dashboard.selected_order_id].promo_code });
 	dashboard.add_promo_modal = false
 }
 // Defining Functions

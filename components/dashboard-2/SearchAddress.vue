@@ -1,7 +1,13 @@
 <script setup lang="ts">
 
 // Defining Constants
-
+const props = defineProps({
+	address: {
+		type: String,
+		required: true
+	}
+});
+const emits=defineEmits(['get_address'])
 const dashboard=usePageDashboard()
 const selected_address=ref('720 seneca street, seattle, US, 98101')
 const search=ref('')
@@ -16,6 +22,10 @@ function search_address() {
 function delete_address(index:number) {
 	dashboard.addresses.splice(index, 1)
 }
+function select_address(address:string) {
+	selected_address.value=address
+	emits('get_address', selected_address.value)
+}
 </script>
 
 <template>
@@ -24,28 +34,26 @@ function delete_address(index:number) {
 	<div class="p-2.5 h-[2.813rem] flex gap-2.5 justify-between items-center border-b-[0.063rem] border-brand-secondary">
 		<IconLocation2 class="stroke-brand-secondary" />
 		<p class=" text-sm sm:text-base line-clamp-1 overflow-hidden leading-5 text-brand-black sm:mr-4 ">
-			{{ selected_address }}
+			{{ address }}
 		</p>
 		<IconDropdownThin :class="is_address_expanded ? 'rotate-180' : 'rotate-0' " class="cursor-pointer transition-all ease-linear duration-150" @click="is_address_expanded=!is_address_expanded" />
 	</div>
-	<div v-if="is_address_expanded" class="flex gap-2.5 mt-2.5 flex-col">
-		<label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
-		<div class="relative">
-			<div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-				<svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-					<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
-				</svg>
+	<div v-if="is_address_expanded" class="flex p-2.5 flex-col">
+		<!-- <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label> -->
+		<div class="relative ">
+			<div class="absolute inset-y-0 start-0 flex items-center px-2.5 py-[0.938rem] pointer-events-none">
+				<IconSearch class="w-5 h-5" />
 			</div>
-			<input id="default-search" v-model="search" type="text" class="block outline-none w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-brand-orange focus:border-brand-orange dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-brand-orange dark:focus:border-brand-orange" placeholder="Search Address" required @input="search_address">
+			<input id="default-search" v-model="search" type="text" class="block outline-none w-full p-4 ps-10 text-sm text-brand-black border border-[#e5e5e5] rounded-[0.313rem] bg-white dark:bg-white dark:border-[#e5e5e5] placeholder-[#e5e5e5] dark:text-white " placeholder="Search Address" required @input="search_address">
 		</div>
-		<div class="text-brand-secondary p-2 bg-gray-300 rounded-[0.313rem] ">Saved Address</div>
-		<ul v-for="(address,index) in filtered_address" :key="index">
-			<li class="flex gap-2.5 items-center justify-between p-2.5 border-b-[0.063rem] border-gray-200 cursor-pointer">
+		<div class="text-brand-secondary p-2.5 bg-[#e5e5e5] rounded-t-[0.313rem] mt-2.5 ">Saved Address</div>
+		<ul v-for="(addres,index) in filtered_address" :key="index">
+			<li class="flex items-center justify-between p-2.5 border-b-[0.063rem] border-gray-200 cursor-pointer">
 				<div class="flex gap-2.5">
 					<IconLocation2 class="stroke-brand-black" />
-					<p @click="selected_address=address"> {{ address }}  </p>
+					<p @click="select_address(addres)"> {{ addres }}  </p>
 				</div>
-				<div class="flex gap-2.5"><IconEdit2 class="!fill-brand-black cursor-pointer" /> <div class="cursor-pointer" @click="delete_address(index)">DLT</div></div>
+				<div class="flex gap-5 "><IconEdit2 class="!fill-brand-black cursor-pointer w-[0.938rem] h-[w-[0.938rem] " /><IconDelete2 class="w-[0.938rem] h-[w-[0.938rem]" @click="delete_address(index)" /></div>
 			</li>
 		</ul>
 	</div>

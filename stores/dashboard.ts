@@ -5,6 +5,8 @@ export const usePageDashboard=defineStore('page_dashboard', ()=>{
 	const selected_order_id=ref<number>(0)
 	const status=ref(['Upcoming Pickup', 'Pickup Tomorrow', 'Pickup Today'])
 	const addresses=ref(['720 seneca street, seattle, US, 98101', '720 pine street, seattle, US, 98101', '452 New Bride East Meadow, US, 11554'])
+	const pickup_address=ref('720 seneca street, seattle, US, 98101')
+	const dropoff_address=ref('452 New Bride East Meadow, US, 11554')
 	const card_details=ref([
 		{
 			card_number: '****5468',
@@ -45,7 +47,7 @@ export const usePageDashboard=defineStore('page_dashboard', ()=>{
 			price: 1.80,
 			status: '',
 			order_id: 123456789,
-			order_date: '05/30/2024',
+			order_date: '07/28/2024',
 			order_time: '10:30 am',
 			pickup_date: '2021-05-11',
 			wash_type: 'Mixed Wash',
@@ -54,6 +56,20 @@ export const usePageDashboard=defineStore('page_dashboard', ()=>{
 			pickup_to: '10:30 pm',
 			promo_code: ''
 
+		},
+		{
+			type: 'Pickup',
+			price: 'TBD',
+			status: 'In Progress',
+			order_id: 56789,
+			order_date: '06/03/2024',
+			order_time: '10:30 am',
+			pickup_date: '2021-05-11',
+			wash_type: 'Home & Bedding',
+			service_speed: 'Next day delivery',
+			pickup_from: '07:30am',
+			pickup_to: '08:30pm',
+			promo_code: 'get promo'
 		},
 		{
 			type: 'Pickup',
@@ -106,7 +122,7 @@ export const usePageDashboard=defineStore('page_dashboard', ()=>{
 			price: 'TBD',
 			status: 'Processing',
 			order_id: 3453,
-			order_date: '05/21/2024',
+			order_date: '06/03/2024',
 			order_time: '10:30 am',
 			pickup_date: '2021-05-11',
 			wash_type: 'Home & Bedding',
@@ -121,7 +137,7 @@ export const usePageDashboard=defineStore('page_dashboard', ()=>{
 			price: 'TBD',
 			status: 'Ready for delivery',
 			order_id: 23432,
-			order_date: '05/23/2024',
+			order_date: '06/02/2024',
 			order_time: '10:30 am',
 			pickup_date: '2021-05-11',
 			wash_type: 'Wash & Steam',
@@ -145,5 +161,5 @@ export const usePageDashboard=defineStore('page_dashboard', ()=>{
 			promo_code: 'get promo'
 		}
 	]);
-	return{add_promo_modal, card_details, add_card_details, status, order_data_pickup, order_data_dropoff, addresses, selected_order_id}
+	return{add_promo_modal, card_details, add_card_details, status, order_data_pickup, order_data_dropoff, addresses, selected_order_id, pickup_address, dropoff_address}
 })

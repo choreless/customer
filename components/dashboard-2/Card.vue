@@ -25,22 +25,8 @@ interface DateFormat{
     day_name: string;
     month: number;
     month_name: string;
+	year: number;
 }
-
-// interface OrderData{
-// 			type: string;
-// 			price: number | string;
-// 			status:string;
-// 			order_id: number;
-// 			order_date: string;
-// 			order_time: string;
-// 			pickup_date: string;
-// 			wash_type: string;
-// 			service_speed: string;
-// 			pickup_from: string;
-// 			pickup_to: string;
-// 			promo_code: string;
-// }
 
 // Defining Constants
 
@@ -49,6 +35,9 @@ const is_expanded=ref(false)
 const is_summary_expanded=ref(false)
 const add_card_payment=ref(false)
 const is_card_expanded=ref(false)
+const status_main_line=ref('ETA Pending')
+const status_sub_line=ref('We are working on it')
+const status_details=ref('We will update your drivers ETA Shortly')
 const prefix=ref('')
 const custom_class=ref('')
 const date_current_order=ref<DateFormat>(
@@ -56,7 +45,8 @@ const date_current_order=ref<DateFormat>(
 		day: 0,
 		day_name: '',
 		month: 0,
-		month_name: ''
+		month_name: '',
+		year: 0
 	}
 )
 const date_day= new Date().getDate()
@@ -97,7 +87,8 @@ function seperateAndLabelDate(order_data:object){
 		day,
 		day_name: day_label,
 		month,
-		month_name: month_label
+		month_name: month_label,
+		year
 	}
 }
 function status_change(){
@@ -128,26 +119,51 @@ function set_order_status(status:string) {
 	case 'Ready for intake'.toLocaleLowerCase():
 		indication_status.value='Ready for intake'
 		custom_class.value=''
+		status_main_line.value='Ready for intake'
+		status_sub_line.value='We are working on it.'
+		status_details.value='Handling your laundry with care'
 		break;
 	case 'Processing'.toLocaleLowerCase():
 		indication_status.value='Processing'
 		custom_class.value=''
+		status_main_line.value='Processing'
+		status_sub_line.value='Your order is being processed '
+		status_details.value='Handling your laundry with care'
 		break;
 	case 'Ready for delivery'.toLocaleLowerCase():
 		indication_status.value='Ready for delivery'
 		custom_class.value='!text-white bg-brand-orange'
+		status_main_line.value='Ready for delivery'
+		status_sub_line.value='Your order is ready to deliver'
+		status_details.value=`Estimated delivery date ${date_current_order.value.day_name} ${date_current_order.value.day} ${date_current_order.value.month_name} ${date_current_order.value.year}  `
 		break;
 	case 'Order Cancelled'.toLocaleLowerCase():
 		indication_status.value='Order Cancelled'
 		custom_class.value='!bg-[#ffebf7] !text-[#a82975]'
+		status_main_line.value='Order Canceled'
+		status_sub_line.value='Your order was canceled'
+		status_details.value='Sorry about the cancel!  Need help? We are here.'
 		break;
 	case 'Failed'.toLocaleLowerCase():
 		indication_status.value='Pickup Failed'
 		custom_class.value='!bg-[#ffebf7] !text-[#a82975]'
+		status_main_line.value='Pickup failed'
+		status_sub_line.value=`Pickup attempted at  at ${props.order_data.pickup_to}`
+		status_details.value='Please re-schedule your pickup.'
 		break;
 	case 'Collected'.toLocaleLowerCase():
 		indication_status.value='Collected'
 		custom_class.value='!text-white bg-brand-orange'
+		status_main_line.value='Collected'
+		status_sub_line.value=`Pickup complete at ${props.order_data.pickup_to}`
+		status_details.value='Your laundry has been collected, sit back and enjoy.'
+		break;
+	case 'In Progress'.toLocaleLowerCase():
+		indication_status.value='In Progress'
+		custom_class.value=''
+		status_main_line.value=`${props.order_data.pickup_from} - ${props.order_data.pickup_to}`
+		status_sub_line.value='Estimate pickup window'
+		status_details.value='Driver has been displaced'
 		break;
 	}
 }
@@ -182,17 +198,17 @@ onMounted(() => {
 	</div>
 	<div v-if="is_expanded" class="w-[calc(100%-0.625rem)] sm:w-[calc(100%-2.5rem)] mx-auto h-[0.063rem] bg-brand-black/20" />
 	<div v-if="is_expanded" class=" px-2.5 py-5 sm:p-5">
-		<div class="flex items-end gap-[0.625rem]">
-			<h1 class="text-brand-black text-xl sm:text-2xl font-medium leading-normal">{{ order_data.status.toLocaleLowerCase()==='in progress' ? `${order_data.pickup_from} - ${order_data.pickup_to}` : order_data.status.toLocaleLowerCase()==='collected' ? 'Collected' : order_data.status.toLocaleLowerCase()==='failed' ? 'Pickup failed' : 'ETA Pending' }}</h1>
-			<p class="text-brand-secondary text-xs sm:text-sm leading-normal">{{ order_data.status.toLocaleLowerCase()==='in progress' ? 'Estimate pickup window' : order_data.status.toLocaleLowerCase()==='collected' ? `Pickup complete at ${order_data.pickup_to}` : order_data.status.toLocaleLowerCase()==='failed' ? `Pickup attempted at  at ${order_data.pickup_to}` : 'We are working on it' }}</p>
+		<div class="flex items-end gap-[0.6325rem]">
+			<h1 class="text-brand-black text-xl sm:text-[1.375rem] font-medium leading-normal">{{ status_main_line }}</h1>
+			<p class="text-brand-secondary text-[0.635rem] sm:text-sm leading-normal">{{ status_sub_line }}</p>
 		</div>
 		<div class="my-[0.625rem] flex self-stretch gap-[1.063rem]">
 			<IconProgressLine class="stroke-brand-orange" />
-			<IconProgressLine :class="order_data.status !==''? 'stroke-brand-orange' : 'stroke-[#cacaca]' " />
-			<IconProgressLine :class=" order_data.status.toLocaleLowerCase()==='collected' ? 'stroke-brand-orange' : order_data.status.toLocaleLowerCase()==='failed' ? 'stroke-[#a82975]' :'stroke-[#cacaca]' " />
+			<IconProgressLine :class="order_data.status !=='' && order_data.status!=='Ready for intake' ? 'stroke-brand-orange' : 'stroke-[#cacaca]' " />
+			<IconProgressLine :class=" order_data.status.toLocaleLowerCase()==='collected' || order_data.status==='Ready for delivery' ? 'stroke-brand-orange' : order_data.status.toLocaleLowerCase()==='failed' || order_data.status ==='Order cancelled' ? 'stroke-[#a82975]' :'stroke-[#cacaca]' " />
 		</div>
 		<div class="leading-normal text-xs sm:text-sm text-brand-black">
-			{{ order_data.status.toLocaleLowerCase()==='in progress' ? 'Driver has been displaced ' : order_data.status.toLocaleLowerCase()==='collected' ? 'Your laundry has been collected, sit back and enjoy.' : order_data.status.toLocaleLowerCase()==='failed' ? 'Please re-schedule your pickup.' : 'We will update your drivers ETA Shortly' }}
+			{{ status_details }}
 		</div>
 		<div class=" my-2.5 sm:my-[1.25rem] h-[0.063rem] bg-brand-black/20" />
 		<div class="flex flex-col items-start gap-[0.313rem]">
@@ -289,7 +305,7 @@ onMounted(() => {
 			</div>
 			<div class="flex  items-start gap-[0.625rem] w-full">
 				<button class=" w-1/2 py-[0.625rem] px-[0.938rem] sm:px-[1.875rem] rounded-[0.313rem] border-[0.063rem] border-brand-black/20 flex gap-2 sm:gap-2.5 items-center justify-center ">
-					<IconEdit2 class="fill-brand-orange w-[0.75rem] h-[0.75rem] sm:w-[0.938rem] sm:h-[0.938rem]" />
+					<IconEdit2 class="!fill-brand-orange stroke-brand-orange w-[0.75rem] h-[0.75rem] sm:w-[0.938rem] sm:h-[0.938rem]" />
 					<div class="text-sm leading-6 font-medium sm:text-base sm:font-bold text-brand-orange ">Manage</div>
 				</button>
 				<button class=" w-1/2 py-[0.625rem] px-2 sm:px-5 rounded-[0.313rem] border-[0.063rem] border-brand-black/20 flex items-center sm:gap-2 justify-center " @click="is_summary_expanded=!is_summary_expanded">

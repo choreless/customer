@@ -189,14 +189,14 @@ function next_step(){
 				</div>
 
 				<div class="cursor-pointer">
-					<IconInfo3 @click="book.info_modal=!book.info_modal" />
+					<IconInfo3 @click="book.info_modal=!book.info_modal " />
 					<InfoModal />
 				</div>
 			</div>
 		</div>
 		<div class="w-full">
 			<h1 class="text-base leading-5 sm:leading-6 font-bold mb-2.5">What happens next?</h1>
-			<div class="flex items-start justify-start overflow-scroll no-scrollbar gap-[0.938rem]  text-black">
+			<div class="flex items-start justify-start overflow-x-scroll sm:overflow-hidden gap-[0.9rem]  text-black">
 				<div class="p-2.5 rounded-[0.313rem] bg-[#f8f8f8] min-h-[5.125rem] h-full text-center min-w-[8.313rem] w-full">
 					<div class="mb-[0.313rem] flex justify-center items-center"><IconBag /></div>
 					<p class="text-xs font-bold">Prepare your bags</p>

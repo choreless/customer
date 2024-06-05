@@ -1,18 +1,21 @@
 <script setup lang="ts">
 const dashboard = usePageDashboard();
 // Defining Constants
-
+const route = useRoute()
 const props = defineProps<{
 }>();
 const emit=defineEmits(['update:promo_code']);
 const update_promo_code = () => {
-	emit('update:promo_code', { promo_code: dashboard.order_data_pickup[dashboard.selected_order_id].promo_code });
+	emit('update:promo_code', { promo_code: route.name ==='dropoff' ? dashboard.order_data_dropoff[dashboard.selected_order_id].promo_code : dashboard.order_data_pickup[dashboard.selected_order_id].promo_code });
 	dashboard.add_promo_modal = false
 }
 // Defining Functions
 function clear_promo() {
-	// dashboard.promo_code=''
-	dashboard.order_data_pickup[dashboard.selected_order_id].promo_code=''
+	if(route.name ==='dropoff'){
+		dashboard.order_data_dropoff[dashboard.selected_order_id].promo_code=''
+	}else{
+		dashboard.order_data_pickup[dashboard.selected_order_id].promo_code=''
+	}
 }
 
 function close_modal(){
@@ -55,6 +58,13 @@ function close_modal(){
 			</h1>
 		</div>
 		<textarea
+			v-if="route.name ==='dropoff'"
+			v-model="dashboard.order_data_dropoff[dashboard.selected_order_id].promo_code"
+			class="focus:outline-none focus:border-[0.063rem] focus:border-b-[0.313rem] focus:border-brand-orange px-5 pt-2.5 pb-[0.938rem] placeholder:opacity-50 text-base placeholder:text-[#e5e5e5] !rounded-[0.313rem] border-[0.063rem] border-[#e5e5e5] w-full h-[3rem] text-black overflow-hidden"
+			placeholder="Apply promo code"
+		/>
+		<textarea
+			v-if=" route.name ==='pickup'"
 			v-model="dashboard.order_data_pickup[dashboard.selected_order_id].promo_code"
 			class="focus:outline-none focus:border-[0.063rem] focus:border-b-[0.313rem] focus:border-brand-orange px-5 pt-2.5 pb-[0.938rem] placeholder:opacity-50 text-base placeholder:text-[#e5e5e5] !rounded-[0.313rem] border-[0.063rem] border-[#e5e5e5] w-full h-[3rem] text-black overflow-hidden"
 			placeholder="Apply promo code"

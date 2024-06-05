@@ -115,6 +115,7 @@
 	&::-webkit-scrollbar {
 		width: 4px;
 	}
+	
 	&::-webkit-scrollbar-thumb {
 		@apply bg-gray-300 rounded-xl
 	}

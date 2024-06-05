@@ -9,6 +9,8 @@ export const usePageEntry = defineStore('page_entry', ()=>{
 	const first_name = ref('');
 	const last_name = ref('');
 	const email = ref('');
+	const referral = ref('');
+	const receive_offer_through_sms = ref(false);
 
 	// helper
 	const step = ref<0|1>(0);
@@ -27,7 +29,7 @@ export const usePageEntry = defineStore('page_entry', ()=>{
 	watch(email, n=>{ error.email = !z.string().email().safeParse(n).success; })
 
 	return {
-		phone, customer_type, company_name, first_name, last_name, email,
+		phone, customer_type, company_name, first_name, last_name, email, referral, receive_offer_through_sms,
 		step, error
 	}
 })

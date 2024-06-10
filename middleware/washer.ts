@@ -1,6 +1,0 @@
-export default defineNuxtRouteMiddleware(() => {
-	const {usertype} = useUser();
-
-	if(!usertype) return navigateTo('/');
-	if(usertype!=='washer') return navigateTo('/dashboard');
-})

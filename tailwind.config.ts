@@ -18,7 +18,25 @@ const config: Config = {
 					black: '#011631',
 					blue: '#3063ff',
 					orange: '#f85a47',
-					secondary: '#838383'
+					secondary: '#838383',
+					ginkgo: {
+						DEFAULT: '#f8d881',
+						light: '#fdecc0'
+					},
+					frost: {
+						DEFAULT: '#b6d0cd',
+						light: '#d8e4e4'
+					},
+					lilac: {
+						DEFAULT: '#c2bac7',
+						light: '#dcd6e0'
+					},
+					sage: {
+						DEFAULT: '#b8bfaf',
+						light: '#d9ddcf'
+					},
+					stone: '#6f6e74',
+					sand: '#f2f1ec'
 				}
 			},
 			fontFamily: {

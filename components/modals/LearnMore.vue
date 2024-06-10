@@ -10,7 +10,7 @@ const book = usePageBook();
 			<div class=" w-[0.469rem] h-[0.469rem] mr-1 cursor-pointer"><IconClose2 /></div>
 		</div>
 		<div class="!h-[12.5rem] sm:h-[15.063rem] w-full ">
-			<img class="h-full w-full object-cover" src="/learnMore.png" alt="Learn More Image">
+			<img class="h-full w-full object-cover" src="https://ik.imagekit.io/choreless/V2S/learnMore.png" alt="Learn More Image">
 		</div>
 		<div class="px-4 sm:px-[1.875rem]">
 			<h1 class="text-xl leading-6 sm:text-[2rem] sm:leading-10 font-bold">What you can expect on your first pickup:</h1>

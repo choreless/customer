@@ -10,7 +10,7 @@ const book = usePageBook();
 			<div class=" w-[0.469rem] h-[0.469rem] mr-1 "><IconClose2 /></div>
 		</div>
 		<div class="!h-[12.5rem] sm:h-[15.063rem] w-full ">
-			<img class="h-full w-full object-cover" src="/info.png" alt="Info Image">
+			<img class="h-full w-full object-cover" src="https://ik.imagekit.io/choreless/V2S/info.png" alt="Info Image">
 		</div>
 		<div class="  flex justify-center items-center gap-2">
 			<div class="px-2 bg-[#f7f8fA] flex justify-center items-center rounded sm:hidden">

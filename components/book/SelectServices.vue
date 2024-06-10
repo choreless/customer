@@ -3,6 +3,7 @@ import InfoModal from '../modals/Info.vue';
 import PricingModal from '../modals/Pricing.vue';
 import AddNoteModal from '../modals/AddNote.vue';
 import SwitchButton from '../buttons/SwitchBtn.vue';
+import ScrollbarContent from './ScrollbarContent.vue'
 // Defining Interfaces
 interface Service {
 	id:number;
@@ -189,30 +190,14 @@ function next_step(){
 				</div>
 
 				<div class="cursor-pointer">
-					<IconInfo3 @click="book.info_modal=!book.info_modal" />
+					<IconInfo3 @click="book.info_modal=!book.info_modal " />
 					<InfoModal />
 				</div>
 			</div>
 		</div>
 		<div class="w-full">
 			<h1 class="text-base leading-5 sm:leading-6 font-bold mb-2.5">What happens next?</h1>
-			<div class="flex items-start justify-start overflow-scroll no-scrollbar gap-[0.938rem]  text-black">
-				<div class="p-2.5 rounded-[0.313rem] bg-[#f8f8f8] min-h-[5.125rem] h-full text-center min-w-[8.313rem] w-full">
-					<div class="mb-[0.313rem] flex justify-center items-center"><IconBag /></div>
-					<p class="text-xs font-bold">Prepare your bags</p>
-					<h1 class="text-[0.625rem] leading-[0.875rem]">Pack 1 bag per service <br> type.</h1>
-				</div>
-				<div class="p-2.5 rounded-[0.313rem] bg-[#f8f8f8] min-h-[5.125rem] h-full text-center min-w-[10.938rem] w-full">
-					<div class="mb-[0.313rem] flex justify-center items-center"><IconClean /></div>
-					<p class="text-xs font-bold text-nowrap">We collect and clean items</p>
-					<h1 class="text-[0.625rem] leading-[0.875rem]">After cleaning, you <br> will receive an </h1>
-				</div>
-				<div class=" block p-2.5 rounded-[0.313rem] bg-[#f8f8f8] min-h-[5.125rem] h-full text-center min-w-[8.313rem] w-full">
-					<div class="mb-[0.313rem] flex justify-center items-center"><IconDeliver /></div>
-					<p class="text-xs font-bold">We deliver</p>
-					<h1 class="text-[0.625rem] leading-[0.875rem]">After cleaning, you will receive an </h1>
-				</div>
-			</div>
+			<ScrollbarContent />
 		</div>
 		<button :class="book.wash_type != undefined ? 'text-white bg-brand-orange' : 'text-black bg-[#f8f8f8]'" class=" hidden sm:block font-bold text-center w-full px-5 py-[1.125rem] rounded-[0.313rem] " @click="next_step">Continue</button>
 	</div>

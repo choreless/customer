@@ -14,7 +14,7 @@ const book = usePageBook();
 </script>
 
 <template>
-<div>
+<div class="bg-[#f2f2f2] min-h-screen">
 	<NotAvailableInYourArea v-if="book.step===-1" />
 	<template v-else>
 		<Header />

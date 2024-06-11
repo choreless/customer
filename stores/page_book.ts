@@ -31,7 +31,7 @@ const extra_service = ref<boolean>(false);
 const do_not_show_page = ref<boolean>();
 const zip = ref('');
 const addons = ref<(typeof customer.addons2[number]['name'])[]>([]);
-const detergent = ref<typeof customer.detergents[number]>(customer.detergents[1]);
+const detergent = ref<typeof customer.detergents[number]>({value: 'Choose a detergent', description: '', isPopular: false});
 const water_temperature = ref<typeof customer.water_temperatures[number]>('Cold');
 const dryer_temperature = ref<typeof customer.dryer_temperatures[number]>('Medium');
 const service_speed = ref<typeof service_speeds[number]>('next_day');
@@ -99,11 +99,34 @@ const pricing_info=ref([
 		]
 	},
 	{
-		heading: 'Bedspread',
+		heading: 'Wash & Fold',
 		items: [
 			{
-				heading: 'Bedspread',
-				title: 'Bedspreads (All Sizes)',
+				heading: 'Wash & Fold',
+				title: 'Mixed Wash',
+				from_price: 1.80,
+				to_price: 2.25
+			},
+			{
+				heading: 'Wash & Fold',
+				title: 'Seperate Wash',
+				from_price: 6.40,
+				to_price: 13.00
+			}
+		]
+	},
+	{
+		heading: 'Delicate Wash',
+		items: [
+			{
+				heading: 'Delicate Wash',
+				title: 'Mixed Wash',
+				from_price: 1.80,
+				to_price: 2.25
+			},
+			{
+				heading: 'Delicate Wash',
+				title: 'Seperate Wash',
 				from_price: 6.40,
 				to_price: 13.00
 			}
@@ -128,34 +151,6 @@ const pricing_info=ref([
 				title: 'Bath Mat',
 				from_price: 16.00,
 				to_price: 30.00
-			}
-		]
-	},
-	{
-		heading: 'Down Comforter',
-		items: [
-			{
-				heading: 'Down Comforter',
-				title: 'Bath Mat',
-				from_price: 16.00,
-				to_price: 30.00
-			}
-		]
-	},
-	{
-		heading: 'Down Comforter',
-		items: [
-			{
-				heading: 'Down Comforter',
-				title: 'Down Comforter (All Sizes)',
-				from_price: 16.00,
-				to_price: 30.00
-			},
-			{
-				heading: 'Most Popular',
-				title: 'Odor removal',
-				from_price: 0.00,
-				to_price: 25.00
 			}
 		]
 	},

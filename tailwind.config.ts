@@ -36,7 +36,19 @@ const config: Config = {
 						light: '#d9ddcf'
 					},
 					stone: '#6f6e74',
-					sand: '#f2f1ec'
+					sand: '#f2f1ec',
+					xanthous: '#ebb317',
+					atomic: '#f69469',
+					periwinkle: '#b6bfe6',
+					tea: {
+						rose: '#fac1bd',
+						green: '#cde3aa'
+					},
+					'tiffany-blue': '#85c6c0',
+					'cyan-light': '#d1e8e6',
+					'reseda-green': '#6e7839',
+					lapis: '#265576',
+					purple: '#715485'
 				}
 			},
 			fontFamily: {

@@ -18,7 +18,6 @@ const config: Config = {
 					black: '#011631',
 					blue: '#3063ff',
 					orange: '#f85a47',
-					secondary: '#838383',
 					ginkgo: {
 						DEFAULT: '#f8d881',
 						light: '#fdecc0'
@@ -56,7 +55,7 @@ const config: Config = {
 				CaveatBrush: 'CaveatBrush'
 			},
 			boxShadow: {
-				orderCard: '0px 0px 10px 0px rgba(0, 0, 0, 0.05)',
+				'order-card': '0px 0px 10px 0px rgba(0, 0, 0, 0.05)',
 				addressHead: '0px 2px 6px 0px rgba(0, 0, 0, 0.05)',
 				card: '0 0px 15px 0px rgba(0, 0, 0, 0.10)'
 			}

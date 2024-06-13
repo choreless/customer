@@ -1,33 +1,4 @@
-<template>
-<div class="relative overflow-hidden">
-	<div ref="content" class="w-full h-full overflow-x-scroll sm:overflow-hidden pb-3 max-w-[467px]">
-		<div class="w-[470px]">
-			<div class="flex items-start justify-start overflow-hidden gap-[0.9rem]  text-black">
-				<div class="p-2.5 rounded-[0.313rem] bg-[#f8f8f8] min-h-[5.125rem] h-full text-center min-w-[8.313rem] w-full">
-					<div class="mb-[0.313rem] flex justify-center items-center"><IconBag /></div>
-					<p class="text-xs font-bold">Prepare your bags</p>
-					<h1 class="text-[0.625rem] leading-[0.875rem]">Pack 1 bag per service <br> type.</h1>
-				</div>
-				<div class="p-2.5 rounded-[0.313rem] bg-[#f8f8f8] min-h-[5.125rem] h-full text-center min-w-[10.938rem] w-full">
-					<div class="mb-[0.313rem] flex justify-center items-center"><IconClean /></div>
-					<p class="text-xs font-bold text-nowrap">We collect and clean items</p>
-					<h1 class="text-[0.625rem] leading-[0.875rem]">After cleaning, you <br> will receive an </h1>
-				</div>
-				<div class=" block p-2.5 rounded-[0.313rem] bg-[#f8f8f8] min-h-[5.125rem] h-full text-center min-w-[8.313rem] w-full">
-					<div class="mb-[0.313rem] flex justify-center items-center"><IconDeliver /></div>
-					<p class="text-xs font-bold">We deliver</p>
-					<h1 class="text-[0.625rem] leading-[0.875rem]">After cleaning, you will receive an </h1>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div ref="scrollBar" class="absolute bottom-0 left-0 h-3 w-full pt-2 block sm:hidden">
-		<div ref="thumb" class="h-full bg-brand-orange rounded-xl cursor-pointer relative" />
-	</div>
-</div>
-</template>
-
-<script setup>
+<script setup lang="ts">
 
 const content = ref(null);
 const scrollBar = ref(null);
@@ -116,6 +87,31 @@ onBeforeUnmount(() => {
 	window.removeEventListener('resize', updateThumbPosition);
 });
 </script>
-
-  <style scoped>
-  </style>
+<template>
+<div class="relative overflow-hidden">
+	<div ref="content" class="w-full h-full overflow-x-scroll sm:overflow-hidden pb-3 max-w-[29.188rem]">
+		<div class="w-[29.375rem]">
+			<div class="flex items-start justify-start overflow-hidden gap-[0.9rem]  text-black">
+				<div class="p-2.5 rounded-[0.313rem] bg-[#f8f8f8] min-h-[5.125rem] h-full text-center min-w-[8.313rem] w-full">
+					<div class="mb-[0.313rem] flex justify-center items-center"><IconBag /></div>
+					<p class="text-xs font-bold">Prepare your bags</p>
+					<h1 class="text-[0.625rem] leading-[0.875rem]">Pack 1 bag per service <br> type.</h1>
+				</div>
+				<div class="p-2.5 rounded-[0.313rem] bg-[#f8f8f8] min-h-[5.125rem] h-full text-center min-w-[10.938rem] w-full">
+					<div class="mb-[0.313rem] flex justify-center items-center"><IconClean /></div>
+					<p class="text-xs font-bold text-nowrap">We collect and clean items</p>
+					<h1 class="text-[0.625rem] leading-[0.875rem]">After cleaning, you <br> will receive an </h1>
+				</div>
+				<div class=" block p-2.5 rounded-[0.313rem] bg-[#f8f8f8] min-h-[5.125rem] h-full text-center min-w-[8.313rem] w-full">
+					<div class="mb-[0.313rem] flex justify-center items-center"><IconDeliver /></div>
+					<p class="text-xs font-bold">We deliver</p>
+					<h1 class="text-[0.625rem] leading-[0.875rem]">After cleaning, you will receive an </h1>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div ref="scrollBar" class="absolute bottom-0 left-0 h-3 w-full pt-2 block sm:hidden">
+		<div ref="thumb" class="h-full bg-brand-orange rounded-xl cursor-pointer relative" />
+	</div>
+</div>
+</template>

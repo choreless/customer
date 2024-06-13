@@ -31,8 +31,8 @@ function select_address(address:string) {
 <template>
 <div class="flex  flex-col mx-auto">
 	<h1 class="text-xl sm:text-2xl font-bold leading-[1.875rem] text-center ">Welcome back, Wallace </h1>
-	<div class="p-2.5 h-[2.813rem] flex gap-2.5 justify-between items-center border-b-[0.063rem] border-brand-secondary">
-		<IconLocation2 class="stroke-brand-secondary" />
+	<div class="p-2.5 h-[2.813rem] flex gap-2.5 justify-between items-center border-b-[0.063rem] border-[#838383]">
+		<IconLocation2 class="stroke-[#838383]" />
 		<p class=" text-sm sm:text-base line-clamp-1 overflow-hidden leading-5 text-brand-black sm:mr-4 ">
 			{{ address }}
 		</p>
@@ -46,7 +46,7 @@ function select_address(address:string) {
 			</div>
 			<input id="default-search" v-model="search" type="text" class="block outline-none w-full p-4 ps-10 text-sm text-brand-black border border-[#e5e5e5] rounded-[0.313rem] bg-white dark:bg-white dark:border-[#e5e5e5] placeholder-[#e5e5e5] dark:text-white " placeholder="Search Address" required @input="search_address">
 		</div>
-		<div class="text-brand-secondary p-2.5 bg-[#e5e5e5] rounded-t-[0.313rem] mt-2.5 ">Saved Address</div>
+		<div class="text-[#838383] p-2.5 bg-[#e5e5e5] rounded-t-[0.313rem] mt-2.5 ">Saved Address</div>
 		<ul v-for="(addres,index) in filtered_address" :key="index">
 			<li class="flex items-center justify-between p-2.5 border-b-[0.063rem] border-gray-200 cursor-pointer">
 				<div class="flex gap-2.5">

@@ -8,7 +8,7 @@ function address_selected(address:string){
 </script>
 
 <template>
-<div class="px-2.5 my-[3.125rem] max-w-[20rem] sm:max-w-[26.875rem] mx-auto w-full">
+<div class="px-2.5 my-[3.125rem] max-w-80 sm:max-w-[26.875rem] mx-auto w-full">
 	<div class="flex flex-col gap-2.5 sm:gap-[1.25rem]">
 		<img src="https://ik.imagekit.io/choreless/v2/icons/choreless.svg" alt="Choreless" loading="lazy" class=" w-[9.375rem] h-[3.438rem] sm:w-[18.75rem] sm:h-[6.813rem] mx-auto ">
 		<SearchAddress :address="dashboard.dropoff_address" class="w-full sm:w-[20.625rem] " @get_address="address_selected" />

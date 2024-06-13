@@ -115,50 +115,50 @@ function date_prefix(date_day:number){
 	}
 }
 function set_order_status(status:string) {
-	switch(status.toLocaleLowerCase()) {
-	case 'Ready for intake'.toLocaleLowerCase():
+	switch(status) {
+	case 'Ready for intake':
 		indication_status.value='Ready for intake'
 		custom_class.value=''
 		status_main_line.value='Ready for intake'
 		status_sub_line.value='We are working on it.'
 		status_details.value='Handling your laundry with care'
 		break;
-	case 'Processing'.toLocaleLowerCase():
+	case 'Processing':
 		indication_status.value='Processing'
 		custom_class.value=''
 		status_main_line.value='Processing'
 		status_sub_line.value='Your order is being processed '
 		status_details.value='Handling your laundry with care'
 		break;
-	case 'Ready for delivery'.toLocaleLowerCase():
+	case 'Ready for delivery':
 		indication_status.value='Ready for delivery'
 		custom_class.value='!text-white bg-brand-orange'
 		status_main_line.value='Ready for delivery'
 		status_sub_line.value='Your order is ready to deliver'
 		status_details.value=`Estimated delivery date ${date_current_order.value.day_name} ${date_current_order.value.day} ${date_current_order.value.month_name} ${date_current_order.value.year}  `
 		break;
-	case 'Order Cancelled'.toLocaleLowerCase():
+	case 'Order cancelled':
 		indication_status.value='Order Cancelled'
 		custom_class.value='!bg-[#ffebf7] !text-[#a82975]'
 		status_main_line.value='Order Canceled'
 		status_sub_line.value='Your order was canceled'
 		status_details.value='Sorry about the cancel!  Need help? We are here.'
 		break;
-	case 'Failed'.toLocaleLowerCase():
+	case 'Failed':
 		indication_status.value='Pickup Failed'
 		custom_class.value='!bg-[#ffebf7] !text-[#a82975]'
 		status_main_line.value='Pickup failed'
 		status_sub_line.value=`Pickup attempted at  at ${props.order_data.pickup_to}`
 		status_details.value='Please re-schedule your pickup.'
 		break;
-	case 'Collected'.toLocaleLowerCase():
+	case 'Collected':
 		indication_status.value='Collected'
 		custom_class.value='!text-white bg-brand-orange'
 		status_main_line.value='Collected'
 		status_sub_line.value=`Pickup complete at ${props.order_data.pickup_to}`
 		status_details.value='Your laundry has been collected, sit back and enjoy.'
 		break;
-	case 'In Progress'.toLocaleLowerCase():
+	case 'In Progress':
 		indication_status.value='In Progress'
 		custom_class.value=''
 		status_main_line.value=`${props.order_data.pickup_from} - ${props.order_data.pickup_to}`
@@ -176,13 +176,13 @@ onMounted(() => {
 
 </script>
 <template>
-<div class=" sm:w-full shadow-orderCard rounded-[0.625rem]">
+<div class=" sm:w-full shadow-order-card rounded-[0.625rem]">
 	<div class=" px-2.5 py-[0.313rem] sm:p-5 flex justify-between items-center ">
 		<div class="flex items-center gap-2.5 sm:gap-5">
 			<div>
-				<IconMixed v-if="order_data.wash_type.toLocaleLowerCase()==='Mixed Wash'.toLocaleLowerCase() " />
-				<IconOptional v-if="order_data.wash_type.toLocaleLowerCase()==='Home & Bedding'.toLocaleLowerCase() " />
-				<IconSteam v-if="order_data.wash_type.toLocaleLowerCase()==='Wash & Steam'.toLocaleLowerCase() " />
+				<IconMixed v-if="order_data.wash_type==='Mixed Wash' " />
+				<IconOptional v-if="order_data.wash_type==='Home & Bedding' " />
+				<IconSteam v-if="order_data.wash_type==='Wash & Steam' " />
 			</div>
 			<div>
 				<p class=" text-[0.625rem] leading-4 sm:text-xs ">{{ order_data.type }}</p>
@@ -200,12 +200,12 @@ onMounted(() => {
 	<div v-if="is_expanded" class=" px-2.5 py-5 sm:p-5">
 		<div class="flex items-end gap-[0.6325rem]">
 			<h1 class="text-brand-black text-xl sm:text-[1.375rem] font-medium leading-normal">{{ status_main_line }}</h1>
-			<p class="text-brand-secondary text-[0.635rem] sm:text-sm leading-normal">{{ status_sub_line }}</p>
+			<p class="text-[#838383] text-[0.635rem] sm:text-sm leading-normal">{{ status_sub_line }}</p>
 		</div>
 		<div class="my-[0.625rem] flex self-stretch gap-[1.063rem]">
 			<IconProgressLine class="stroke-brand-orange" />
 			<IconProgressLine :class="order_data.status !=='' && order_data.status!=='Ready for intake' ? 'stroke-brand-orange' : 'stroke-[#cacaca]' " />
-			<IconProgressLine :class=" order_data.status.toLocaleLowerCase()==='collected' || order_data.status==='Ready for delivery' ? 'stroke-brand-orange' : order_data.status.toLocaleLowerCase()==='failed' || order_data.status ==='Order cancelled' ? 'stroke-[#a82975]' :'stroke-[#cacaca]' " />
+			<IconProgressLine :class=" order_data.status==='Collected' || order_data.status==='Ready for delivery' ? 'stroke-brand-orange' : order_data.status==='Failed' || order_data.status ==='Order cancelled' ? 'stroke-[#a82975]' :'stroke-[#cacaca]' " />
 		</div>
 		<div class="leading-normal text-xs sm:text-sm text-brand-black">
 			{{ status_details }}
@@ -213,8 +213,8 @@ onMounted(() => {
 		<div class=" my-2.5 sm:my-[1.25rem] h-[0.063rem] bg-brand-black/20" />
 		<div class="flex flex-col items-start gap-[0.313rem]">
 			<div class="flex items-center gap-[0.313rem]">
-				<IconNote class="fill-brand-secondary" />
-				<p class=" text-sm text-brand-secondary sm:leading-6">Order Details</p>
+				<IconNote class="fill-[#838383]" />
+				<p class=" text-sm text-[#838383] sm:leading-6">Order Details</p>
 			</div>
 			<div class="flex flex-col gap-[0.313rem]">
 				<div class="text-brand-black text-sm sm:text-base leading-5">Order Date: {{ order_data.order_date }}</div>
@@ -249,7 +249,7 @@ onMounted(() => {
 				</div>
 				<div class=" h-[0.063rem] bg-brand-black/20 w-full" />
 				<div class=" py-[0.625rem] flex flex-col gap-2.5 sm:hidden w-full">
-					<div class="text-brand-secondary text-sm">Payment method</div>
+					<div class="text-[#838383] text-sm">Payment method</div>
 					<div v-for="(card, index) in dashboard.add_card_details" :key="index" class="px-2.5 py-[0.313rem] flex items-center justify-between w-full border-[0.063rem] border-[#e5e5e5] rounded-[0.313rem]">
 						<div>
 							<input v-model="card.card_number" type="text" class="text-[0.813rem] leading-8 text-brand-black placeholder:text-[#0116314d] outline-none w-20" placeholder="Card Number">
@@ -294,10 +294,10 @@ onMounted(() => {
 				<div class="flex justify-between items-start text-sm text-brand-black/50 w-full">
 					<div class=" hidden sm:flex cursor-pointer items-center gap-[0.625rem]" @click="add_card_payment=!add_card_payment">
 						<IconAddCard class="w-[0.813rem] h-[0.813rem]" />
-						<p class="text-xs leading-5 text-brand-secondary">Add New card</p>
+						<p class="text-xs leading-5 text-[#838383]">Add New card</p>
 					</div>
 				</div>
-				<div class="text-xs leading-5 text-brand-secondary">Your card will not be charged until your order is picked up</div>
+				<div class="text-xs leading-5 text-[#838383]">Your card will not be charged until your order is picked up</div>
 				<div class="flex justify-between items-start text-xl sm:text-2xl leading-[2.375rem] text-brand-black w-full font-bold">
 					<p>Order Total</p>
 					<p>TBD</p>

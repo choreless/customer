@@ -22,7 +22,7 @@ interface Service {
 const wash_types = ['Mixed Wash', 'Seperate Wash'] as const;
 const service_speeds = ['next_day', '2_day'] as const;
 const frequencies = ['Just once', 'Weekly', 'Every two weeks', 'Every four weeks'] as const;
-const care_services = ref([{value: 'Hang Dry', is_active: false }, {value: 'On Hangers', is_active: false}, {value: 'Delictes', is_active: false}, {value: 'Mix Bags', is_active: false}]);
+const care_services = ref([{value: 'On Hangers', is_active: false}, {value: 'Mix Bags', is_active: false}]);
 const now = useNow();
 const step = ref<-1|0|1|2|3|4>(0);
 const bags_count = ref(1);

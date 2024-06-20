@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import InfoModal from '../modals/Info.vue';
-import PricingModal from '../modals/Pricing.vue';
-import AddNoteModal from '../modals/AddNote.vue';
 import SwitchButton from '../buttons/SwitchBtn.vue';
 import customer from '~/lib/customer';
 // Defining Interfaces
@@ -20,10 +17,14 @@ interface Service {
 	mix_bags:boolean;
 	preference_note:string
 }
+interface SubItem {
+    name: string;
+    is_selected: boolean;
+}
 // Defining Constants
 const current_Screen=ref('select_services')
-// const is_toggle=ref(false)
 const selected_services=reactive([])
+const info_toggle=ref(false)
 const book = usePageBook();
 const pricing_info=book.pricing_info
 const selected_pricing=ref('')
@@ -140,12 +141,10 @@ const preferences=reactive([
 ])
 const selected_Wash=ref('Mixed Wash')
 
-const big_item = book.optional_item
-
 // Defining functions
 
-function select_preference(selected_item, index){
-	preferences[index].items.forEach(sub_item=>{
+function select_preference(selected_item: object , index: number){
+	preferences[index].items.forEach((sub_item: SubItem)=>{
 		if(sub_item.name===selected_item.name){
 			sub_item.is_selected=true
 		}
@@ -156,37 +155,14 @@ function select_preference(selected_item, index){
 }
 
 function add_service(screen : string, id : number){
-	wash_services_data.forEach(service=>{
+	wash_services_data.forEach((service)=>{
 		if(service.id===id){
 			service.is_selected=true
 		}
 	})
 	selected_services.push(selected_item.value)
-	console.log('selected_services', selected_services)
 	current_Screen.value=screen
 }
-// function select_service(service:Service){
-// 	clicked_service.value=service
-// 	book.wash_type=clicked_service.value.wash_type
-// 	book.service_speed=clicked_service.value.service_speed
-// 	book.wash_is_required=false
-// }
-// function update_toggle_val(e:boolean){
-// 	is_toggle.value=e
-// 	if(is_toggle.value===true){
-// 		clicked_service.value.service_speed='2_day'
-// 		is_toggle.value=true
-// 	}else if(is_toggle.value===false){
-// 		clicked_service.value.service_speed='next_day'
-// 		is_toggle.value=false
-// 	}
-// }
-
-// function open_add_note(service: Service){
-// 	clicked_service.value=service
-// 	book.add_note_modal=!book.add_note_modal
-// 	book.note=service.note
-// }
 
 function get_selected_Wash(){
 	clicked_service.wash_type=selected_Wash.value
@@ -196,28 +172,11 @@ function get_selected_Wash(){
 	}else{
 		clicked_service.service_speed='24h service'
 	}
-	console.log(clicked_service)
 }
-// function update_note({ note }:{ note: string }){
-// 	clicked_service.note=note;
-// 	if(clicked_service.value.id === big_item.id){
-// 		book.extra_service=true
-// 	}
-// }
-// function next_step(){
-// 	if(book.wash_type ===undefined){
-// 		book.wash_is_required=true
-// 	}
-// 	else{
-// 		book.wash_is_required=false
-// 		book.step++
-// 	}
-// }
 
 function update_screen(screen:string, index:number){
 	current_Screen.value=screen
 	selected_item.value=wash_services_data[index]
-	console.log('selected', selected_item.value)
 }
 
 const filtered_data:any = computed(() => {
@@ -226,7 +185,7 @@ const filtered_data:any = computed(() => {
 })
 </script>
 <template>
-<div class="px-[0.938rem] py-[3.125rem] sm:px-0">
+<div class="px-[0.938rem] py-[3.125rem] sm:px-0 relative !overflow-hidden">
 	<div v-if="current_Screen==='select_services'" class=" max-w-[32.938rem] mx-auto flex flex-col items-start gap-5 p-[1.875rem] rounded-[1.25rem] bg-white border-[#f2f2f2] ">
 		<h1 class="text-2xl font-bold leading-7 text-brand-black">How can we help you? </h1>
 		<div v-for="(item,index) of wash_services_data" :key="index" :class="item.is_selected && 'border-brand-black border-[0.063rem]'" class=" relative px-[0.938rem] py-2.5 cursor-pointer rounded-[0.625rem] border-[0.032rem] border-[#f2f2f2] w-full flex flex-col gap-2.5">
@@ -248,7 +207,7 @@ const filtered_data:any = computed(() => {
 							${{ item.price }} minimum
 						</span>
 						<span class="text-[0.5rem]">
-							(${{ item.per_lb.toFixed(2) }}/lb)
+							(${{ item.per_lb?.toFixed(2) }}/lb)
 						</span>
 					</div>
 					<div v-else class="flex items-center gap-[0.213rem] text-[0.625rem] text-brand-black leading-4">
@@ -284,14 +243,14 @@ const filtered_data:any = computed(() => {
 				</div>
 			</div>
 		</div>
-		<div class="flex items-center justify-between w-full rounded-[0.625rem] border-[0.032rem] border-[#f2f2f2] ">
+		<div @click="info_toggle=true" class="flex items-center justify-between w-full rounded-[0.625rem] border-[0.032rem] border-[#f2f2f2] ">
 			<img src="https://ik.imagekit.io/choreless/V3/label.svg" alt="choreless label">
 			<div class="p-[0.938rem] flex flex-col items-start gap-[0.375rem] max-w-[20.563rem] w-full self-stretch">
 				<h1 class="text-sm leading-[1.125rem] font-bold">Label your laundry to avoid mix-ups.</h1>
 				<p class="text-sm leading-[1.125rem]">Load label: Tillman + CF2A</p>
 			</div>
 		</div>
-		<button class=" bg-brand-black px-5 py-[1.125rem] flex w-full justify-center items-center rounded-[3.125rem] text-white font-bold " @click="next_step">Continue</button>
+		<button class=" bg-brand-black px-5 py-[1.125rem] flex w-full justify-center items-center rounded-[3.125rem] text-white font-bold " >Continue</button>
 	</div>
 
 	<div v-if="current_Screen==='pricing'" class=" max-w-[32.938rem] mx-auto flex flex-col items-start gap-5 p-[1.875rem] rounded-[1.25rem] bg-white border-[#f2f2f2] ">
@@ -312,7 +271,7 @@ const filtered_data:any = computed(() => {
 			</div>
 		</div>
 		<div class="px-[0.844rem] w-full mx-auto">
-			<button class=" bg-brand-black px-5 py-[1.125rem] flex w-full justify-center items-center rounded-[3.125rem] text-white font-bold  " @click="next_step">Got it</button>
+			<button class=" bg-brand-black px-5 py-[1.125rem] flex w-full justify-center items-center rounded-[3.125rem] text-white font-bold" >Got it</button>
 		</div>
 	</div>
 	<div v-if="current_Screen==='preferences'">
@@ -454,17 +413,39 @@ const filtered_data:any = computed(() => {
 		</div>
 	</div>
 	<div v-if="current_Screen==='add_note'" class=" max-w-[32.938rem] mx-auto flex flex-col items-start gap-2.5 p-[1.875rem] rounded-[1.25rem] bg-white border-[#f2f2f2] ">
-		<div class=" px-5 text-2xl font-bold leading-7 text-brand-black flex  items-center gap-2.5"> <div class="w-[2.563rem] h-[2.563rem] bg-white  rounded-full shadow-md flex items-center justify-center cursor-pointer" @click="update_screen('select_services', selected_item)"><img class="w-2.5 h-5 mr-1" src="https://ik.imagekit.io/choreless/V3/icons/arrow.svg" alt="arrow"></div><div>Add Note</div> </div>
+		<div class=" text-2xl font-bold leading-7 text-brand-black flex  items-center gap-2.5"> <div class="w-[2.563rem] h-[2.563rem] bg-white  rounded-full shadow-md flex items-center justify-center cursor-pointer" @click="update_screen('select_services', selected_item)"><img class="w-2.5 h-5 mr-1" src="https://ik.imagekit.io/choreless/V3/icons/arrow.svg" alt="arrow"></div><div>Add Note</div> </div>
 		<div class="flex justify-between w-full items-center self-center">
 			<p class="text-brand-black  leading-6 ">Add Special instructions</p>
 			<p class=" leading-[0.938rem] font-medium cursor-pointer" @click="selected_item.note=''">Clear</p>
 		</div>
 		<textarea v-model="selected_item.note" rows="3" class=" w-full flex px-5 pt-2.5 pb-[0.938rem] items-start gap-2.5 self-stretch placeholder:text-[#e5e5e5] outline-none rounded-[0.313rem] border-[0.063rem] border-[#6f6e7433] " placeholder="Add Note " />
-		<div class="flex max-w-[467px] h-12 px-5 py-[18px] justify-center items-center gap-2.5 rounded-[50px] bg-[#f8f8f8] font-bold leading-6 w-full " :class="selected_item.note && 'bg-brand-black text-white'">Save</div>
+		<button class="flex max-w-[29.188rem] h-12 px-5 py-[1.125rem] justify-center items-center gap-2.5 rounded-[3.125rem] bg-[#f8f8f8] font-bold leading-6 w-full cursor-pointer " :class="selected_item.note && 'bg-brand-black text-white'" :disabled="!selected_item.note"   @click="update_screen('select_services', selected_item)">Save</button>
 	</div>
-	<!-- <AddNoteModal :note="clicked_service.note" @update:note="update_note" /> -->
 </div>
-<!-- <PricingModal /> -->
+<div :class="info_toggle ? 'right-0' : 'right-[-800px]'" class="flex !overflow-hidden transition-all duration-200 ease-linear max-w-[800px] w-full h-[1000px] pb-5 flex-col justify-between items-center absolute top-0  z-50 bg-white">
+	<div class="flex flex-col items-center gap-[30px] self-stretch ">
+		<div class="bg-[#F2d46e] flex h-[180px] justify-center items-start gap-[8px] self-stretch  relative">
+			<div @click="info_toggle=false" class=" absolute top-[28px] left-[28px] text-2xl font-bold leading-7 text-brand-black flex  items-center gap-2.5"> <div class="w-[2.563rem] h-[2.563rem] bg-white  rounded-full shadow-md flex items-center justify-center cursor-pointer"><img class="w-2.5 h-5 mr-1" src="https://ik.imagekit.io/choreless/V3/icons/arrow.svg" alt="arrow"></div> </div>
+			<div class="flex py-[30px] flex-col justify-end items-center gap-[8px] self-stretch">
+				<div class="text-xl leading-9 font-medium tracking-[2px] text-brand-black">Load label</div>
+				<div class="text-[32px] font-bold leading-9 text-brand-black">Tillman + CF2A</div>
+			</div>
+		</div>
+		<div class="flex px-10 flex-col items-start gap-5 self-stretch">
+			<div class="text-[32px] font-bold leading-10 text-brand-black">Using Kitchen Bags?</div>
+			<div class="text-xl leading-6 text-brand-black">Label your bags as shown. Unlabeled bags will be washed on cold with Dropps detergent.</div>
+		</div>
+		<img src="https://ik.imagekit.io/choreless/V3/banner.png" alt="Label banner image">
+	</div>
+	<div class="flex px-[30px] flex-col items-center gap-5 self-stretch">
+			<div class="max-w-[800px] w-full h-[0.5px] bg-[#6f6e7433]" />
+			<div class="flex h-[90px] px-[30px] py-[18px] items-center gap-5 self-stretch rounded-[10px] bg-[#d4e8e6]">
+				<img src="https://ik.imagekit.io/choreless/V3/icons/info.svg" alt="info">
+				<div class="text-xl leading-6 text-brand-black">This is a preview of how to add your Lad label. </div>
+			</div>
+			<div @click="info_toggle=false" class="px-5 py-[18px] bg-brand-black flex h-[48px] justify-center items-center self-stretch gap-2.5 rounded-[50px] text-white font-bold leading-6  ">Got it</div>
+		</div>
+</div>
 </template>
 <style scoped>
 

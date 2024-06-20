@@ -7,7 +7,7 @@ const {isLoading} = useLoadingIndicator({throttle: 500});
 <template>
 <div>
 	<NuxtLayout>
-		<NuxtPage />
+		<NuxtPage  />
 	</NuxtLayout>
 	<notifications position="bottom right" :duration="2000" :pause-on-hover="true" width="100%" />
 	<div v-show="isLoading || app.loading" class="fixed w-full h-full top-0 flex justify-center bg-black/30">

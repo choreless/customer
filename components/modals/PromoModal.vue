@@ -10,7 +10,7 @@ const update_promo_code = () => {
 	dashboard.add_promo_modal = false
 }
 // Defining Functions
-function clear_promo() {
+function clearPromo() {
 	if(route.name ==='dropoff'){
 		dashboard.order_data_dropoff[dashboard.selected_order_id].promo_code=''
 	}else{
@@ -18,7 +18,7 @@ function clear_promo() {
 	}
 }
 
-function close_modal(){
+function closeModal(){
 	dashboard.add_promo_modal = false
 }
 
@@ -43,16 +43,16 @@ function close_modal(){
 			</h1>
 			<div
 				class="absolute w-[0.438rem] h-[0.438rem] right-0 top-3 cursor-pointer"
-				@click="close_modal"
+				@click="closeModal"
 			>
-				<IconClose2 />
+				<img src="https://ik.imagekit.io/choreless/V2S/icons/close.svg" alt="choreless close">
 			</div>
 		</div>
 		<div class="flex justify-between items-center self-stretch">
 			<h1 class="text-base text-black">Apply promo code</h1>
 			<h1
 				class="text-base leading-[0.938rem] font-normal sm:font-medium text-black cursor-pointer"
-				@click="clear_promo"
+				@click="clearPromo"
 			>
 				Clear
 			</h1>

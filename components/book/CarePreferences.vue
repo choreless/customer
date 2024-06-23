@@ -38,7 +38,7 @@ function next(){
 	</div>
 	<div class="flex flex-col gap-2.5">
 		<h2 class="font-bold  text-brand-black">Dryer Temp</h2>
-		<div class="">
+		<div>
 			<div class="flex flex-wrap gap-2.5">
 				<label v-for="v of customer.dryer_temperatures" :key="v" class="px-5 py-2.5 btn btn-outline font-bold grow border-brand-black/20 [&:is(:hover,.active)]:bg-brand-orange [&:is(:hover,.active)]:!border-[#e5e5e5] [&:is(:hover,.active)]:text-white" :class="book.dryer_temperature===v && 'active'">
 					<input v-model="book.dryer_temperature" type="radio" :value="v" hidden>

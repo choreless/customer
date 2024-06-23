@@ -7,14 +7,14 @@ const book = usePageBook();
 <dialog id="my_modal_2" :class="book.info_modal ? 'modal-open  !bg-white sm:!bg-black/50': ''" class="modal  sm:py-3 overflow-scroll sm:overflow-hidden">
 	<div class=" text-center  absolute top-0 sm:relative sm:modal-box sm:max-w-[31.313rem] w-full flex flex-col gap-[1.875rem] !p-0 !pb-5 !rounded-[0.313rem] no-scrollbar">
 		<div class="absolute bg-white w-[1.375rem] h-[1.375rem] right-3 top-3 flex justify-center items-center rounded-full" @click="book.info_modal=false">
-			<div class=" w-[0.469rem] h-[0.469rem] mr-1 "><IconClose2 /></div>
+			<div class=" w-[0.469rem] h-[0.469rem]  ">	<img src="https://ik.imagekit.io/choreless/V2S/icons/close.svg" alt="choreless close"></div>
 		</div>
 		<div class="!h-[12.5rem] sm:h-[15.063rem] w-full ">
 			<img class="h-full w-full object-cover" src="https://ik.imagekit.io/choreless/V2S/info.png" alt="Info Image">
 		</div>
 		<div class="  flex justify-center items-center gap-2">
 			<div class="px-2 bg-[#f7f8fA] flex justify-center items-center rounded sm:hidden">
-				<IconTag class="fill-black stroke-black" />
+				<img src="https://ik.imagekit.io/choreless/V2S/icons/tag-black.svg" alt="choreless tag">
 			</div>
 			<div class="text-xl sm:text-[2rem] sm:leading-9 font-bold sm:font-medium sm:px-10">Load label: <span class="sm:font-normal">Tillman + CF2A</span> </div>
 		</div>

@@ -126,7 +126,7 @@ onMounted(()=>{
 				</button>
 				<button class="h-[6.25rem] sm:h-full text-center [&:is(:hover,.active)]:px-0 px-3 sm:px-6 py-2 w-full sm:w-[6.388rem] shadow-card  rounded-[0.313rem] border-[0.063rem] border-b-[0.313rem] border-[#e5e5e5] [&:is(:hover,.active)]:border-brand-orange  transition-all duration-50 ease-linear" :class="!book.pinned_pickup_dates.map(v=>v.formatted).includes(book.date) && 'active'" @click="show_calendar=!show_calendar">
 					<div class="flex flex-col justify-center items-center">
-						<IconMixed2 />
+						<img src="https://ik.imagekit.io/choreless/V2S/icons/calender.svg" alt="choreless calender" />
 					</div>
 					<p :class="book.pinned_pickup_dates.map(v=>v.formatted).includes(book.date) ? 'my-2' : 'text-sm my-1 '" class="  leading-3 pt-0 sm:pt-2.5 ">{{ book.pinned_pickup_dates.map(v=>v.formatted).includes(book.date) ? 'Other' : formatISO(parseISO(book.date), {representation: 'date'}) }}</p>
 					<Icon name="material-symbols:keyboard-arrow-down-rounded" class="text-2xl" />
@@ -138,7 +138,7 @@ onMounted(()=>{
 				</ClientOnly>
 			</div>
 			<p class="text-brand-black/50 text-xs sm:text-sm leading-[1.125rem]  ">All deliveries are between 5pm and 10pm. Standard turnaround on all orders is 2-3 days. Rush turnaround is available for a small fee.</p>
-			<div class="text-base leading-5 font-medium text-brand-orange flex items-center gap-2.5 cursor-pointer" @click="book.learn_more_modal=!book.learn_more_modal"> <IconInfo2 class="w-4 h-4" />Learn More</div>
+			<div class="text-base leading-5 font-medium text-brand-orange flex items-center gap-2.5 cursor-pointer" @click="book.learn_more_modal=!book.learn_more_modal"> <img class="w-4 h-4" src="https://ik.imagekit.io/choreless/V2S/icons/info-orange.svg" alt="info orange"> Learn More</div>
 		</div>
 		<div class="flex flex-col gap-5 ">
 			<h1 class="sm:text-2xl font-bold mt-5 sm:mt-[1.875rem]">Your delivery is schedule for:</h1>
@@ -153,8 +153,7 @@ onMounted(()=>{
 						<h1 class=" text-sm sm:text-base font-medium">{{ book.wash_type }}</h1>
 						<p class=" text-sm sm:text-base text-[#00000080]">{{ book.service_speed==='next_day' ? 'Next day delivery' : '2 day delivery' }}</p>
 					</div>
-
-					<IconMixed />
+					<img src="https://ik.imagekit.io/choreless/V2S/icons/mixed.svg" alt="choreless mixed" />
 				</div>
 			</div>
 			<div v-if="book.extra_service" class="rounded-[0.313rem] w-full h-[6.875rem] sm:h-[7.875rem] border-[0.063rem] border-[#e5e5e5] border-b-[0.313rem] flex">
@@ -168,8 +167,7 @@ onMounted(()=>{
 						<h1 class="text-sm sm:text-base font-medium">{{ book.optional_item.wash_type }}</h1>
 						<p class=" text-sm sm:text-base text-[#00000080]">{{ book.optional_item.service_speed }}</p>
 					</div>
-
-					<IconOptional />
+					<img src="https://ik.imagekit.io/choreless/V2S/icons/optional.svg" alt="choreless optional" />
 				</div>
 			</div>
 		</div>

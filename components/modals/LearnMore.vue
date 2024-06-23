@@ -17,27 +17,20 @@ const book = usePageBook();
 			<div class="mt-[1.688rem] flex flex-col gap-[1.875rem]">
 				<div class="flex items-center gap-3">
 					<div class="w-[1.875rem] h-[1.875rem]  sm:w-10 sm:h-10 bg-[#f8f8f8] rounded-full flex justify-center items-center">
-						<IconClock />
+						<img class="w-4 h-4" src="https://ik.imagekit.io/choreless/V2S/icons/clock.svg" alt="choreless clock" />
 					</div>
 					<p class="text-sm sm:text-base">On your scheduled pickup day, set your bags out by 6 PM.</p>
 				</div>
 				<div class="flex items-center gap-3">
-					<div class="w-[1.875rem] h-[1.875rem]  sm:w-10 sm:h-10 ">
-						<IconMessage />
-					</div>
+					<img  class="w-[1.875rem] h-[1.875rem]  sm:w-10 sm:h-10 "  src="https://ik.imagekit.io/choreless/V2S/icons/message.svg" alt="choreless message" />
 					<p class="text-sm sm:text-base">At 5:30pm on the evening of your pickup, we’ll text you a 30-minute window of when the delivery driver expects to arrive.</p>
 				</div>
 				<div class="flex items-center gap-3">
-					<div class="w-[1.875rem] h-[1.875rem]  sm:w-10 sm:h-10">
-						<IconDoor />
-					</div>
+					<img  class="w-[1.875rem] h-[1.875rem]  sm:w-10 sm:h-10 "  src="https://ik.imagekit.io/choreless/V2S/icons/door.svg" alt="choreless door" />
 					<p class="text-sm sm:text-base">You only need to have the clothes you want us to pick up ready by the door. That’s it!</p>
 				</div>
 				<div class="flex items-center gap-3">
-					<div class="w-[1.875rem] h-[1.875rem]  sm:w-10 sm:h-10">
-						<IconBus />
-					</div>
-
+					<img  class="w-[1.875rem] h-[1.875rem]  sm:w-10 sm:h-10 "  src="https://ik.imagekit.io/choreless/V2S/icons/bus.svg" alt="choreless bus" />
 					<p class="text-sm sm:text-base">After that, Choreless will take care of the rest and deliver your clean clothes right back to your door. Like magic.</p>
 				</div>
 			</div>

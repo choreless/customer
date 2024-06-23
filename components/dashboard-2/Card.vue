@@ -180,9 +180,9 @@ onMounted(() => {
 	<div class=" px-2.5 py-[0.313rem] sm:p-5 flex justify-between items-center ">
 		<div class="flex items-center gap-2.5 sm:gap-5">
 			<div>
-				<IconMixed v-if="order_data.wash_type==='Mixed Wash' " />
-				<IconOptional v-if="order_data.wash_type==='Home & Bedding' " />
-				<IconSteam v-if="order_data.wash_type==='Wash & Steam' " />
+				<img src="https://ik.imagekit.io/choreless/V2S/icons/mixed.svg" alt="choreless note" v-if="order_data.wash_type==='Mixed Wash' " />
+				<img src="https://ik.imagekit.io/choreless/V2S/icons/optional.svg" alt="choreless note" v-if="order_data.wash_type==='Home & Bedding' " />
+				<img src="https://ik.imagekit.io/choreless/V2S/icons/steam.svg" alt="choreless note" v-if="order_data.wash_type==='Wash & Steam' " />
 			</div>
 			<div>
 				<p class=" text-[0.625rem] leading-4 sm:text-xs ">{{ order_data.type }}</p>
@@ -193,7 +193,7 @@ onMounted(() => {
 		</div>
 		<div class="flex justify-center items-center gap-2.5">
 			<div :class="custom_class" class="px-[0.438rem] sm:px-[0.813rem] py-[0.313rem] sm:py-2 text-[0.625rem] leading-[0.625rem] sm:text-xs font-medium text-brand-orange bg-[#ffefed] rounded-[1.875rem]">{{ indication_status }}</div>
-			<div :class="is_expanded ? 'rotate-180': 'rotate-0'" class="transition-all ease-linear duration-150 cursor-pointer  " @click="is_expanded=!is_expanded"><IconDropdown class="w-[0.625rem] h-[0.313rem] sm:w-full sm:h-full " /></div>
+			<div :class="is_expanded ? 'rotate-180': 'rotate-0'" class="transition-all ease-linear duration-150 cursor-pointer  " @click="is_expanded=!is_expanded"><img src="https://ik.imagekit.io/choreless/V2S/icons/dropdown.svg" alt="choreless note" /></div>
 		</div>
 	</div>
 	<div v-if="is_expanded" class="w-[calc(100%-0.625rem)] sm:w-[calc(100%-2.5rem)] mx-auto h-[0.063rem] bg-brand-black/20" />
@@ -213,7 +213,7 @@ onMounted(() => {
 		<div class=" my-2.5 sm:my-[1.25rem] h-[0.063rem] bg-brand-black/20" />
 		<div class="flex flex-col items-start gap-[0.313rem]">
 			<div class="flex items-center gap-[0.313rem]">
-				<IconNote class="fill-[#838383]" />
+				<img src="https://ik.imagekit.io/choreless/V2S/icons/note.svg" alt="choreless note" />
 				<p class=" text-sm text-[#838383] sm:leading-6">Order Details</p>
 			</div>
 			<div class="flex flex-col gap-[0.313rem]">
@@ -265,14 +265,14 @@ onMounted(() => {
 					<div class=" w-fit py-[0.625rem] text-sm text-brand-black">Payment</div>
 					<div class="px-[0.625rem] py-[0.313rem] flex justify-between  items-center w-full">
 						<div class="flex items-center gap-[0.625rem]">
-							<img src="/images/visa.svg" alt="">
+							<img src="https://ik.imagekit.io/choreless/V2S/icons/visa.svg" alt="Visa icon">
 							<div class="text-[0.813rem] leading-8 text-brand-black">{{ selected_card.card_number }} </div>
 						</div>
-						<IconDropdownThin :class="is_card_expanded && 'rotate-180'" class="rotate-0 transition-all ease-linear duration-150 cursor-pointer" @click="is_card_expanded=!is_card_expanded" />
+						<img :class="is_card_expanded && 'rotate-180'" class="rotate-0 transition-all ease-linear duration-150 cursor-pointer" @click="is_card_expanded=!is_card_expanded" src="https://ik.imagekit.io/choreless/V2S/icons/thin-dropdown.svg" alt="Visa icon">
 					</div>
 					<div v-if="is_card_expanded" class="absolute top-9 w-full border-[0.063rem] border-brand-black/20 bg-white rounded-[0.313rem] py-[0.313rem] px-[0.625rem] shadow flex flex-col justify-center items-start">
 						<div v-for="(item,index) in dashboard.card_details" :key="index" class="flex items-center gap-[0.625rem] px-[0.625rem] hover:bg-[#f7fafc] w-full rounded transition-all duration-100 cursor-pointer " @click="selectCard(item)">
-							<img src="/images/visa.svg" alt="">
+							<img src="https://ik.imagekit.io/choreless/V2S/icons/visa.svg" alt="Visa icon">
 							<div class="text-[0.813rem] leading-8 text-brand-black">{{ item.card_number }} </div>
 						</div>
 					</div>
@@ -281,7 +281,7 @@ onMounted(() => {
 					<div class=" w-fit py-[0.625rem] text-sm text-brand-black">Payment</div>
 					<div v-for="(card, index) in dashboard.add_card_details" :key="index" class="px-[0.625rem] py-[0.313rem] flex justify-between  items-center w-full max-w-[19.625rem] overflow-hidden">
 						<div class="flex items-center gap-[0.624rem]">
-							<img src="/images/visa.svg" alt="">
+							<img src="https://ik.imagekit.io/choreless/V2S/icons/visa.svg" alt="Visa icon">
 							<input v-model="card.card_number" type="text" class="text-[0.813rem] leading-8 text-brand-black placeholder:text-[#0116314d] outline-none w-24" placeholder="Card Number">
 						</div>
 						<div class="flex gap-5 text-[0.813rem] leading-8 text-[#0116314d] ">
@@ -293,7 +293,7 @@ onMounted(() => {
 				</div>
 				<div class="flex justify-between items-start text-sm text-brand-black/50 w-full">
 					<div class=" hidden sm:flex cursor-pointer items-center gap-[0.625rem]" @click="add_card_payment=!add_card_payment">
-						<IconAddCard class="w-[0.813rem] h-[0.813rem]" />
+						<img class="w-[0.813rem] h-[0.813rem]" src="https://ik.imagekit.io/choreless/V2S/icons/add.svg" alt="choreless add">
 						<p class="text-xs leading-5 text-[#838383]">Add New card</p>
 					</div>
 				</div>
@@ -305,11 +305,11 @@ onMounted(() => {
 			</div>
 			<div class="flex  items-start gap-[0.625rem] w-full">
 				<button class=" w-1/2 py-[0.625rem] px-[0.938rem] sm:px-[1.875rem] rounded-[0.313rem] border-[0.063rem] border-brand-black/20 flex gap-2 sm:gap-2.5 items-center justify-center ">
-					<IconEdit2 class="!fill-brand-orange stroke-brand-orange w-[0.75rem] h-[0.75rem] sm:w-[0.938rem] sm:h-[0.938rem]" />
+					<img class="w-[0.75rem] h-[0.75rem] sm:w-[0.938rem] sm:h-[0.938rem]" src="https://ik.imagekit.io/choreless/V2S/icons/edit.svg" alt="choreless edit" />
 					<div class="text-sm leading-6 font-medium sm:text-base sm:font-bold text-brand-orange ">Manage</div>
 				</button>
 				<button class=" w-1/2 py-[0.625rem] px-2 sm:px-5 rounded-[0.313rem] border-[0.063rem] border-brand-black/20 flex items-center sm:gap-2 justify-center " @click="is_summary_expanded=!is_summary_expanded">
-					<IconInfoSummary class=" w-[0.75rem] h-[0.75rem] sm:w-[0.938rem] sm:h-[0.938rem] mr-1 sm:mr-0 " />
+					<img class=" w-[0.75rem] h-[0.75rem] sm:w-[0.938rem] sm:h-[0.938rem] mr-1 sm:mr-0 " src="https://ik.imagekit.io/choreless/V2S/icons/info-orange.svg" alt="choreless info" />
 					<div class="text-sm leading-6 font-medium sm:text-base sm:font-bold text-brand-orange ">View Summery</div>
 				</button>
 			</div>

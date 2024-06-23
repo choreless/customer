@@ -93,17 +93,25 @@ onBeforeUnmount(() => {
 		<div class="w-[29.375rem]">
 			<div class="flex items-start justify-start overflow-hidden gap-[0.9rem]  text-black">
 				<div class="p-2.5 rounded-[0.313rem] bg-[#f8f8f8] min-h-[5.125rem] h-full text-center min-w-[8.313rem] w-full">
-					<div class="mb-[0.313rem] flex justify-center items-center"><IconBag /></div>
+					<div class="mb-[0.313rem] flex justify-center items-center">
+					<img src="https://ik.imagekit.io/choreless/V2S/icons/bags.svg" alt="choreless bag" />
+						
+					</div>
 					<p class="text-xs font-bold">Prepare your bags</p>
 					<h1 class="text-[0.625rem] leading-[0.875rem]">Pack 1 bag per service <br> type.</h1>
 				</div>
 				<div class="p-2.5 rounded-[0.313rem] bg-[#f8f8f8] min-h-[5.125rem] h-full text-center min-w-[10.938rem] w-full">
-					<div class="mb-[0.313rem] flex justify-center items-center"><IconClean /></div>
+					<div class="mb-[0.313rem] flex justify-center items-center">
+					<img src="https://ik.imagekit.io/choreless/V2S/icons/clean.svg" alt="choreless clean" />
+						
+					</div>
 					<p class="text-xs font-bold text-nowrap">We collect and clean items</p>
 					<h1 class="text-[0.625rem] leading-[0.875rem]">After cleaning, you <br> will receive an </h1>
 				</div>
 				<div class=" block p-2.5 rounded-[0.313rem] bg-[#f8f8f8] min-h-[5.125rem] h-full text-center min-w-[8.313rem] w-full">
-					<div class="mb-[0.313rem] flex justify-center items-center"><IconDeliver /></div>
+					<div class="mb-[0.313rem] flex justify-center items-center">
+					<img src="https://ik.imagekit.io/choreless/V2S/icons/deliver.svg" alt="choreless deliver" />
+					</div>
 					<p class="text-xs font-bold">We deliver</p>
 					<h1 class="text-[0.625rem] leading-[0.875rem]">After cleaning, you will receive an </h1>
 				</div>

@@ -3,6 +3,7 @@ import InfoModal from '../modals/Info.vue';
 import PricingModal from '../modals/Pricing.vue';
 import AddNoteModal from '../modals/AddNote.vue';
 import SwitchButton from '../buttons/SwitchBtn.vue';
+import ScrollbarContent from './ScrollbarContent.vue'
 // Defining Interfaces
 interface Service {
 	id:number;
@@ -12,6 +13,7 @@ interface Service {
 	bags_count: number;
     service_speed: string;
     note: string;
+	is_selected: boolean;
 }
 // Defining Constants
 
@@ -24,7 +26,8 @@ const clicked_service=ref<Service>({
 	to_price: 0,
 	note: '',
 	service_speed: '',
-	bags_count: 1
+	bags_count: 1,
+	is_selected: false
 
 })
 const wash_services_data=reactive([
@@ -53,36 +56,36 @@ const big_item = book.optional_item
 
 // Defining functions
 
-function select_service(service:Service){
+function selectService(service:Service){
 	clicked_service.value=service
 	book.wash_type=clicked_service.value.wash_type
 	book.service_speed=clicked_service.value.service_speed
 	book.wash_is_required=false
 }
-function update_toggle_val(e:boolean){
-	is_toggle.value=e
-	if(is_toggle.value===true){
+function updateToggleVal(e:boolean){
+	clicked_service.value.is_selected=e
+	if(clicked_service.value.is_selected===true){
 		clicked_service.value.service_speed='2_day'
 		is_toggle.value=true
-	}else if(is_toggle.value===false){
+	}else if(clicked_service.value.is_selected===false){
 		clicked_service.value.service_speed='next_day'
 		is_toggle.value=false
 	}
 }
 
-function open_add_note(service: Service){
+function openAddNote(service: Service){
 	clicked_service.value=service
 	book.add_note_modal=!book.add_note_modal
 	book.note=service.note
 }
 
-function update_note({ note }:{ note: string }){
+function updateNote({ note }:{ note: string }){
 	clicked_service.value.note=note;
 	if(clicked_service.value.id === big_item.id){
 		book.extra_service=true
 	}
 }
-function next_step(){
+function nextStep(){
 	if(book.wash_type ===undefined){
 		book.wash_is_required=true
 	}
@@ -98,7 +101,7 @@ function next_step(){
 <div class="px-[0.938rem] sm:px-0">
 	<div class="my-8 max-w-[29.188rem] mx-auto flex flex-col items-start gap-3 sm:gap-5">
 		<h1 class=" text-base leading-5 sm:text-2xl sm:leading-7 font-bold">How can we help you? </h1>
-		<div v-for="(item,index) of wash_services_data" :key="index" class=" relative px-[0.938rem] py-2.5 cursor-pointer rounded-[0.625rem] border-[0.032rem] border-b-[0.313rem] border-[#e5e5e5] [&:is(.active)]:border-brand-orange w-full   transition-all duration-100 ease-linear shadow-card" :class="book.wash_type==item.wash_type ? 'active' : ''" @click="select_service(item)">
+		<div v-for="(item,index) of wash_services_data" :key="index" class=" relative px-[0.938rem] py-2.5 cursor-pointer rounded-[0.625rem] border-[0.032rem] border-b-[0.313rem] border-[#e5e5e5] [&:is(.active)]:border-brand-orange w-full   transition-all duration-100 ease-linear shadow-card" :class="book.wash_type==item.wash_type ? 'active' : ''" @click="selectService(item)">
 			<div class="flex items-start  sm:items-center self-stretch gap-5 justify-between">
 				<div class="max-w-[22.375rem] w-full flex flex-col items-start gap-0 sm:gap-2.5">
 					<h1 class=" text-xl leading-6 sm:text-2xl sm:leading-6  font-bold text-brand-orange capitalize">{{ item.wash_type }}</h1>
@@ -125,10 +128,10 @@ function next_step(){
 				<div class="flex justify-between items-center self-stretch mt-2.5 sm:mt-5">
 					<div class="max-w-[12.5rem] sm:max-w-[13.969rem] w-full pr-5 flex items-start justify-between gap-2.5">
 						<h1 class="text-xs sm:text-sm leading-5 font-medium">Next Day Delivary</h1>
-						<SwitchButton @update:is_toggle="update_toggle_val" />
+						<SwitchButton :toggle="clicked_service.is_selected" @update:is_toggle="updateToggleVal" />
 					</div>
 					<div class="w-[0.063rem] h-5 bg-[#0000000d]" />
-					<div class=" cursor-pointer text-right text-xs sm:text-sm font-medium " @click="open_add_note(item)">{{ item.note ? 'Edit Note' :'Add Note' }}</div>
+					<div class=" cursor-pointer text-right text-xs sm:text-sm font-medium " @click="openAddNote(item)">{{ item.note ? 'Edit Note' :'Add Note' }}</div>
 				</div>
 				<div class="my-2.5 h-[0.063rem] bg-[#0000000d] w-full" />
 				<div class="flex h-5 justify-between items-center self-stretch px-2.5">
@@ -165,7 +168,7 @@ function next_step(){
 				</div>
 				<div class="flex flex-col justify-center items-center relative w-fit">
 					<div><IconOptional :isActive="book.extra_service " /></div>
-					<div :class="book.extra_service ? 'block' : 'hidden' " class=" cursor-pointer text-right text-xs sm:text-sm font-medium absolute bottom-0 right-0  text-nowrap " @click="open_add_note(big_item)">{{ big_item.note ? 'Edit Note' :'Add Note' }}</div>
+					<div :class="book.extra_service ? 'block' : 'hidden' " class=" cursor-pointer text-right text-xs sm:text-sm font-medium absolute bottom-0 right-0  text-nowrap " @click="openAddNote(big_item)">{{ big_item.note ? 'Edit Note' :'Add Note' }}</div>
 				</div>
 			</div>
 			<div :class="book.extra_service ? 'block' : 'hidden' " class="bg-white w-full ">
@@ -180,8 +183,8 @@ function next_step(){
 
 		<div class=" p-[0.625rem] sm:p-[0.938rem] w-full rounded-[0.313rem] bg-gradient-to-t from-[#ff7565] via-[#ff7565] to-[#ff4e38] ">
 			<div class=" flex justify-between items-center">
-				<div>
-					<IconTag class="mr-[0.938rem] fill-white stroke-white" />
+				<div class="mr-[0.938rem] fill-white stroke-white">
+					<img src="https://ik.imagekit.io/choreless/V2S/icons/tag.svg" alt="choreless tag" />
 				</div>
 				<div class="flex flex-col gap-[0.375rem] text-white max-w-[23.813rem] w-full">
 					<p class=" text-[0.625rem] leading-4 sm:text-sm sm:leading-[1.125rem]">Write your name to avoid laundry mix-ups.</p>
@@ -189,34 +192,18 @@ function next_step(){
 				</div>
 
 				<div class="cursor-pointer">
-					<IconInfo3 @click="book.info_modal=!book.info_modal" />
+					<img @click="book.info_modal=!book.info_modal " src="https://ik.imagekit.io/choreless/V2S/icons/info.svg" alt="choreless info" />
 					<InfoModal />
 				</div>
 			</div>
 		</div>
 		<div class="w-full">
 			<h1 class="text-base leading-5 sm:leading-6 font-bold mb-2.5">What happens next?</h1>
-			<div class="flex items-start justify-start overflow-scroll no-scrollbar gap-[0.938rem]  text-black">
-				<div class="p-2.5 rounded-[0.313rem] bg-[#f8f8f8] min-h-[5.125rem] h-full text-center min-w-[8.313rem] w-full">
-					<div class="mb-[0.313rem] flex justify-center items-center"><IconBag /></div>
-					<p class="text-xs font-bold">Prepare your bags</p>
-					<h1 class="text-[0.625rem] leading-[0.875rem]">Pack 1 bag per service <br> type.</h1>
-				</div>
-				<div class="p-2.5 rounded-[0.313rem] bg-[#f8f8f8] min-h-[5.125rem] h-full text-center min-w-[10.938rem] w-full">
-					<div class="mb-[0.313rem] flex justify-center items-center"><IconClean /></div>
-					<p class="text-xs font-bold text-nowrap">We collect and clean items</p>
-					<h1 class="text-[0.625rem] leading-[0.875rem]">After cleaning, you <br> will receive an </h1>
-				</div>
-				<div class=" block p-2.5 rounded-[0.313rem] bg-[#f8f8f8] min-h-[5.125rem] h-full text-center min-w-[8.313rem] w-full">
-					<div class="mb-[0.313rem] flex justify-center items-center"><IconDeliver /></div>
-					<p class="text-xs font-bold">We deliver</p>
-					<h1 class="text-[0.625rem] leading-[0.875rem]">After cleaning, you will receive an </h1>
-				</div>
-			</div>
+			<ScrollbarContent />
 		</div>
-		<button :class="book.wash_type != undefined ? 'text-white bg-brand-orange' : 'text-black bg-[#f8f8f8]'" class=" hidden sm:block font-bold text-center w-full px-5 py-[1.125rem] rounded-[0.313rem] " @click="next_step">Continue</button>
+		<button :class="book.wash_type != undefined ? 'text-white bg-brand-orange' : 'text-black bg-[#f8f8f8]'" class=" hidden sm:block font-bold text-center w-full px-5 py-[1.125rem] rounded-[0.313rem] " @click="nextStep">Continue</button>
 	</div>
-	<AddNoteModal :note="clicked_service.note" @update:note="update_note" />
+	<AddNoteModal :note="clicked_service.note" @update:note="updateNote" />
 </div>
 <PricingModal />
 </template>

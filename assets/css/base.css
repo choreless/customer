@@ -110,3 +110,13 @@
 		@apply absolute top-1/2 left-3 text-base transform -translate-y-1/2 text-[#cccccc] transition-all duration-200 ease-linear
 	}
 }
+
+.custom-scroll{
+	&::-webkit-scrollbar {
+		width: 4px;
+	}
+	
+	&::-webkit-scrollbar-thumb {
+		@apply bg-gray-300 rounded-xl
+	}
+}

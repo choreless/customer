@@ -40,7 +40,7 @@ const close_modal = () => {
 				class="absolute w-[0.438rem] h-[0.438rem] right-0 top-3 cursor-pointer"
 				@click="close_modal"
 			>
-				<IconClose2 />
+		<img src="https://ik.imagekit.io/choreless/V2S/icons/close.svg" alt="choreless close" />
 			</div>
 		</div>
 		<div class="flex justify-between items-center self-stretch">

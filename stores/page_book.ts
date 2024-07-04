@@ -44,7 +44,10 @@ const add_note_modal=ref(false)
 const info_modal=ref(false)
 const pricing_modal=ref(false)
 const learn_more_modal=ref(false)
+const info_toggle=ref(false)
+const learn_more_toggle=ref(false)
 const preference_note=ref('')
+const current_Screen=ref('select_services')
 const error = reactive({
 	wash_type: false,
 	zip: false,
@@ -185,7 +188,7 @@ watch(zip, n=>{error.zip = !n;})
 return {
 	wash_types, service_speeds, frequencies, now, note, add_note_modal, info_modal, pricing_modal, pricing_info, preference_note, learn_more_modal,
 	step, totalStep, bookProgress, wash_is_required, bags_count, wash_type, extra_service, do_not_show_page, zip, care_services, optional_item, addons, detergent, water_temperature, dryer_temperature, service_speed, frequency, date, error,
-	pinned_pickup_dates, scheduled_delivery, extra_service_scheduled_delivery
+	pinned_pickup_dates, scheduled_delivery, current_Screen, info_toggle, learn_more_toggle, extra_service_scheduled_delivery
 }
 })
 

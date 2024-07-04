@@ -1,10 +1,15 @@
 <script setup lang="ts">
 import SwitchButton from '../buttons/SwitchBtn.vue';
 import customer from '~/lib/customer';
+import format from 'date-fns/format';
+import formatISO from 'date-fns/formatISO';
+import parseISO from 'date-fns/parseISO';
+import type { CalendarDay } from 'v-calendar/dist/types/src/utils/page.js';
+
 // Defining Interfaces
 interface Service {
 	id:number;
-    wash_type: string;
+    service_name: string;
     price: number;
     per_lb: number;
 	bags_count: number;
@@ -12,6 +17,7 @@ interface Service {
     note: string;
 	detergent: string;
 	water_temp:string;
+	water_cycle:string;
 	dryer_temp:string;
 	on_hangers:boolean;
 	mix_bags:boolean;
@@ -22,9 +28,7 @@ interface SubItem {
     is_selected: boolean;
 }
 // Defining Constants
-const current_Screen=ref('select_services')
 const selected_services=reactive([])
-const info_toggle=ref(false)
 const book = usePageBook();
 const pricing_info=book.pricing_info
 const selected_pricing=ref('')
@@ -32,9 +36,11 @@ const selected_item=ref()
 const collapsed= ref(false)
 const next_day_delivery=ref(false)
 const edit_preferences=ref(false)
+const app = useApp();
+const show_calendar = ref(false);
 const clicked_service=reactive<Service>({
 	id: 0,
-	wash_type: '',
+	service_name: '',
 	price: 0,
 	per_lb: 0,
 	note: '',
@@ -42,6 +48,7 @@ const clicked_service=reactive<Service>({
 	bags_count: 1,
 	detergent: '',
 	water_temp: '',
+	water_cycle: '',
 	dryer_temp: '',
 	on_hangers: false,
 	mix_bags: false,
@@ -50,37 +57,60 @@ const clicked_service=reactive<Service>({
 const wash_services_data=reactive([
 	{
 		id: 1,
-		wash_type: 'Wash & Fold',
+		service_name: 'Wash & Fold',
+		wash_type:'Mixed wash',
 		price: 35,
 		per_lb: 1.80,
 		note: '',
 		service_speed: '24h Service',
 		bags_count: 1,
 		tags: ['Normal Cycle', 'Cold Water', 'Tumble-Med'],
-		is_selected: false
-
+		is_selected: false,
+		detergent: '',
+        water_temp: 'Cold',
+        dryer_temp: 'Medium',
+		wash_cycle:'Deep',
+        on_hangers: false,
+        mix_bags: false,
+		preferences_note:''
 	},
 	{
 		id: 2,
-		wash_type: 'Delicate Wash',
+		service_name: 'Delicate Wash',
+		wash_type:'Mixed wash',
 		price: 35,
 		per_lb: 1.80,
 		note: '',
 		service_speed: '24h Service',
 		bags_count: 1,
 		tags: ['Gentle Cycle', 'Tumble-low', 'In a bag'],
-		is_selected: false
+		is_selected: false,
+		detergent: '',
+        water_temp: 'Cold',
+        dryer_temp: 'Medium',
+		wash_cycle:'Deep',
+        on_hangers: false,
+        mix_bags: false,
+		preferences_note:''
 
 	},
 	{
 		id: 3,
-		wash_type: 'Home & Bedding',
+		service_name: 'Home & Bedding',
+		wash_type:'Mixed wash',
 		price: 10,
 		note: '',
 		service_speed: '72h Service',
 		bags_count: 1,
 		tags: ['Custom Cleaning'],
-		is_selected: false
+		is_selected: false,
+		detergent: '',
+        water_temp: 'Cold',
+        dryer_temp: 'Medium',
+		wash_cycle:'Deep',
+        on_hangers: false,
+        mix_bags: false,
+		preferences_note:''
 
 	}
 ])
@@ -143,7 +173,7 @@ const selected_Wash=ref('Mixed Wash')
 
 // Defining functions
 
-function select_preference(selected_item: object , index: number){
+function selectPreference(selected_item: object , index: number){
 	preferences[index].items.forEach((sub_item: SubItem)=>{
 		if(sub_item.name===selected_item.name){
 			sub_item.is_selected=true
@@ -154,18 +184,27 @@ function select_preference(selected_item: object , index: number){
 	})
 }
 
-function add_service(screen : string, id : number){
+function addService(screen : string, id : number){
 	wash_services_data.forEach((service)=>{
 		if(service.id===id){
 			service.is_selected=true
 		}
 	})
+	const selected_water_temp = preferences.find(preference => preference.heading === 'Water Temp').items.find(item => item.is_selected);
+	const selected_wash_cycle = preferences.find(preference => preference.heading === 'Wash cycle').items.find(item => item.is_selected);
+	const selected_dryer_temp = preferences.find(preference => preference.heading === 'Dryer Temp').items.find(item => item.is_selected);
+	selected_item.value.water_temp=selected_water_temp.name
+	selected_item.value.wash_cycle=selected_wash_cycle.name
+	selected_item.value.dryer_temp=selected_dryer_temp.name
+	selected_item.value.detergent=book.detergent.value
+	// console.log('selected',selected_item.value)
+	// console.log('detegent',book.detergent.value)
 	selected_services.push(selected_item.value)
-	current_Screen.value=screen
+	book.current_Screen=screen
 }
 
-function get_selected_Wash(){
-	clicked_service.wash_type=selected_Wash.value
+function getSelectedWash(){
+	clicked_service.service_name=selected_Wash.value
 	clicked_service.detergent=book.detergent.value
 	if(next_day_delivery){
 		clicked_service.service_speed='48h service'
@@ -174,34 +213,61 @@ function get_selected_Wash(){
 	}
 }
 
-function update_screen(screen:string, index:number){
-	current_Screen.value=screen
-	selected_item.value=wash_services_data[index]
+function updateScreen(screen:string, index:number) {
+	book.current_Screen=screen;
+	selected_item.value=wash_services_data[index];
+	edit_preferences.value=false;
+	if(screen==='pricing' ) {
+		selected_item.value=-1
+		selected_pricing.value=''
+	}
+	// console.log('selected_item',selected_item.value)
 }
 
+function selectDate({date, isDisabled}: CalendarDay){
+	if(isDisabled) return;
+	book.date = formatISO(date, {representation: 'date'});
+	show_calendar.value=false;
+}
+function nextStep(){
+	book.step=1
+	book.current_Screen='pickup_date'
+}
 const filtered_data:any = computed(() => {
 	const updated_data=pricing_info.filter((item:any)=>item.heading.includes(selected_pricing.value))
 	return updated_data;
 })
+onMounted(()=>{
+	if(!book.date) book.date = formatISO(book.now, {representation: 'date'});
+})
+watch(() => book.step, (val:number) => {
+	if(val===0){
+		book.current_Screen='select_services'
+	}
+})
+
 </script>
 <template>
-<div class="px-[0.938rem] py-[3.125rem] sm:px-0 relative !overflow-hidden">
-	<div v-if="current_Screen==='select_services'" class=" max-w-[32.938rem] mx-auto flex flex-col items-start gap-5 p-[1.875rem] rounded-[1.25rem] bg-white border-[#f2f2f2] ">
-		<h1 class="text-2xl font-bold leading-7 text-brand-black">How can we help you? </h1>
+<div :class="book.info_toggle ? 'hidden sm:block ' : 'block' " class="sm:px-[0.938rem] sm:py-[3.125rem] px-[0.469rem] py-5  ">
+	<!-- Select service screen -->
+	<div v-if="book.current_Screen==='select_services'" class=" max-w-[32.938rem] mx-auto flex flex-col items-start sm:gap-5 gap-2.5 sm:p-[1.875rem] p-2.5 sm:rounded-[1.25rem] rounded-[0.625rem] bg-white border-[#f2f2f2] ">
+		<h1 class="sm:text-2xl font-bold sm:leading-7 text-base leading-5 text-brand-black sm:mb-0 mb-2.5">How can we help you? </h1>
 		<div v-for="(item,index) of wash_services_data" :key="index" :class="item.is_selected && 'border-brand-black border-[0.063rem]'" class=" relative px-[0.938rem] py-2.5 cursor-pointer rounded-[0.625rem] border-[0.032rem] border-[#f2f2f2] w-full flex flex-col gap-2.5">
-			<div :class="item.is_selected && '!gap-2.5'" class="flex  items-center gap-5 self-stretch">
+			<div :class="item.is_selected && '!gap-2.5'" class="flex  items-center gap-5 self-stretch justify-between">
 				<div class="flex gap-2.5 max-w-[21.75rem] w-full flex-col items-start">
-					<div class="flex gap-[0.563rem] items-center">
-						<img v-if="item.wash_type==='Wash & Fold'" src="https://ik.imagekit.io/choreless/V3/icons/shirt.svg" alt="choreless icon">
-						<img v-if="item.wash_type==='Delicate Wash'" src="https://ik.imagekit.io/choreless/V3/icons/bucket.svg" alt="choreless icon">
-						<img v-if="item.wash_type==='Home & Bedding'" src="https://ik.imagekit.io/choreless/V3/icons/bedding.svg" alt="choreless icon">
-						<div class="text-2xl leading-6 font-bold">{{ item.wash_type }}</div>
-						<div class="flex items-center gap-[0.313rem]">
-							<img class="w-2.5 h-2.5" src="https://ik.imagekit.io/choreless/V3/icons/clock.svg" alt="">
-							<div class="text-brand-black text-xs font-medium leading-6">{{ item.service_speed }}</div>
+					<div class="flex gap-[0.563rem] sm:items-center items-start">
+						<img v-if="item.service_name==='Wash & Fold'" src="https://ik.imagekit.io/choreless/V3/icons/shirt.svg" alt="choreless icon">
+						<img v-if="item.service_name==='Delicate Wash'" src="https://ik.imagekit.io/choreless/V3/icons/bucket.svg" alt="choreless icon">
+						<img v-if="item.service_name==='Home & Bedding'" src="https://ik.imagekit.io/choreless/V3/icons/bedding.svg" alt="choreless icon">
+						<div class="flex sm:gap-[0.563rem] gap-[0.313rem] items-center flex-wrap">
+							<div class="sm:text-2xl text-xl leading-6 font-bold">{{ item.service_name }}</div>
+							<div class="flex items-center gap-[0.313rem]">
+								<img class="w-2.5 h-2.5" src="https://ik.imagekit.io/choreless/V3/icons/clock.svg" alt="choreless clock">
+								<div class="text-brand-black text-xs font-medium leading-6">{{ item.service_speed }}</div>
+							</div>
 						</div>
 					</div>
-					<div v-if="item.wash_type != 'Home & Bedding'" class="text-[0.625rem] text-brand-black leading-4">
+					<div v-if="item.service_name != 'Home & Bedding'" class="text-[0.625rem] text-brand-black leading-4">
 						Starting at
 						<span class="font-medium">
 							${{ item.price }} minimum
@@ -218,76 +284,92 @@ const filtered_data:any = computed(() => {
 						<span class="text-[0.5rem]">Price per item</span>
 					</div>
 					<div class=" flex flex-col items-start self-stretch gap-[0.313rem]">
-						<div class="flex justify-center items-center gap-2.5">
+						<div class="flex sm:justify-center justify-start items-center gap-2.5 flex-wrap">
 							<div v-for="(tag,subIndex) in item.tags" :key="subIndex" class="px-2.5  rounded-[1.25rem] bg-[#f2f2f2] text-[0.5rem]  leading-[0.875rem] uppercase text-brand-black">{{ tag }}</div>
 						</div>
 						<div class="text-xs text-brand-black">Convenient wash & fold laundry service for individuals couples. </div>
 					</div>
 				</div>
 				<div class="flex flex-col justify-between items-end self-stretch pt-5">
-					<div :class="item.is_selected ? 'flex px-2.5 py-[0.188rem] items-center gap-[0.438rem] rounded-[1.25rem] border-[0.063rem] border-brand-black bg-black text-white' : 'flex py-[0.188rem] px-[0.938rem] gap-2.5 rounded-[1.25rem] border-[0.063rem] border-brand-black' " class=" text-right text-sm font-medium" @click="update_screen('preferences', index)">
+					<div :class="item.is_selected ? 'flex sm:px-2.5 px-2 py-[0.188rem] items-center  sm:gap-[0.438rem] gap-1 rounded-[1.25rem] border-[0.063rem] border-brand-black bg-black text-white' : 'flex py-[0.188rem] sm:px-[0.938rem] px-2 gap-2.5 rounded-[1.25rem] border-[0.063rem] border-brand-black' " class=" text-right sm:text-sm text-[0.813rem] leading-5 font-medium" @click="updateScreen('preferences', index)">
 						<span v-if="item.is_selected">
 							<img src="https://ik.imagekit.io/choreless/V3/icons/tick-mark.svg" alt="choreless tick">
 						</span>
-						{{ item.is_selected ? 'Added' : '+ Add' }}
+						<div class="whitespace-nowrap">
+							{{ item.is_selected ? 'Added' : '+ Add' }}
+						</div>
 					</div>
-					<div v-if="!item.is_selected" class="text-xs font-medium text-right " @click="update_screen('pricing', index)">See pricing</div>
+					<div v-if="!item.is_selected" class="text-xs font-medium text-right whitespace-nowrap " @click="updateScreen('pricing', index)">See pricing</div>
 				</div>
 			</div>
 			<div v-if="item.is_selected">
-				<div class="flex items-center justify-end w-full text-xs font-medium text-brand-black border-b-[0.063rem] pb-2.5 border-[#0000000d] cursor-pointer" @click="update_screen('add_note', index)">Add Note</div>
+				<div class="flex items-center justify-end w-full text-xs font-medium text-brand-black border-b-[0.063rem] pb-2.5 border-[#0000000d] cursor-pointer" @click="updateScreen('add_note', index)">Add Note</div>
 				<div class="flex px-2.5 justify-between items-center self-stretch pt-2.5">
-					<div :class="item.bags_count > 1 && '!text-black'" class="text-[2.188rem] leading-5 text-[#838383] select-none" @click=" item.bags_count >1 && item.bags_count--">-</div>
+					<div :class="item.bags_count > 1 && '!text-black'" class="text-[1.563rem] sm:text-[2.188rem] leading-5 text-[#838383] select-none" @click=" item.bags_count >1 && item.bags_count--">-</div>
 					<div class="text-sm font-medium leading-5 text-brand-black"> <span class="mr-1"> {{ item.bags_count }} </span> Bags</div>
-					<div class="text-[2.188rem] leading-5 text-brand-black select-none" @click="item.bags_count++">+</div>
+					<div class="text-[1.563rem] sm:text-[2.188rem] leading-5 text-brand-black select-none" @click="item.bags_count++">+</div>
 				</div>
 			</div>
 		</div>
-		<div @click="info_toggle=true" class="flex items-center justify-between w-full rounded-[0.625rem] border-[0.032rem] border-[#f2f2f2] ">
-			<img src="https://ik.imagekit.io/choreless/V3/label.svg" alt="choreless label">
+		<div @click="book.info_toggle=true" class="flex items-center justify-between w-full cursor-pointer rounded-[0.625rem] border-[0.032rem] border-[#f2f2f2] sm:flex-nowrap flex-wrap sm:my-0 my-2.5 ">
+			<img class="sm:block hidden" src="https://ik.imagekit.io/choreless/V3/label.svg" alt="choreless label">
+			<img class="block sm:hidden w-full h-[5rem] object-cover object-top" src="https://ik.imagekit.io/choreless/V3/label-2.svg" alt="choreless label">
 			<div class="p-[0.938rem] flex flex-col items-start gap-[0.375rem] max-w-[20.563rem] w-full self-stretch">
 				<h1 class="text-sm leading-[1.125rem] font-bold">Label your laundry to avoid mix-ups.</h1>
 				<p class="text-sm leading-[1.125rem]">Load label: Tillman + CF2A</p>
 			</div>
 		</div>
-		<button class=" bg-brand-black px-5 py-[1.125rem] flex w-full justify-center items-center rounded-[3.125rem] text-white font-bold " >Continue</button>
+		<button :disabled="selected_services.length===0"  @click="nextStep()" class="disabled:bg-[#f8f8f8] disabled:text-brand-black hidden sm:flex bg-brand-black px-5 py-[1.125rem] w-full justify-center items-center rounded-[3.125rem] text-white font-bold " >Continue</button>
 	</div>
-
-	<div v-if="current_Screen==='pricing'" class=" max-w-[32.938rem] mx-auto flex flex-col items-start gap-5 p-[1.875rem] rounded-[1.25rem] bg-white border-[#f2f2f2] ">
-		<div class="text-2xl font-bold leading-7 text-brand-black flex  items-center gap-2.5"> <div class="w-[2.563rem] h-[2.563rem] bg-white  rounded-full shadow-md flex items-center justify-center cursor-pointer" @click="update_screen('select_services', selected_item)"><img class="w-2.5 h-5 mr-1" src="https://ik.imagekit.io/choreless/V3/icons/arrow.svg" alt="arrow"></div><div> Pricing</div> </div>
-		<div class="flex px-[1.875rem] justify-center items-start content-start gap-2.5 self-stretch flex-wrap">
-			<div :class="selected_item==-1 ? 'bg-black text-white' :'bg-[#f2f2f2] text-black'" class="w-fit px-2.5 py-[0.313rem] flex flex-wrap justify-center items-center rounded-[1.25rem] gap-[0.313rem] transition-all duration-150 ease-linear cursor-pointer" @click="selected_pricing='', selected_item=-1"><IconTick v-if="selected_item==-1" /> All</div>
+	<!-- Pricing screen -->
+	<div v-if="book.current_Screen==='pricing'" class=" sm:max-w-[32.938rem] w-full absolute top-0 left-0 sm:z-0 z-50 sm:relative mx-auto flex flex-col items-start gap-5 sm:p-[1.875rem] pb-2.5 sm:rounded-[1.25rem] bg-white border-[#f2f2f2] sm:min-h-full min-h-screen ">
+		<div class="sm:text-2xl font-bold sm:leading-7 text-base leading-5 text-brand-black flex  items-center gap-2.5 sm:p-0 p-2.5"> 
+			<div class="sm:w-[2.563rem] sm:h-[2.563rem] w-5 h-5 bg-white  rounded-full shadow-md flex items-center justify-center cursor-pointer" @click="updateScreen('select_services', selected_item)">
+			<img class=" hidden sm:block w-2.5 h-5 mr-1" src="https://ik.imagekit.io/choreless/V3/icons/arrow.svg" alt="arrow">
+			<img class=" block sm:hidden " src="https://ik.imagekit.io/choreless/V3/icons/arrow-2.svg" alt="arrow">
+		</div>
+		<div> Pricing</div> 
+	</div>
+		<div class="flex sm:px-[1.875rem] px-5 justify-center items-start content-start gap-2.5 self-stretch flex-wrap ">
+			<div :class="selected_item==-1 ? 'bg-black text-white' :'bg-[#f2f2f2] text-black'" class="w-fit px-2.5 py-[0.313rem] flex flex-wrap justify-center items-center rounded-[1.25rem] gap-[0.313rem] transition-all duration-150 ease-linear cursor-pointer sm:text-base text-sm leading-[1.125rem]" @click="selected_pricing='', selected_item=-1"><img v-if="selected_item==-1" src="https://ik.imagekit.io/choreless/V3/icons/right-tick.svg" alt="choreless tick" />All</div>
 			<div v-for="(item,index) in pricing_info" :key="index">
-				<div :class="selected_item==index ? 'bg-black text-white' :'bg-[#f2f2f2] text-black'" class="w-fit   px-2.5 py-[0.313rem] flex justify-center items-center rounded-[1.25rem] gap-[0.313rem] transition-all duration-150 ease-linear cursor-pointer" @click="selected_pricing=item.heading,selected_item=index"><IconTick v-if="selected_item==index" />{{ item.heading }}</div>
+				<div :class="selected_item==index ? 'bg-black text-white' :'bg-[#f2f2f2] text-black'" class="w-fit   px-2.5 py-[0.313rem] flex justify-center items-center rounded-[1.25rem] gap-[0.313rem] transition-all duration-150 ease-linear cursor-pointer sm:text-base text-sm leading-[1.125rem]" @click="selected_pricing=item.heading,selected_item=index"><img v-if="selected_item==index" src="https://ik.imagekit.io/choreless/V3/icons/right-tick.svg" alt="choreless tick" />{{ item.heading }}</div>
 			</div>
 		</div>
-		<div class="w-full max-h-[25.313rem] overflow-y-scroll custom-scroll px-10">
+		<div class="w-full max-h-[25.313rem] overflow-y-scroll custom-scroll sm:px-10 px-4">
 			<div v-for="(item,index) in filtered_data" :key="index" class="flex flex-col gap-2.5 items-start self-stretch">
-				<h1 class="text-xl leading-6 font-bold">{{ item.heading }}</h1>
-				<div v-for="(sub_item,subIndex) in item.items" :key="subIndex" :class="item.legnth > 0 ? 'last:border-none':''" class="  border-b-[0.063rem] border-brand-black/5 pb-2.5 flex justify-between w-full items-center text-xs sm:text-sm ">
-					<div class="text-sm leading-5 ">{{ sub_item.title }}</div>
-					<div class="text-sm leading-5 "> <span v-if="sub_item.from_price !== null"> ${{ sub_item.from_price }} - </span> ${{ sub_item.to_price }} / unit</div>
+				<h1 class="sm:text-xl text-base sm:leading-6 leading-5 font-bold">{{ item.heading }}</h1>
+				<div v-for="(sub_item,sub_index) in item.items" :key="sub_index" class="border-b-[0.063rem] border-brand-black/5 pb-2.5 flex justify-between w-full items-center text-xs sm:text-sm ">
+					<div class="sm:text-sm sm:leading-5 text-xs leading-4 ">{{ sub_item.title }}</div>
+					<div class="sm:text-sm sm:leading-5 text-xs leading-4 "> <span v-if="sub_item.from_price !== null"> ${{ sub_item.from_price }} - </span> ${{ sub_item.to_price }} / unit</div>
 				</div>
 			</div>
 		</div>
-		<div class="px-[0.844rem] w-full mx-auto">
-			<button class=" bg-brand-black px-5 py-[1.125rem] flex w-full justify-center items-center rounded-[3.125rem] text-white font-bold" >Got it</button>
+		<div class="sm:px-[0.844rem] px-5 w-full mx-auto">
+			<button class=" bg-brand-black px-5 py-[1.125rem] flex w-full justify-center items-center rounded-[3.125rem] text-white font-bold"  @click="updateScreen('select_services')">Got it</button>
 		</div>
 	</div>
-	<div v-if="current_Screen==='preferences'">
-		<div class=" max-w-[32.938rem] mx-auto flex flex-col items-start gap-5 p-[1.875rem] rounded-[1.25rem] bg-white border-[#f2f2f2] ">
-			<div class=" text-2xl font-bold leading-7 text-brand-black flex  items-center gap-2.5"> <div class="w-[2.563rem] h-[2.563rem] bg-white  rounded-full shadow-md flex items-center justify-center cursor-pointer" @click="update_screen('select_services', selected_item), edit_preferences=false"><img class="w-2.5 h-5 mr-1" src="https://ik.imagekit.io/choreless/V3/icons/arrow.svg" alt="arrow"></div><div> {{ selected_item.wash_type }} Preferences </div> </div>
-			<div class="flex justify-between items-start w-[27.938rem]">
-				<div :class="selected_Wash === 'Mixed Wash' && 'border-brand-black'" class=" relative cursor-pointer rounded-[0.313rem] border-[0.031rem] hover:border-[0.063rem] border-[#6f6e7433] bg-white flex w-[13.438rem] py-[0.938rem] px-2.5 flex-col justify-center gap-[0.313rem] text-brand-black items-center">
+	<!-- Preferences screen -->
+	<div v-if="book.current_Screen==='preferences'">
+		<div class="sm:max-w-[32.938rem] w-full absolute top-0 left-0 sm:z-0 z-50 sm:relative mx-auto flex flex-col items-start gap-5  px-2.5 py-5 sm:p-[1.875rem] sm:rounded-[1.25rem] bg-white border-[#f2f2f2] sm:min-h-full min-h-screen ">
+			<div class="sm:text-2xl font-bold sm:leading-7 text-base leading-5 text-brand-black flex  items-center gap-2.5 sm:p-0 p-2.5"> 
+				<div class="sm:w-[2.563rem] sm:h-[2.563rem] w-5 h-5 bg-white  rounded-full shadow-md flex items-center justify-center cursor-pointer" @click="updateScreen('select_services', selected_item), edit_preferences=false">
+					<img class=" hidden sm:block w-2.5 h-5 mr-1" src="https://ik.imagekit.io/choreless/V3/icons/arrow.svg" alt="arrow">
+					<img class=" block sm:hidden " src="https://ik.imagekit.io/choreless/V3/icons/arrow-2.svg" alt="arrow">
+				</div>
+				<div> {{ selected_item?.service_name }} Preferences </div> 
+			</div>
+			<div class="flex justify-between items-start w-full ">
+				<div :class="selected_Wash === 'Mixed Wash' && 'border-brand-black'" class=" w-[8.75rem] relative cursor-pointer rounded-[0.313rem] border-[0.031rem] hover:border-[0.063rem] border-[#6f6e7433] bg-white flex sm:w-[13.438rem] sm:py-[0.938rem] py-[0.938rem] sm:px-2.5 px-0 flex-col justify-center gap-[0.313rem] text-brand-black items-center">
 					<label class="absolute top-0 right-0 flex items-center p-3 rounded-full cursor-pointer" htmlFor="html">
 						<input
 							id="html" v-model="selected_Wash"
 							name="service"
 							type="radio"
-							class="before:content[''] peer relative h-5 w-5 checked:bg-black cursor-pointer appearance-none rounded-full border border-brand-black/20  transition-all "
+							class="before:content[''] peer relative sm:h-5 sm:w-5 w-[1.063rem] h-[1.063rem] checked:bg-black cursor-pointer appearance-none rounded-full border border-brand-black/20  transition-all "
 							checked
 							:value="'Mixed Wash'"
-							@change="get_selected_Wash"
+							@change="getSelectedWash"
 						>
 						<span
 							class="absolute text-gray-900 transition-opacity opacity-0 pointer-events-none top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 peer-checked:opacity-100 "
@@ -300,15 +382,15 @@ const filtered_data:any = computed(() => {
 					<div class="px-2.5 bg-[#d4e8e6] rounded-[0.688rem]  text-[0.625rem] leading-4 font-medium ">$1.80 / lb</div>
 					<div class="text-[0.625rem] font-medium leading-4 text-brand-black ">$35.00 minimum</div>
 				</div>
-				<div :class="selected_Wash === 'Seperate Wash' && 'border-brand-black'" class=" relative cursor-pointer rounded-[0.313rem] border-[0.031rem] hover:border-[0.063rem] border-[#6f6e7433] bg-white flex w-[13.438rem] py-[0.938rem] px-2.5 flex-col justify-center gap-[0.313rem] text-brand-black items-center">
+				<div :class="selected_Wash === 'Seperate Wash' && 'border-brand-black'" class="w-[8.75rem] relative cursor-pointer rounded-[0.313rem] border-[0.031rem] hover:border-[0.063rem] border-[#6f6e7433] bg-white flex sm:w-[13.438rem] sm:py-[0.938rem] py-[0.938rem] sm:px-2.5 px-0 flex-col justify-center gap-[0.313rem] text-brand-black items-center">
 					<label class="absolute top-0 right-0 flex items-center p-3 rounded-full cursor-pointer" htmlFor="html">
 						<input
 							id="html" v-model="selected_Wash"
 							name="service"
 							type="radio"
 							:value="'Seperate Wash'"
-							class="before:content[''] peer relative h-5 w-5 checked:bg-black cursor-pointer appearance-none rounded-full border border-brand-black/20  transition-all "
-							@change="get_selected_Wash"
+							class="before:content[''] peer relative sm:h-5 sm:w-5 w-[1.063rem] h-[1.063rem] checked:bg-black cursor-pointer appearance-none rounded-full border border-brand-black/20  transition-all "
+							@change="getSelectedWash"
 						>
 						<span
 							class="absolute text-gray-900 transition-opacity opacity-0 pointer-events-none top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 peer-checked:opacity-100 "
@@ -324,7 +406,7 @@ const filtered_data:any = computed(() => {
 			</div>
 			<div class="rounded-[0.313rem] flex justify-between items-center bg-[#f2f1ec] px-5 py-2.5 w-full">
 				<div class="flex flex-col gap-[0.188rem] text-brand-black w-[19.938rem]">
-					<div class="leading-5 font-bold  ">Next day delivery</div>
+					<div class="leading-5 font-bold ">Next day delivery</div>
 					<div class="text-sm leading-[1.125rem] ">
 						Standard processing: 2 days. For next-day delivery, Toggle the button. <span class="text-[0.625rem] leading-[1.125rem]"> (additional fees apply).</span>
 					</div>
@@ -333,10 +415,9 @@ const filtered_data:any = computed(() => {
 					<SwitchButton @update:is_toggle="(active)=>next_day_delivery=active" />
 				</div>
 			</div>
-
-			<div class="collapse  rounded-[0.313rem]  ">
+			<div class="collapse rounded-[0.313rem]  ">
 				<input v-model="collapsed" type="checkbox">
-				<div class="collapse-title text-sm sm:text-base  flex justify-between items-center py-[0.75rem] px-5 font-medium border-[0.063rem] border-[#e5e5e5] bg-white rounded-[0.313rem]">
+				<div class="collapse-title text-sm sm:text-base flex justify-between items-center py-[0.75rem] px-5 font-medium border-[0.063rem] border-[#e5e5e5] bg-white rounded-[0.313rem]">
 					{{ book.detergent.value ?? 'Choose a detergent' }}
 					<Icon class="text-[2rem] leading-6 !font-normal" :name="!collapsed ? 'material-symbols:add-rounded' : 'ic:sharp-minus'" />
 				</div>
@@ -351,7 +432,7 @@ const filtered_data:any = computed(() => {
 			<div v-if="!edit_preferences" class="flex px-5 py-2.5 justify-between items-start rounded-[0.313rem] border-[0.031rem] border-[#6f6e7433] w-full ">
 				<div class="flex flex-col items-start gap-2.5">
 					<div class="font-bold">Care Preferences</div>
-					<div class="flex flex-col items-start gap-2.5 ">
+					<div class="flex flex-col items-start gap-2.5">
 						<div class="font-medium leading-5">
 							Water Temp:
 							<span class="text-sm font-normal">
@@ -394,7 +475,7 @@ const filtered_data:any = computed(() => {
 				<div v-for="(item,index) in preferences" :key="index" class="flex flex-col items-start self-stretch gap-2.5">
 					<div class="capitalize leading-5 font-bold">{{ item.heading }}</div>
 					<div class="flex items-start gap-2.5 w-full ">
-						<div v-for="(sub_item,sub_index) in item.items" :key="sub_index" :class="sub_item.is_selected && '!bg-brand-black text-white' " class="px-5 py-[0.875rem] flex-1 text-center cursor-pointer bg-white rounded-[0.313rem]  font-medium text-brand-black border-[0.063rem] border-[#6f6e7433] " @click="select_preference(sub_item,index)">{{ sub_item.name }}</div>
+						<div v-for="(sub_item,sub_index) in item.items" :key="sub_index" :class="sub_item.is_selected && '!bg-brand-black text-white' " class="px-5 py-[0.875rem] flex-1 text-center cursor-pointer bg-white rounded-[0.313rem]  font-medium text-brand-black border-[0.063rem] border-[#6f6e7433] " @click="selectPreference(sub_item,index)">{{ sub_item.name }}</div>
 					</div>
 				</div>
 				<div v-for="(item,index) in book.care_services" :key="index" class="  flex items-center w-full border-brand-black/20 border rounded-lg justify-between px-5 py-[0.875rem]">
@@ -409,41 +490,92 @@ const filtered_data:any = computed(() => {
 					<textarea v-model="book.preference_note" rows="3" class=" w-full flex px-5 pt-2.5 pb-[0.938rem] items-start gap-2.5 self-stretch placeholder:text-[#e5e5e5] outline-none rounded-[0.313rem] border-[0.063rem] border-[#6f6e7433] " placeholder="Care preferences " />
 				</div>
 			</div>
-			<button class=" bg-brand-black px-5 py-[1.125rem] flex w-full justify-center items-center rounded-[3.125rem] text-white font-bold  " @click="add_service('select_services', selected_item?.id)">Add service</button>
+			<button class=" bg-brand-black px-5 py-[1.125rem] flex w-full justify-center items-center rounded-[3.125rem] text-white font-bold  " @click="addService('select_services', selected_item?.id)">Add service</button>
 		</div>
 	</div>
-	<div v-if="current_Screen==='add_note'" class=" max-w-[32.938rem] mx-auto flex flex-col items-start gap-2.5 p-[1.875rem] rounded-[1.25rem] bg-white border-[#f2f2f2] ">
-		<div class=" text-2xl font-bold leading-7 text-brand-black flex  items-center gap-2.5"> <div class="w-[2.563rem] h-[2.563rem] bg-white  rounded-full shadow-md flex items-center justify-center cursor-pointer" @click="update_screen('select_services', selected_item)"><img class="w-2.5 h-5 mr-1" src="https://ik.imagekit.io/choreless/V3/icons/arrow.svg" alt="arrow"></div><div>Add Note</div> </div>
+	<!-- Add note screen -->
+	<div v-if="book.current_Screen==='add_note'" class="sm:max-w-[32.938rem] w-full absolute top-0 left-0 sm:z-0 z-50 sm:relative mx-auto flex flex-col justify-between items-start gap-5  px-2.5 py-5 sm:p-[1.875rem] sm:rounded-[1.25rem] bg-white border-[#f2f2f2] sm:min-h-full min-h-screen">
+		<div class="w-full flex flex-col sm:gap-5 gap-2.5 sm:px-0 px-2.5">
+			<div class=" sm:text-2xl font-bold sm:leading-7 text-base leading-5 text-brand-black flex  items-center gap-2.5 sm:p-0 p-2.5"> 
+				<div class="sm:w-[2.563rem] sm:h-[2.563rem] w-5 h-5 bg-white  rounded-full shadow-md flex items-center justify-center cursor-pointer" @click="updateScreen('select_services', selected_item), edit_preferences=false">
+					<img class=" hidden sm:block w-2.5 h-5 mr-1" src="https://ik.imagekit.io/choreless/V3/icons/arrow.svg" alt="arrow">
+					<img class=" block sm:hidden " src="https://ik.imagekit.io/choreless/V3/icons/arrow-2.svg" alt="arrow">
+				</div>
+			<div>Add Note</div> 
+		</div>
 		<div class="flex justify-between w-full items-center self-center">
-			<p class="text-brand-black  leading-6 ">Add Special instructions</p>
-			<p class=" leading-[0.938rem] font-medium cursor-pointer" @click="selected_item.note=''">Clear</p>
+			<p class="text-brand-black sm:leading-6 leading-5 ">Add Special instructions</p>
+			<p class=" sm:leading-[0.938rem] leading-[1.125rem] sm:text-base text-sm font-medium cursor-pointer" @click="selected_item.note=''">Clear</p>
 		</div>
 		<textarea v-model="selected_item.note" rows="3" class=" w-full flex px-5 pt-2.5 pb-[0.938rem] items-start gap-2.5 self-stretch placeholder:text-[#e5e5e5] outline-none rounded-[0.313rem] border-[0.063rem] border-[#6f6e7433] " placeholder="Add Note " />
-		<button class="flex max-w-[29.188rem] h-12 px-5 py-[1.125rem] justify-center items-center gap-2.5 rounded-[3.125rem] bg-[#f8f8f8] font-bold leading-6 w-full cursor-pointer " :class="selected_item.note && 'bg-brand-black text-white'" :disabled="!selected_item.note"   @click="update_screen('select_services', selected_item)">Save</button>
 	</div>
-</div>
-<div :class="info_toggle ? 'right-0' : 'right-[-800px]'" class="flex !overflow-hidden transition-all duration-200 ease-linear max-w-[800px] w-full h-[1000px] pb-5 flex-col justify-between items-center absolute top-0  z-50 bg-white">
-	<div class="flex flex-col items-center gap-[30px] self-stretch ">
-		<div class="bg-[#F2d46e] flex h-[180px] justify-center items-start gap-[8px] self-stretch  relative">
-			<div @click="info_toggle=false" class=" absolute top-[28px] left-[28px] text-2xl font-bold leading-7 text-brand-black flex  items-center gap-2.5"> <div class="w-[2.563rem] h-[2.563rem] bg-white  rounded-full shadow-md flex items-center justify-center cursor-pointer"><img class="w-2.5 h-5 mr-1" src="https://ik.imagekit.io/choreless/V3/icons/arrow.svg" alt="arrow"></div> </div>
-			<div class="flex py-[30px] flex-col justify-end items-center gap-[8px] self-stretch">
-				<div class="text-xl leading-9 font-medium tracking-[2px] text-brand-black">Load label</div>
-				<div class="text-[32px] font-bold leading-9 text-brand-black">Tillman + CF2A</div>
+		<button class="flex max-w-[29.188rem] h-12 px-5 py-[1.125rem] justify-center items-center gap-2.5 rounded-[3.125rem] bg-[#f8f8f8] font-bold leading-6 w-full cursor-pointer " :class="selected_item.note && 'bg-brand-black text-white'" :disabled="!selected_item.note"   @click="updateScreen('select_services', selected_item)">Save</button>
+	</div>
+	<!-- Pickup date screen -->
+	<div v-if="book.step===1">
+		<div class=" max-w-[32.938rem] mx-auto flex flex-col items-start sm:gap-5 gap-2.5 sm:p-[1.875rem] p-2.5 sm:rounded-[1.25rem] rounded-[0.625rem] bg-white border-[#f2f2f2] ">
+			<div class="inline-flex sm:gap-[1.875rem] gap-2.5 flex-col items-start">
+				<div class="flex flex-col items-start sm:gap-[1.875rem] gap-5">
+					<div class="flex flex-col items-start sm:gap-5 gap-2.5">
+						<div class="sm:text-2xl sm:leading-7 text-base leading-5 font-bold">Choose your pickup date:</div>
+						<div class="flex gap-[0.813rem] items-start justify-between w-full">
+						<button v-for="date of book.pinned_pickup_dates" :key="date.formatted">
+								<div class="sm:w-[6.688rem] sm:h-[7.875rem] w-auto h-auto px-2.5 py-[0.188rem] rounded-[0.313rem] border-[0.031rem] border-[#6f6e7433] flex flex-col items-center [&:is(:hover,.active)]:border-brand-black" :class="book.date===date.formatted && 'active'" @click="book.date=date.formatted">
+									<div class="text-base sm:leading-10 leading-5">{{ format(date.unformatted, 'MMM') }}</div>
+									<div class="sm:text-[3rem] sm:leading-10 text-[2rem] leading-[2.375rem] font-bold">{{ format(date.unformatted, 'dd') }}</div>
+									<div class="text-base sm:leading-10 leading-5">{{ format(date.unformatted, 'iii') }}</div>
+								</div>
+							</button>
+							<button class="sm:w-[6.688rem] sm:h-[7.875rem] w-[3.938rem] h-auto px-2.5 py-[0.188rem] rounded-[0.313rem] border-[0.031rem] border-[#6f6e7433] flex flex-col justify-center items-center [&:is(:hover,.active)]:border-brand-black" :class="!book.pinned_pickup_dates.map(v=>v.formatted).includes(book.date) && 'active'"  @click="show_calendar=!show_calendar">
+							<div class="flex flex-col justify-center items-center">
+						<img class="sm:w-auto sm:h-auto h-5 w-[1.106rem]" src="https://ik.imagekit.io/choreless/V3/icons/calender-2.svg" alt="choreless calender">
+					</div>
+					<p :class="book.pinned_pickup_dates.map(v=>v.formatted).includes(book.date) ? 'my-2' : 'text-xs my-1 mt-2 '" class="  leading-3 pt-0 sm:pt-2.5 ">{{ book.pinned_pickup_dates.map(v=>v.formatted).includes(book.date) ? 'Other' : formatISO(parseISO(book.date), {representation: 'date'}) }}</p>
+					<Icon name="material-symbols:keyboard-arrow-down-rounded" class="text-2xl" />
+				</button>			
+			</div>
+			<div v-show="show_calendar">
+				<ClientOnly>
+					<VCalendar borderless expanded class="" title-position="left" :first-day-of-week="2" :columns="app.breakpoints.sm ? 2 : 1" :min-date="book.pinned_pickup_dates[0].unformatted" :attributes="[{highlight: true, dates: parseISO(book.date)}]" @dayclick="selectDate" />
+				</ClientOnly>
+			</div>
+						<div class="flex sm:p-2.5 px-2.5 py-[0.438rem] flex-col items-start sm:gap-2.5 gap-[0.313rem] self-stretch rounded-[0.313rem] bg-brand-frost-light">
+							<div class="sm:text-sm text-xs leading-4 sm:leading-[1.125rem]">All deliveries are between 6pm and 10pm. Standard turnaround on all orders is 1-2 days. </div>
+							<div class="flex items-center gap-2.5 cursor-pointer" @click="book.learn_more_toggle=true">
+								<img class="sm:w-4 sm:h-4 w-3 h-3" src="https://ik.imagekit.io/choreless/V3/icons/info.svg" alt="info">
+								<div class="sm:text-base text-sm font-medium sm:leading-5 leading-4 text-brand-black">Learn More</div>
+							</div>
+						</div>
+					</div>
+					<div class="flex flex-col items-start sm:gap-5 gap-2.5 w-full">
+						<div class="sm:text-2xl font-bold text-base leading-5 sm:leading-7 text-brand-black">Your delivery is schedule for</div>
+						<div class="flex flex-col gap-5 w-full">
+							<div class="flex w-full" >
+								<div class="sm:w-[6.688rem] sm:h-[7.875rem] w-auto h-auto px-5 py-[0.188rem] rounded-[0.313rem] rounded-r-none border-[0.031rem] flex flex-col items-center">
+									<div class="text-base sm:leading-10 leading-5">{{ format(book.scheduled_delivery, 'MMM') }}</div>
+									<div class="sm:text-[3rem] sm:leading-10 text-[2rem] leading-[2.375rem] font-bold">{{ format(book.scheduled_delivery, 'dd') }}</div>
+									<div class="text-base sm:leading-10 leading-5">{{ format(book.scheduled_delivery, 'iii') }}</div>
+								</div>
+								<div class="flex w-[calc(100%-3.875rem)] sm:px-[1.875rem] sm:h-[7.875rem] h-auto px-5 py-2.5 justify-between items-center border-[0.031rem] border-[#6f6e7433]">
+									<div class="flex sm:py-[2.438rem] py-0 flex-col items-start">
+										<div class="font-medium sm:text-base sm:leading-6 text-sm leading-[1.125rem] text-brand-black">Wash & Fold</div>
+										<div class="sm:text-base text-sm leading-[1.125rem] sm:leading-6 text-[#00000080]">48 hour service</div>
+									</div>
+									<img src="https://ik.imagekit.io/choreless/V3/icons/wash-fold.svg" alt="choreless wash and fold">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="flex flex-col items-start sm:gap-5 gap-2.5 w-full">
+					<div class="sm:text-2xl sm:leading-7 text-base leading-5 font-bold">Frequency</div>
+					<div  class="flex  w-full items-start content-start gap-5 flex-wrap">		
+						<div v-for="frequency of book.frequencies" :key="frequency" class=" [&:is(:hover,.active)]:bg-brand-black [&:is(:hover,.active)]:border-brand-black [&:is(:hover,.active)]:text-white px-5 py-2.5 rounded-[0.313rem] border-[0.063rem] border-[#6F6E7433] text-black sm:font-medium font-normal whitespace-nowrap sm:leading-6 sm:max-w-[13.938rem] w-[45%] sm:h-12 h-10 flex items-center justify-center gap-2.5 flex-shrink-0 cursor-pointer sm:text-base text-sm leading-[1.125rem]" :class="frequency==book.frequency && 'active'" @click="book.frequency=frequency">{{frequency}}</div>
+					</div>
+					<button class=" bg-[#f8f8f8] px-5 py-[1.125rem] flex w-full justify-center items-center rounded-[3.125rem] text-black font-bold " >Continue</button>
+				</div>
 			</div>
 		</div>
-		<div class="flex px-10 flex-col items-start gap-5 self-stretch">
-			<div class="text-[32px] font-bold leading-10 text-brand-black">Using Kitchen Bags?</div>
-			<div class="text-xl leading-6 text-brand-black">Label your bags as shown. Unlabeled bags will be washed on cold with Dropps detergent.</div>
-		</div>
-		<img src="https://ik.imagekit.io/choreless/V3/banner.png" alt="Label banner image">
-	</div>
-	<div class="flex px-[30px] flex-col items-center gap-5 self-stretch">
-			<div class="max-w-[800px] w-full h-[0.5px] bg-[#6f6e7433]" />
-			<div class="flex h-[90px] px-[30px] py-[18px] items-center gap-5 self-stretch rounded-[10px] bg-[#d4e8e6]">
-				<img src="https://ik.imagekit.io/choreless/V3/icons/info.svg" alt="info">
-				<div class="text-xl leading-6 text-brand-black">This is a preview of how to add your Lad label. </div>
-			</div>
-			<div @click="info_toggle=false" class="px-5 py-[18px] bg-brand-black flex h-[48px] justify-center items-center self-stretch gap-2.5 rounded-[50px] text-white font-bold leading-6  ">Got it</div>
 		</div>
 </div>
 </template>

@@ -25,6 +25,8 @@ module.exports = {
 		camelcase: ['off'],
 		curly: ['off'],
 		indent: ['warn', 'tab'],
-		semi: ['off']
+		semi: ['off'],
+		'no-mixed-spaces-and-tabs': ['warn', 'smart-tabs']
+		
 	}
 };

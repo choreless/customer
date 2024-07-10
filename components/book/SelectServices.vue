@@ -2,7 +2,7 @@
 import SwitchButton from '../buttons/SwitchBtn.vue';
 import customer from '~/lib/customer';
 import PickupDate from './PickupDate.vue';
-
+import formatISO from 'date-fns/formatISO';
 interface SubItem {
     name: string;
     is_selected: boolean;
@@ -38,7 +38,6 @@ function addService(screen : string, id : number){
 		water_temp: selected_water_temp?.name || '',
 		wash_cycle: selected_wash_cycle?.name || '',
 		dryer_temp: selected_dryer_temp?.name || '',
-		preferences_note: book.preference_note,
 	};
 	const existingServiceIndex = book.selected_services.findIndex((service:any) => service?.id === selected_item.value.id);
     if (existingServiceIndex !== -1) {
@@ -51,10 +50,31 @@ function addService(screen : string, id : number){
 	book.wash_services_data[book.selected_item_index].is_selected=true
 }
 function removeService(screen : string, id : number){
+	const initial_service_val=reactive({
+	  		id: book.wash_services_data[book.selected_item_index].id,
+	  		service_name: book.wash_services_data[book.selected_item_index].service_name,
+	  		wash_type: 'Mixed wash',
+	  		price: book.wash_services_data[book.selected_item_index].price,
+	  		per_lb: book.wash_services_data[book.selected_item_index].per_lb,
+	  		note: '',
+	  		service_speed: false,
+	  		bags_count: 1,
+	  		tags: book.wash_services_data[book.selected_item_index].tags,
+	  		is_selected: false,
+	  		detergent: '',
+	  		water_temp: 'Cold',
+	  		dryer_temp: 'Medium',
+	  		wash_cycle: 'Deep',
+	  		on_hangers: false,
+	  		mix_bags: false,
+	  		preferences_note: '',
+	  		scheduled_delivery: new Date()
+	  	})
 	book.current_Screen=screen
 	const index = book.selected_services.findIndex(item => item.id==id)
 	book.wash_services_data[book.selected_item_index].is_selected = false
 	book.selected_services.splice(index,1)
+	book.wash_services_data[book.selected_item_index] = initial_service_val
 }
 function updateScreen(screen:string, index:number) {
 	book.selected_item_index = index
@@ -301,7 +321,7 @@ watch(() => book.step, (val:number) => {
 							Preference Note:
 
 							<span class="text-sm font-normal">
-								{{book.wash_services_data[book.selected_item_index].preferences_note ? book.wash_services_data[book.selected_item_index].preferences_note : '--'}}
+								{{book.wash_services_data[book.selected_item_index].preferences_note !='' ? book.wash_services_data[book.selected_item_index].preferences_note : '--'}}
 
 							</span>
 						</div>
@@ -330,9 +350,9 @@ watch(() => book.step, (val:number) => {
 				<div class="w-full">
 					<div class="mb-2.5 flex justify-between items-center">
 						<p class="text-brand-black  leading-5 font-bold ">Preferences Note</p>
-						<p class=" leading-[0.938rem] font-medium cursor-pointer " @click="book.preference_note=''">Clear</p>
+						<p class=" leading-[0.938rem] font-medium cursor-pointer " @click="book.wash_services_data[book.selected_item_index].preferences_note=''">Clear</p>
 					</div>
-					<textarea v-model="book.preference_note" rows="3" class=" w-full flex px-5 pt-2.5 pb-[0.938rem] items-start gap-2.5 self-stretch placeholder:text-[#e5e5e5] outline-none rounded-[0.313rem] border-[0.063rem] border-[#6f6e7433] " placeholder="Care preferences " />
+					<textarea v-model="book.wash_services_data[book.selected_item_index].preferences_note" rows="3" class=" w-full flex px-5 pt-2.5 pb-[0.938rem] items-start gap-2.5 self-stretch placeholder:text-[#e5e5e5] outline-none rounded-[0.313rem] border-[0.063rem] border-[#6f6e7433] " placeholder="Care preferences " />
 				</div>
 			</div>
 			<button class=" bg-brand-black px-5 py-[1.125rem] flex w-full justify-center items-center rounded-[3.125rem] text-white font-bold  " @click="addService('select_services', selected_item?.id)">Add service</button>

@@ -14,25 +14,26 @@ function selectDate({date, isDisabled}: CalendarDay){
 	book.date = formatISO(date, {representation: 'date'});
 	show_calendar.value=false;
 }
-watch(book.selected_services, ()=>{
-    const current_date = book.date
-    const scheduled_delivery_24h = new Date(current_date);
-    const scheduled_delivery_48h = new Date(current_date);
-    const scheduled_delivery_72h = new Date(current_date);
+watch(() => book.date, (newDate:Date) => {
+    const scheduled_delivery_24h = new Date(newDate);
+    const scheduled_delivery_48h = new Date(newDate);
+    const scheduled_delivery_72h = new Date(newDate);
+
     scheduled_delivery_24h.setDate(scheduled_delivery_24h.getDate());
     scheduled_delivery_48h.setDate(scheduled_delivery_24h.getDate() + 1);
     scheduled_delivery_72h.setDate(scheduled_delivery_24h.getDate() + 2);
-    book.selected_services.forEach((service:any)=>{
-        if(service.service_speed){
-            service.scheduled_delivery =formatISO(scheduled_delivery_48h, {representation: 'date'}) 
-        }else if(!service.service_speed && service.service_name ==='Home & Bedding'){
-            service.scheduled_delivery =formatISO(scheduled_delivery_72h, {representation: 'date'}) 
-        }else{
-            service.scheduled_delivery =formatISO(scheduled_delivery_24h, {representation: 'date'}) 
+
+    book.selected_services.forEach((service:any) => {
+        if (service.service_speed) {
+            service.scheduled_delivery = formatISO(scheduled_delivery_48h, { representation: 'date' });
+        } else if (!service.service_speed && service.service_name === 'Home & Bedding') {
+            service.scheduled_delivery = formatISO(scheduled_delivery_72h, { representation: 'date' });
+        } else {
+            service.scheduled_delivery = formatISO(scheduled_delivery_24h, { representation: 'date' });
         }
-    })
-    
-})
+    });
+}, { immediate: true });
+
 onMounted(()=>{
     if(!book.date) book.date = formatISO(book.now, {representation: 'date'});
 })

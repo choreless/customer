@@ -4,11 +4,15 @@ import format from 'date-fns/format';
 import formatISO from 'date-fns/formatISO';
 import parseISO from 'date-fns/parseISO';
 import type { CalendarDay } from 'v-calendar/dist/types/src/utils/page.js';
+
 // Defining constants
+
 const book =usePageBook()  
 const app = useApp();
 const show_calendar = ref(false);
+
 // Defining functions
+
 function selectDate({date, isDisabled}: CalendarDay){
 	if(isDisabled) return;
 	book.date = formatISO(date, {representation: 'date'});

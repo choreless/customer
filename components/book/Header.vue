@@ -7,15 +7,15 @@ const step_names = ['Select Services', 'Select services'];
 
 // Defining functions
 
+function prevStep(){
+	 book.date = formatISO(book.now.getDate() - 1, {representation: 'date'});
+	--book.step
+}
 function nextStep(){
 	book.date = formatISO(book.now, {representation: 'date'});
 	book.step=1
 	book.current_Screen='pickup_date'
 	
-}
-function prevStep(){
-	 book.date = formatISO(book.now.getDate() - 1, {representation: 'date'});
-	--book.step
 }
 </script>
 
@@ -30,7 +30,7 @@ function prevStep(){
 			<p class="font-bold sm:leading-7 leading-5 text-base sm:text-2xl text-black  ms-2.5">{{ step_names[book.step] }}</p>
 		</div>
 		<NuxtLink class="  justify-self-center hidden md:block" to="https://chorelesslaundry.bookingkoala.com/dashboard"><img src="https://ik.imagekit.io/choreless/V3/Logo.svg" alt="Choreless" loading="lazy" class="h-[2.813rem] w-[15.625rem]"></NuxtLink>
-		<button class="px-5 py-[18px] rounded-[25px] bg-[#f8f8f8] flex h-[45px] justify-center items-center text-brand-black text-base font-medium leading-6 sm:hidden" @click="nextStep()">Next</button>
+		<button :disabled="book.selected_services.length===0" class="disabled:bg-[#f8f8f8] disabled:text-brand-black px-5 py-[18px] rounded-[25px] flex h-[45px] justify-center items-center bg-brand-black text-white text-base font-medium leading-6 sm:hidden" @click="nextStep()">Next</button>
 	</section>
 </div>
 </template>

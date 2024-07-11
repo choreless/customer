@@ -1,14 +1,15 @@
 <script setup lang="ts">
-import SwitchButton from '../buttons/SwitchBtn.vue';
 import customer from '~/lib/customer';
 import PickupDate from './PickupDate.vue';
 import formatISO from 'date-fns/formatISO';
+import SwitchButton from '../buttons/SwitchBtn.vue';
 
+// Defining interfaces
 interface SubItem {
     name: string;
     is_selected: boolean;
 }
-// Defining Constants
+// Defining constants
 const book = usePageBook();
 const selected_pricing=ref('')
 const selected_item=ref()
@@ -26,7 +27,19 @@ function selectPreference(selected_item: object , index: number){
 		}
 	})
 }
+// Updating the screen
+function updateScreen(screen:string, index:number) {
+	book.selected_item_index = index
+	book.current_Screen=screen;
+	selected_item.value=book.wash_services_data[book.selected_item_index];
+	edit_preferences.value=false;
+	if(screen==='pricing' ) {
+		selected_item.value=-1
+		selected_pricing.value=''
+	}
+}
 
+// Adding service 
 function addService(screen : string, id : number){
 
 	book.current_Screen=screen
@@ -49,6 +62,7 @@ function addService(screen : string, id : number){
 	book.wash_services_data[book.selected_item_index] = selected_item.value
 	book.wash_services_data[book.selected_item_index].is_selected=true
 }
+// Removing service
 function removeService(screen : string, id : number){
 	const initial_service_val=reactive({
 	  		id: book.wash_services_data[book.selected_item_index].id,
@@ -76,17 +90,7 @@ function removeService(screen : string, id : number){
 	book.selected_services.splice(index,1)
 	book.wash_services_data[book.selected_item_index] = initial_service_val
 }
-function updateScreen(screen:string, index:number) {
-	book.selected_item_index = index
-	book.current_Screen=screen;
-	selected_item.value=book.wash_services_data[book.selected_item_index];
-	edit_preferences.value=false;
-	if(screen==='pricing' ) {
-		selected_item.value=-1
-		selected_pricing.value=''
-	}
-}
-
+// Moving to date pickup page
 function nextStep(){
 	book.date = formatISO(book.now, {representation: 'date'});
 	book.step=1

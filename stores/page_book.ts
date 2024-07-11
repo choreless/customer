@@ -64,7 +64,7 @@ export const usePageBook = defineStore('page_book', ()=>{
 	  const preference_note=ref('')
 	  const current_Screen=ref('select_services')
 	  const selected_item_index = ref(0);
-	  const selected_services=reactive([])
+	  const selected_services=reactive<WashService[]>([])
 	  const wash_services_data=reactive<WashService[]>([
 	  	{
 	  		id: 1,

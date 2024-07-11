@@ -37,7 +37,7 @@ const config: Config = {
 						DEFAULT: '#b8bfaf',
 						light: '#d9ddcf'
 					},
-					stone: '#6f6e74',
+					stone: '#6f6e7433',
 					sand: '#f2f1ec',
 					xanthous: '#ebb317',
 					atomic: '#f69469',

@@ -20,8 +20,8 @@ const book = usePageBook();
 		</div>
 		<div class=" text-base leading-5 sm:text-[2rem] sm:leading-10 font-bold px-10">Using Kitchen Bags?</div>
 		<div class=" text-sm leading-5 sm:text-xl sm:leading-6 px-10">Make sure that your bags are labeled - as seen above - if you don't have Loaded membership hamprs. If bags aren't labeled, your items will be washed on cold with Dropps detergent. If you have Loaded membership hamprs, skip this step.</div>
-		<div class="mt-[36%] hidden sm:block sm:mt-auto px-5 py-[1.125rem] bg-brand-orange font-medium sm:font-bold text-white mx-[1.875rem] rounded-[0.313rem]" @click="book.info_modal=false">Got it</div>
+		<div class="mt-[36%] hidden sm:block sm:mt-auto px-5 py-5 bg-brand-orange font-medium sm:font-bold text-white mx-[1.875rem] rounded-[0.313rem]" @click="book.info_modal=false">Got it</div>
 	</div>
-	<div class="w-[calc(100%-2.5rem)] block sm:hidden  absolute bottom-5 text-center sm:mt-auto px-5 py-[1.125rem] bg-brand-orange font-medium sm:font-bold text-white mx-auto rounded-[0.313rem]" @click="book.info_modal=false">Got it</div>
+	<div class="w-[calc(100%-2.5rem)] block sm:hidden  absolute bottom-5 text-center sm:mt-auto px-5 py-5 bg-brand-orange font-medium sm:font-bold text-white mx-auto rounded-[0.313rem]" @click="book.info_modal=false">Got it</div>
 </dialog>
 </template>

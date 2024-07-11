@@ -36,7 +36,7 @@ const filtered_data:any = computed(() => {
 			</div>
 		</div>
 
-		<div class=" cursor-pointer text-center px-5 py-[1.125rem] bg-brand-orange font-medium sm:font-bold text-white mx-[1.875rem] rounded-[0.313rem]" @click="book.pricing_modal=false,book.extra_service=!book.extra_service">Got it</div>
+		<div class=" cursor-pointer text-center px-5 py-5 bg-brand-orange font-medium sm:font-bold text-white mx-[1.875rem] rounded-[0.313rem]" @click="book.pricing_modal=false,book.extra_service=!book.extra_service">Got it</div>
 	</div>
 </dialog>
 </template>

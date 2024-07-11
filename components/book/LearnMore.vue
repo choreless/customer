@@ -38,15 +38,12 @@ const book = usePageBook();
 			</div>
 		</div>
 		<div class="flex sm:px-[1.875rem] px-5 flex-col items-center gap-2.5 sm:gap-5 self-stretch mt-8 sm:mt-0">
-			<div class="max-w-[50rem] w-full h-[0.031rem] bg-[#6f6e7433]" />
-			<div class="flex sm:h-[5rem] h-auto sm:px-[1.875rem] sm:py-[1.125rem] py-4 px-5 items-center gap-5 self-stretch rounded-[0.625rem] bg-[#d4e8e6]">
+			<div class="max-w-[50rem] w-full h-[0.031rem] bg-brand-stone" />
+			<div class="flex sm:h-[5rem] h-auto sm:px-[1.875rem] sm:py-5 py-4 px-5 items-center gap-5 self-stretch rounded-[0.625rem] bg-[#d4e8e6]">
 				<img class="sm:w-auto sm:h-auto w-3 h-3" src="https://ik.imagekit.io/choreless/V3/icons/info.svg" alt="info">
 				<div class="sm:text-lg sm:leading-6 text-xs leading-[0.875rem] text-brand-black">Please read carefully</div>
 			</div>
-			<div class="cursor-pointer px-5 py-[1.125rem] bg-brand-black flex h-[3rem] justify-center items-center self-stretch gap-2.5 rounded-[3.125rem] text-white font-bold leading-6  " @click="book.learn_more_toggle=false">Got it</div>
+			<div class="cursor-pointer px-5 py-5 bg-brand-black flex h-[3rem] justify-center items-center self-stretch gap-2.5 rounded-[3.125rem] text-white font-bold leading-6  " @click="book.learn_more_toggle=false">Got it</div>
 		</div>
 	</div>
 </template>
-<style lang="scss" scoped>
-
-</style>

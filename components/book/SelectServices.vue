@@ -3,6 +3,7 @@ import SwitchButton from '../buttons/SwitchBtn.vue';
 import customer from '~/lib/customer';
 import PickupDate from './PickupDate.vue';
 import formatISO from 'date-fns/formatISO';
+
 interface SubItem {
     name: string;
     is_selected: boolean;
@@ -45,7 +46,6 @@ function addService(screen : string, id : number){
     } else {
         book.selected_services.push(selected_item.value);
     }
-	
 	book.wash_services_data[book.selected_item_index] = selected_item.value
 	book.wash_services_data[book.selected_item_index].is_selected=true
 }
@@ -88,8 +88,10 @@ function updateScreen(screen:string, index:number) {
 }
 
 function nextStep(){
+	book.date = formatISO(book.now, {representation: 'date'});
 	book.step=1
 	book.current_Screen='pickup_date'
+
 }
 const filtered_data:any = computed(() => {
 	const updated_data=book.pricing_info.filter((item:any)=>item.heading.includes(selected_pricing.value))
@@ -171,11 +173,11 @@ watch(() => book.step, (val:number) => {
 			<img class="sm:block hidden" src="https://ik.imagekit.io/choreless/V3/label.svg" alt="choreless label">
 			<img class="block sm:hidden w-full h-[5rem] object-cover object-top" src="https://ik.imagekit.io/choreless/V3/label-2.svg" alt="choreless label">
 			<div class="p-[0.938rem] flex flex-col items-start gap-[0.375rem] max-w-[20.563rem] w-full self-stretch">
-				<h1 class="text-sm leading-[1.125rem] font-bold">Label your laundry to avoid mix-ups.</h1>
-				<p class="text-sm leading-[1.125rem]">Load label: Tillman + CF2A</p>
+				<h1 class="text-sm leading-5 font-bold">Label your laundry to avoid mix-ups.</h1>
+				<p class="text-sm leading-5">Load label: Tillman + CF2A</p>
 			</div>
 		</div>
-		<button :disabled="book.selected_services.length===0"  @click="nextStep()" class="disabled:bg-[#f8f8f8] disabled:text-brand-black hidden sm:flex bg-brand-black px-5 py-[1.125rem] w-full justify-center items-center rounded-[3.125rem] text-white font-bold " >Continue</button>
+		<button :disabled="book.selected_services.length===0"  @click="nextStep()" class="disabled:bg-[#f8f8f8] disabled:text-brand-black hidden sm:flex bg-brand-black px-5 py-5 w-full justify-center items-center rounded-[3.125rem] text-white font-bold " >Continue</button>
 	</div>
 	<!-- Pricing screen -->
 	<div v-if="book.current_Screen==='pricing'" class=" sm:max-w-[32.938rem] w-full absolute top-0 left-0 sm:z-0 z-50 sm:relative mx-auto flex flex-col items-start gap-5 sm:p-[1.875rem] pb-2.5 sm:rounded-[1.25rem] bg-white border-[#f2f2f2] sm:min-h-full min-h-screen ">
@@ -187,9 +189,9 @@ watch(() => book.step, (val:number) => {
 		<div> Pricing</div> 
 	</div>
 		<div class="flex sm:px-[1.875rem] px-5 justify-center items-start content-start gap-2.5 self-stretch flex-wrap ">
-			<div :class="selected_item==-1 ? 'bg-black text-white' :'bg-[#f2f2f2] text-black'" class="w-fit px-2.5 py-[0.313rem] flex flex-wrap justify-center items-center rounded-[1.25rem] gap-[0.313rem] transition-all duration-150 ease-linear cursor-pointer sm:text-base text-sm leading-[1.125rem]" @click="selected_pricing='', selected_item=-1"><img v-if="selected_item==-1" src="https://ik.imagekit.io/choreless/V3/icons/right-tick.svg" alt="choreless tick" />All</div>
+			<div :class="selected_item==-1 ? 'bg-black text-white' :'bg-[#f2f2f2] text-black'" class="w-fit px-2.5 py-[0.313rem] flex flex-wrap justify-center items-center rounded-[1.25rem] gap-[0.313rem] transition-all duration-150 ease-linear cursor-pointer sm:text-base text-sm leading-5" @click="selected_pricing='', selected_item=-1"><img v-if="selected_item==-1" src="https://ik.imagekit.io/choreless/V3/icons/right-tick.svg" alt="choreless tick" />All</div>
 			<div v-for="(item,index) in book.pricing_info" :key="index">
-				<div :class="selected_item==index ? 'bg-black text-white' :'bg-[#f2f2f2] text-black'" class="w-fit   px-2.5 py-[0.313rem] flex justify-center items-center rounded-[1.25rem] gap-[0.313rem] transition-all duration-150 ease-linear cursor-pointer sm:text-base text-sm leading-[1.125rem]" @click="selected_pricing=item.heading,selected_item=index"><img v-if="selected_item==index" src="https://ik.imagekit.io/choreless/V3/icons/right-tick.svg" alt="choreless tick" />{{ item.heading }}</div>
+				<div :class="selected_item==index ? 'bg-black text-white' :'bg-[#f2f2f2] text-black'" class="w-fit   px-2.5 py-[0.313rem] flex justify-center items-center rounded-[1.25rem] gap-[0.313rem] transition-all duration-150 ease-linear cursor-pointer sm:text-base text-sm leading-5" @click="selected_pricing=item.heading,selected_item=index"><img v-if="selected_item==index" src="https://ik.imagekit.io/choreless/V3/icons/right-tick.svg" alt="choreless tick" />{{ item.heading }}</div>
 			</div>
 		</div>
 		<div class="w-full max-h-[25.313rem] overflow-y-scroll !custom-scroll sm:px-10 px-4">
@@ -202,7 +204,7 @@ watch(() => book.step, (val:number) => {
 			</div>
 		</div>
 		<div class="sm:px-[0.844rem] px-5 w-full mx-auto">
-			<button class=" bg-brand-black px-5 py-[1.125rem] flex w-full justify-center items-center rounded-[3.125rem] text-white font-bold"  @click="updateScreen('select_services', -1)">Got it</button>
+			<button class=" bg-brand-black px-5 py-5 flex w-full justify-center items-center rounded-[3.125rem] text-white font-bold"  @click="updateScreen('select_services', -1)">Got it</button>
 		</div>
 	</div>
 	<!-- Preferences screen -->
@@ -216,7 +218,7 @@ watch(() => book.step, (val:number) => {
 				<div> {{ book.wash_services_data[book.selected_item_index]?.service_name }} Preferences </div> 
 			</div>
 			<div class="flex justify-between items-start w-full ">
-				<div :class="book.wash_services_data[book.selected_item_index].wash_type === 'Mixed Wash' && 'border-brand-black'" class=" w-[8.75rem] relative cursor-pointer rounded-[0.313rem] border-[0.031rem] hover:border-[0.063rem] border-[#6f6e7433] bg-white flex sm:w-[13.438rem] sm:py-[0.938rem] py-[0.938rem] sm:px-2.5 px-0 flex-col justify-center gap-[0.313rem] text-brand-black items-center">
+				<div :class="book.wash_services_data[book.selected_item_index].wash_type === 'Mixed Wash' && 'border-brand-black'" class=" w-[8.75rem] relative cursor-pointer rounded-[0.313rem] border-[0.031rem] hover:border-[0.063rem] border-brand-stone bg-white flex sm:w-[13.438rem] sm:py-[0.938rem] py-[0.938rem] sm:px-2.5 px-0 flex-col justify-center gap-[0.313rem] text-brand-black items-center">
 					<label class="absolute top-0 right-0 flex items-center p-3 rounded-full cursor-pointer" htmlFor="html">
 						<input
 							id="mixed-wash"
@@ -238,7 +240,7 @@ watch(() => book.step, (val:number) => {
 					<div class="px-2.5 bg-[#d4e8e6] rounded-[0.688rem]  text-[0.625rem] leading-4 font-medium ">$1.80 / lb</div>
 					<div class="text-[0.625rem] font-medium leading-4 text-brand-black ">$35.00 minimum</div>
 				</div>
-				<div :class="book.wash_services_data[book.selected_item_index].wash_type === 'Seperate Wash' && 'border-brand-black'" class="w-[8.75rem] relative cursor-pointer rounded-[0.313rem] border-[0.031rem] hover:border-[0.063rem] border-[#6f6e7433] bg-white flex sm:w-[13.438rem] sm:py-[0.938rem] py-[0.938rem] sm:px-2.5 px-0 flex-col justify-center gap-[0.313rem] text-brand-black items-center">
+				<div :class="book.wash_services_data[book.selected_item_index].wash_type === 'Seperate Wash' && 'border-brand-black'" class="w-[8.75rem] relative cursor-pointer rounded-[0.313rem] border-[0.031rem] hover:border-[0.063rem] border-brand-stone bg-white flex sm:w-[13.438rem] sm:py-[0.938rem] py-[0.938rem] sm:px-2.5 px-0 flex-col justify-center gap-[0.313rem] text-brand-black items-center">
 					<label class="absolute top-0 right-0 flex items-center p-3 rounded-full cursor-pointer" htmlFor="html">
 						<input
 							id="seperate-wash"
@@ -263,8 +265,8 @@ watch(() => book.step, (val:number) => {
 			<div v-if="book.wash_services_data[book.selected_item_index].service_name!='Home & Bedding'" class="rounded-[0.313rem] flex justify-between items-center bg-[#f2f1ec] px-5 py-2.5 w-full">
 				<div class="flex flex-col gap-[0.188rem] text-brand-black w-[19.938rem]">
 					<div class="leading-5 font-bold ">Next day delivery</div>
-					<div class="text-sm leading-[1.125rem] ">
-						Standard processing: 2 days. For next-day delivery, Toggle the button. <span class="text-[0.625rem] leading-[1.125rem]"> (additional fees apply).</span>
+					<div class="text-sm leading-5 ">
+						Standard processing: 2 days. For next-day delivery, Toggle the button. <span class="text-[0.625rem] leading-5"> (additional fees apply).</span>
 					</div>
 				</div>
 				<div>
@@ -285,7 +287,7 @@ watch(() => book.step, (val:number) => {
 					</label>
 				</div>
 			</div>
-			<div v-if="!edit_preferences" class="flex px-5 py-2.5 justify-between items-start rounded-[0.313rem] border-[0.031rem] border-[#6f6e7433] w-full ">
+			<div v-if="!edit_preferences" class="flex px-5 py-2.5 justify-between items-start rounded-[0.313rem] border-[0.031rem] border-brand-stone w-full ">
 				<div class="flex flex-col items-start gap-2.5">
 					<div class="font-bold">Care Preferences</div>
 					<div class="flex flex-col items-start gap-2.5">
@@ -336,7 +338,7 @@ watch(() => book.step, (val:number) => {
 				<div v-for="(item,index) in book.preferences" :key="index" class="flex flex-col items-start self-stretch gap-2.5">
 					<div class="capitalize leading-5 font-bold">{{ item.heading }}</div>
 					<div class="flex items-start gap-2.5 w-full ">
-						<div v-for="(sub_item,sub_index) in item.items" :key="sub_index" :class="sub_item.is_selected && '!bg-brand-black text-white' " class="px-5 py-[0.875rem] flex-1 text-center cursor-pointer bg-white rounded-[0.313rem]  font-medium text-brand-black border-[0.063rem] border-[#6f6e7433] " @click="selectPreference(sub_item,index)">{{ sub_item.name }}</div>
+						<div v-for="(sub_item,sub_index) in item.items" :key="sub_index" :class="sub_item.is_selected && '!bg-brand-black text-white' " class="px-5 py-[0.875rem] flex-1 text-center cursor-pointer bg-white rounded-[0.313rem]  font-medium text-brand-black border-[0.063rem] border-brand-stone " @click="selectPreference(sub_item,index)">{{ sub_item.name }}</div>
 					</div>
 				</div>
 				<div class="  flex items-center w-full border-brand-black/20 border rounded-lg justify-between px-5 py-[0.875rem]">
@@ -352,11 +354,11 @@ watch(() => book.step, (val:number) => {
 						<p class="text-brand-black  leading-5 font-bold ">Preferences Note</p>
 						<p class=" leading-[0.938rem] font-medium cursor-pointer " @click="book.wash_services_data[book.selected_item_index].preferences_note=''">Clear</p>
 					</div>
-					<textarea v-model="book.wash_services_data[book.selected_item_index].preferences_note" rows="3" class=" w-full flex px-5 pt-2.5 pb-[0.938rem] items-start gap-2.5 self-stretch placeholder:text-[#e5e5e5] outline-none rounded-[0.313rem] border-[0.063rem] border-[#6f6e7433] " placeholder="Care preferences " />
+					<textarea v-model="book.wash_services_data[book.selected_item_index].preferences_note" rows="3" class=" w-full flex px-5 pt-2.5 pb-[0.938rem] items-start gap-2.5 self-stretch placeholder:text-[#e5e5e5] outline-none rounded-[0.313rem] border-[0.063rem] border-brand-stone " placeholder="Care preferences " />
 				</div>
 			</div>
-			<button class=" bg-brand-black px-5 py-[1.125rem] flex w-full justify-center items-center rounded-[3.125rem] text-white font-bold  " @click="addService('select_services', selected_item?.id)">Add service</button>
-			<button class=" bg-white px-5 py-[1.125rem] border-[0.063rem] border-black flex w-full justify-center items-center rounded-[3.125rem] text-brand-black font-bold  " @click="removeService('select_services', selected_item?.id)">Remove service</button>
+			<button class=" bg-brand-black px-5 py-5 flex w-full justify-center items-center rounded-[3.125rem] text-white font-bold  " @click="addService('select_services', selected_item?.id)">Add service</button>
+			<button class=" bg-white px-5 py-5 border-[0.063rem] border-black flex w-full justify-center items-center rounded-[3.125rem] text-brand-black font-bold  " @click="removeService('select_services', selected_item?.id)">Remove service</button>
 		</div>
 	</div>
 	<!-- Add note screen -->
@@ -371,16 +373,13 @@ watch(() => book.step, (val:number) => {
 		</div>
 		<div class="flex justify-between w-full items-center self-center">
 			<p class="text-brand-black sm:leading-6 leading-5 ">Add Special instructions</p>
-			<p class=" sm:leading-[0.938rem] leading-[1.125rem] sm:text-base text-sm font-medium cursor-pointer" @click="selected_item.note=''">Clear</p>
+			<p class=" sm:leading-[0.938rem] leading-5 sm:text-base text-sm font-medium cursor-pointer" @click="selected_item.note=''">Clear</p>
 		</div>
-		<textarea v-model="selected_item.note" rows="3" class=" w-full flex px-5 pt-2.5 pb-[0.938rem] items-start gap-2.5 self-stretch placeholder:text-[#e5e5e5] outline-none rounded-[0.313rem] border-[0.063rem] border-[#6f6e7433] " placeholder="Add Note " />
+		<textarea v-model="selected_item.note" rows="3" class=" w-full flex px-5 pt-2.5 pb-[0.938rem] items-start gap-2.5 self-stretch placeholder:text-[#e5e5e5] outline-none rounded-[0.313rem] border-[0.063rem] border-brand-stone " placeholder="Add Note " />
 	</div>
-		<button class="flex max-w-[29.188rem] h-12 px-5 py-[1.125rem] justify-center items-center gap-2.5 rounded-[3.125rem] bg-[#f8f8f8] font-bold leading-6 w-full cursor-pointer " :class="selected_item.note && 'bg-brand-black text-white'" :disabled="!selected_item.note"   @click="updateScreen('select_services', selected_item)">Save</button>
+		<button class="flex max-w-[29.188rem] h-12 px-5 py-5 justify-center items-center gap-2.5 rounded-[3.125rem] bg-[#f8f8f8] font-bold leading-6 w-full cursor-pointer " :class="selected_item.note && 'bg-brand-black text-white'" :disabled="!selected_item.note"   @click="updateScreen('select_services', selected_item)">Save</button>
 	</div>
 	<!-- Pickup date screen -->
 	<PickupDate />
 </div>
 </template>
-<style scoped>
-
-</style>

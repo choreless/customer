@@ -58,7 +58,7 @@ async function next(){
 		<h1 class="text-2xl font-bold">Verified phone number</h1>
 		<p class="input !input-bordered w-full h-[3.75rem] rounded-[0.3125rem] mt-2.5 px-5 py-[0.9375rem] text-[2rem] font-bold cursor-not-allowed !text-brand-black disabled:bg-transparent">{{ entry.phone.masked }}</p>
 		<p class="text-xs mt-2 text-brand-black/50">Your order status will be updated via this phone number.</p>
-		<hr class="border my-[1.125rem] border-brand-black/30">
+		<hr class="border my-5 border-brand-black/30">
 		<p class="text-2xl font-bold">Personal Info</p>
 		<div class="flex items-center gap-x-16 mt-2.5">
 			<label class="flex items-center gap-x-2.5 cursor-pointer hover:text-primary">

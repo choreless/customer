@@ -59,7 +59,7 @@ const close_modal = () => {
 		/>
 		<button
 			:disabled="!book.note"
-			class="  mt-0 hidden sm:flex justify-center items-center px-5 py-[1.125rem] rounded-[0.313rem] bg-brand-orange disabled:bg-[#f8f8f8] h-[3rem] text-base font-bold disabled:text-[#011631] text-white"
+			class="  mt-0 hidden sm:flex justify-center items-center px-5 py-5 rounded-[0.313rem] bg-brand-orange disabled:bg-[#f8f8f8] h-[3rem] text-base font-bold disabled:text-[#011631] text-white"
 			@click="update_note()"
 		>
 			Save
@@ -68,7 +68,7 @@ const close_modal = () => {
 	<div class=" absolute bottom-2.5 w-full px-5">
 		<button
 			:disabled="!book.note"
-			class=" w-full  mt-3 flex sm:hidden justify-center items-center px-5 py-[1.125rem] rounded-[0.313rem] bg-brand-orange disabled:bg-[#f8f8f8] h-[3rem] text-base font-bold disabled:text-[#011631] text-white"
+			class=" w-full  mt-3 flex sm:hidden justify-center items-center px-5 py-5 rounded-[0.313rem] bg-brand-orange disabled:bg-[#f8f8f8] h-[3rem] text-base font-bold disabled:text-[#011631] text-white"
 			@click="update_note()"
 		>
 			Save
